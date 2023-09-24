@@ -8,6 +8,7 @@
     ~/.bashrc: bashrc
     ~/.zshrc: zshrc
     ~/.config/nvim: nvim
+    ~/.config/alacritty/alacritty.yml: alacritty.yml
     ~/powerlevel10k/: powerlevel10k
 
 - shell:
