@@ -11,6 +11,7 @@
     ~/.config/alacritty/alacritty.yml: alacritty.yml
     ~/.config/i3: i3
     ~/powerlevel10k/: powerlevel10k
+    ~/.p10k.zsh: p10k.zsh
     ~/.config/neofetch: neofetch
     ~/.config/rofi: rofi
     ~/.zshrc: zshrc
