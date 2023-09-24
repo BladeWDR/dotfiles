@@ -51,7 +51,7 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 #source /usr/share/autojump/autojump.zsh 2>/dev/null
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 
-export TERM=xterm-256color
+# export TERM=xterm-256color
 
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -64,3 +64,4 @@ eval "$(thefuck --alias)"
 # Start hook for direnv
 eval "$(direnv hook bash)"
 
+export TERM=alacritty
