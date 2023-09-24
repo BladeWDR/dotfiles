@@ -8,6 +8,7 @@
     ~/.bashrc: bashrc
     ~/.zshrc: zshrc
     ~/.config/nvim: nvim
+    ~/powerlevel10k/: powerlevel10k
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
