@@ -58,10 +58,12 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Add flatpak to PATH
-PATH=$PATH:/var/lib/flatpak/exports/bin:~/.local/share/flatpak/exports/bin:/home/scott/.local/bin
+PATH=$PATH:/var/lib/flatpak/exports/bin:~/.local/share/flatpak/exports/bin:/home/scott/.local/bin:/home/scott/.local/scripts
 # Start thefuck
 eval "$(thefuck --alias)"
 # Start hook for direnv
 eval "$(direnv hook bash)"
 
 export TERM=alacritty
+
+bindkey -s ^f "tmux-sessionizer\n"

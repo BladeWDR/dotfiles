@@ -15,7 +15,9 @@
     ~/.config/neofetch: neofetch
     ~/.config/rofi: rofi
     ~/.zshrc: zshrc
+    ~/.local/scripts/: scripts
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
+    - [chmod +x ~/.local/scripts]
 
