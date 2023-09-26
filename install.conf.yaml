@@ -15,7 +15,7 @@
     ~/.local/scripts/: scripts
     ~/powerlevel10k/: powerlevel10k
     ~/.p10k.zsh: p10k.zsh
-    ~/.config/tmux: tmux
+    ~/.tmux.conf: tmux.conf
     ~/.zshrc: zshrc
 
 - shell:
