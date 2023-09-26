@@ -10,12 +10,13 @@
     ~/.config/nvim: nvim
     ~/.config/alacritty/alacritty.yml: alacritty.yml
     ~/.config/i3: i3
-    ~/powerlevel10k/: powerlevel10k
-    ~/.p10k.zsh: p10k.zsh
     ~/.config/neofetch: neofetch
     ~/.config/rofi: rofi
-    ~/.zshrc: zshrc
     ~/.local/scripts/: scripts
+    ~/powerlevel10k/: powerlevel10k
+    ~/.p10k.zsh: p10k.zsh
+    ~/.config/tmux: tmux
+    ~/.zshrc: zshrc
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
