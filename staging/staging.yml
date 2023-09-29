@@ -23,7 +23,7 @@
       path: "{{ item }}"
       state: absent
     when: symlink_check.stat.islnk is defined and not symlink_check.stat.islnk
-    with_items: "{{ dot_files }}"
+    with_items: "{{ symlink_check.results }}"
 
   - name: check if the git folder already exists.
     stat:
