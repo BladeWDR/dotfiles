@@ -35,8 +35,8 @@
       owner: "{{ username }}"
       group: "{{ username }}"
       mode: 0755
-    loop: "{{ folders }}"
-    when: git_exist is false
+    loop: "{{ git_exist.results }}"
+    when: git_exist.stat.exists is false
 
   - name: Install ssh private key.
     copy: 
