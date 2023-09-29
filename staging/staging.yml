@@ -8,7 +8,6 @@
 
   tasks:
 
-### first need to test if all the files are symlinks. Store that in a register.
   - name: Check if files / folders exist and are symlinks.
     stat:
       path: "/home/{{ username }}/{{ item }}"
@@ -16,13 +15,13 @@
     with_items: "{{ dot_files }}"
 
   - debug: msg="{{ symlink_check }}"
-### Next, delete the files if they are not symlinks.
-#
+
+
   - name: Delete any file or folder that is not a symlink.
     file:
       path: "{{ item }}"
       state: absent
-    when: symlink_check.stat.exists is true and symlink_check.stat.islnk is not true 
+    when: symlink_check.stat.islnk is not true 
     with_items: "{{ symlink_check.results }}"
 
   - name: check if the git folder already exists.
