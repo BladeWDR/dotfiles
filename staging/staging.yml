@@ -51,4 +51,4 @@
     become_user: "{{ username }}" 
 
   - name: Run dotbot setup script.
-    script: "/home/{{ username }}/git/dotfiles/install"
+    shell: "/home/{{ username }}/git/dotfiles/install"
