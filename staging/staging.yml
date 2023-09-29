@@ -14,7 +14,7 @@
     register: symlink_check
     with_items: "{{ dot_files }}"
 
-  - debug: msg="{{ symlink_check.results.islnk }}"
+  - debug: msg="{{ symlink_check.results.stat.islnk }}"
     loop: "{{ symlink_check.results }}"
 
 
@@ -22,7 +22,7 @@
     file:
       path: "{{ item.stat.path }}"
       state: absent
-    when: symlink_check.results.islnk is false 
+    when: symlink_check.results.stat.islnk is false 
     with_items: "{{ symlink_check.results }}"
 
   - name: check if the git folder already exists.
