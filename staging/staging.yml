@@ -30,7 +30,7 @@
   - name: Create the folder if it doesn't exist.
     file:
       path: "/home/{{ username }}/git"
-      state: present
+      state: directory 
       owner: "{{ username }}"
       group: "{{ username }}"
       mode: 0755
