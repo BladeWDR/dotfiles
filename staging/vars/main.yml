@@ -1,0 +1,20 @@
+--- 
+dot_files: 
+  - .bashrc
+  - .compton.conf
+  - .config/nvim
+  - .config/alacritty/alacritty.yml
+  - .config/i3
+  - .config/neofetch
+  - .config/rofi
+  - .local/scripts
+  - powerlevel10k
+  - .p10k.zsh
+  - .tmux.conf
+  - .zshrc
+
+
+username: scott
+
+
+

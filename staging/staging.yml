@@ -1,0 +1,50 @@
+---
+- host: all
+  become: true
+
+- tasks:
+
+### first need to test if all the files are symlinks. Store that in a register.
+  - name: Check if files / folders exist and are symlinks.
+    stat:
+      path: "/home/{{ username }}/{{ dot_files }}"
+    register: symlink_check
+
+### Next, delete the files if they are not symlinks.
+#
+  - name: Delete any file or folder that is not a symlink.
+    file:
+      path: "{{ dot_files }}"
+      state: absent
+    when: symlink_check.stat.islnk is defined and not symlink_check.stat.islnk
+
+  - name: check if the git folder already exists.
+    stat:
+      path: "/home/{{ username }}/git"
+    register: git_exist
+
+  - name: Create the folder if it doesn't exist.
+    file:
+      path: "/home/{{ username }}/git"
+      state: present
+      owner: "{{ username }}"
+      group: "{{ username }}"
+      mode: 0755
+
+  - name: Install ssh private key.
+    file: 
+      src: id_github
+      dest: "/home/{{ username }}/.ssh/id_rsa"
+      owner: "{{ username }}"
+      group: "{{ username }}" 
+      mode: 0600
+
+  - name: git pull the repo to get the submodules.
+    git:
+      repo: git@github.com:BladeWDR/dotfiles.git
+      dest: "/home/{{ username }}/git/dotfiles"
+      accept_newhostkey: true
+    become: "{{ username }}" 
+
+  - name: Run dotbot setup script.
+    script: "/home/{{ username }}/git/dotfiles/install"
