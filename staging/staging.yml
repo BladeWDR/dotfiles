@@ -48,7 +48,7 @@
       repo: git@github.com:BladeWDR/dotfiles.git
       dest: "/home/{{ username }}/git/dotfiles"
       accept_newhostkey: true
-    become: "{{ username }}" 
+    sudo_user: "{{ username }}" 
 
   - name: Run dotbot setup script.
     script: "/home/{{ username }}/git/dotfiles/install"
