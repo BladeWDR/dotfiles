@@ -3,7 +3,8 @@
   connection: local
   become: true
 
-  vars: main.yml
+  vars: 
+    - main.yml
 
   tasks:
 
