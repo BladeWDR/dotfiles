@@ -36,7 +36,7 @@
       mode: 0755
 
   - name: Install ssh private key.
-    file: 
+    copy: 
       src: id_github
       dest: "/home/{{ username }}/.ssh/id_rsa"
       owner: "{{ username }}"
