@@ -8,6 +8,26 @@
 
   tasks:
 
+  - name: NEOVIM BUILD - install dependencies for neovim.
+    apt:
+      name: "{{ depends }}"
+      state: latest
+      update_cache: true
+      cache_valid_time: 3600
+    when: ansible_os_family == "Debian" 
+
+  - name: NEOVIM BUILD - clone the neovim repo.
+    git:
+      repo: https://github.com/neovim/neovim
+      dest: "/home/{{ username }}/neovim"
+
+  - name: NEOVIM BUILD - run build commands.
+    shell: | 
+      cd /home/{{ username }}/neovim
+      git checkout stable
+      make CMAKE_BUILD_TYPE=RelWithDebInfo
+      cd build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
+
   - name: Check if files / folders exist and are symlinks.
     stat:
       path: "/home/{{ username }}/{{ item }}"

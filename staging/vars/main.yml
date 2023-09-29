@@ -21,3 +21,15 @@ folders:
   - git
   - .local
 
+
+depends:
+  - ninja-build
+  - gettext
+  - cmake
+  - unzip
+  - curl
+  - zsh
+  - zsh-autosuggestions
+  - zsh-syntax-highlighting
+  - git
+
