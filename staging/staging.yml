@@ -24,7 +24,6 @@
   - name: check if the .local folder already exist.
     stat:
       path: "/home/{{ username }}/.local"
-    loop: "{{ folders }}"
     register: local_exist
 
 
