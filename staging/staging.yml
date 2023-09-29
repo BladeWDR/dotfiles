@@ -14,7 +14,7 @@
     register: symlink_check
     with_items: "{{ dot_files }}"
 
-  - debug: msg="{{ symlink_check.results.stat.islnk }}"
+  - debug: msg="{{ item.stat.islnk }}"
     loop: "{{ symlink_check.results }}"
 
 
