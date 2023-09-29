@@ -15,6 +15,7 @@
     register: symlink_check
     with_items: "{{ dot_files }}"
 
+  - debug: msg="{{ symlink_check }}"
 ### Next, delete the files if they are not symlinks.
 #
   - name: Delete any file or folder that is not a symlink.
