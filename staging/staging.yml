@@ -14,8 +14,8 @@
     register: symlink_check
     with_items: "{{ dot_files }}"
 
-  - debug: msg="{{ item.stat.islnk }}"
-    loop: "{{ symlink_check.results }}"
+  # - debug: msg="{{ item.stat.islnk }}"
+  #   loop: "{{ symlink_check.results }}"
 
 
   - name: Delete any file or folder that is not a symlink.
