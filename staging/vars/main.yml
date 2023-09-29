@@ -17,4 +17,7 @@ dot_files:
 username: scott
 
 
+folders:
+  - git
+  - .local
 

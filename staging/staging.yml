@@ -14,10 +14,6 @@
     register: symlink_check
     with_items: "{{ dot_files }}"
 
-  # - debug: msg="{{ item.stat.islnk }}"
-  #   loop: "{{ symlink_check.results }}"
-
-
   - name: Delete any file or folder that is not a symlink.
     file:
       path: "{{ item.stat.path }}"
@@ -25,18 +21,22 @@
     when: item.stat.islnk is false 
     with_items: "{{ symlink_check.results }}"
 
-  - name: check if the git folder already exists.
+  - name: check if the git and .local folders already exist.
     stat:
-      path: "/home/{{ username }}/git"
+      path: "/home/{{ username }}/{{ item }}"
+    loop: "{{ folders }}"
     register: git_exist
+
 
   - name: Create the folder if it doesn't exist.
     file:
-      path: "/home/{{ username }}/git"
+      path: "/home/{{ username }}/{{ item }}"
       state: directory 
       owner: "{{ username }}"
       group: "{{ username }}"
       mode: 0755
+    loop: "{{ folders }}"
+    when: git_exist is false
 
   - name: Install ssh private key.
     copy: 
