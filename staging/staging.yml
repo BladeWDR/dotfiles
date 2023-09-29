@@ -1,8 +1,11 @@
 ---
-- host: all
+- hosts: localhost
+  connection: local
   become: true
 
-- tasks:
+  vars: main.yml
+
+  tasks:
 
 ### first need to test if all the files are symlinks. Store that in a register.
   - name: Check if files / folders exist and are symlinks.
