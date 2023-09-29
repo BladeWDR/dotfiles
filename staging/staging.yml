@@ -22,7 +22,7 @@
     file:
       path: "{{ item }}"
       state: absent
-    when: symlink_check.stat.exists is true and symlink_check.stat.islnk is false
+    when: symlink_check.stat.exists is true and symlink_check.stat.islnk is not true 
     with_items: "{{ symlink_check.results }}"
 
   - name: check if the git folder already exists.
