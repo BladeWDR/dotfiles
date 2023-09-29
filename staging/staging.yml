@@ -3,7 +3,7 @@
   connection: local
   become: true
 
-  vars: 
+  vars_files: 
     - main.yml
 
   tasks:
