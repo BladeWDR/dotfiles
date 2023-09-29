@@ -25,7 +25,7 @@
     stat:
       path: "/home/{{ username }}/.local"
     loop: "{{ folders }}"
-    register: git_exist
+    register: local_exist
 
 
   - name: Create the .local folder if it doesn't exist.
@@ -35,7 +35,7 @@
       owner: "{{ username }}"
       group: "{{ username }}"
       mode: 0755
-    when: git_exist.stat.exists is false
+    when: not local_exist.stat.exists
 
   - name: Install ssh private key.
     copy: 
