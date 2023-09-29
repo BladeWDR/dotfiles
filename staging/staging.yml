@@ -19,9 +19,9 @@
 
   - name: Delete any file or folder that is not a symlink.
     file:
-      path: "{{ item }}"
+      path: "{{ item.path }}"
       state: absent
-    when: "{{ symlink_check.results.islnk }}" == False 
+    when: symlink_check.results.[*].islnk == false 
     with_items: "{{ symlink_check.results }}"
 
   - name: check if the git folder already exists.
