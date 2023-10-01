@@ -16,17 +16,32 @@
       cache_valid_time: 3600
     when: ansible_os_family == "Debian" 
 
-  - name: NEOVIM BUILD - clone the neovim repo.
-    git:
-      repo: https://github.com/neovim/neovim
-      dest: "/home/{{ username }}/neovim"
+  - name: NEOVIM BUILD - get versions of all installed packages. 
+    package_facts:
+      manager: auto 
 
-  - name: NEOVIM BUILD - run build commands.
-    shell: | 
-      cd /home/{{ username }}/neovim
-      git checkout stable
-      make CMAKE_BUILD_TYPE=RelWithDebInfo
-      cd build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
+  - name: NEOVIM BUILD - Set Neovim's version number to variable. 
+    set_fact:
+      neovim_version: "{{ ansible_facts.packages['neovim']|
+                          map(attribute='version')|
+                          list }}" 
+    when: "'neovim' in ansible_facts.packages"
+
+
+  - block: 
+
+    - name: NEOVIM BUILD - clone the neovim repo.
+      git:
+        repo: https://github.com/neovim/neovim
+        dest: "/home/{{ username }}/neovim"
+
+    - name: NEOVIM BUILD - run build commands.
+      shell: | 
+        cd /home/{{ username }}/neovim
+        git checkout stable
+        make CMAKE_BUILD_TYPE=RelWithDebInfo
+        cd build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
+    when: neovim_version is undefined or neovim_version == neovim_current
 
   - name: Check if files / folders exist and are symlinks.
     stat:
