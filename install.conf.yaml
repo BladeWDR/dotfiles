@@ -17,6 +17,7 @@
     ~/.config/rofi: rofi
     ~/.local/scripts/: scripts
     ~/powerlevel10k/: powerlevel10k
+    ~/powerlevel10k.zsh-theme: powerlevel10k.zsh-theme
     ~/.p10k.zsh: p10k.zsh
     ~/.tmux.conf: tmux.conf
     ~/.zshrc: zshrc
