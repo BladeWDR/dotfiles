@@ -8,6 +8,7 @@
   - ~/.config/alacritty
 
 - link:
+    ~/aliasrc: aliasrc
     ~/.bashrc: bashrc
     ~/.compton.conf: compton.conf
     ~/.config/nvim: nvim
