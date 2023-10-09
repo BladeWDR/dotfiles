@@ -29,6 +29,7 @@ depends:
   - unzip
   - curl
   - zsh
+  - g++
   - zsh-autosuggestions
   - zsh-syntax-highlighting
   - git
