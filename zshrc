@@ -64,6 +64,6 @@ eval "$(thefuck --alias)"
 # Start hook for direnv
 eval "$(direnv hook bash)"
 
-export TERM=alacritty
+#export TERM=alacritty
 
 bindkey -s ^f "tmux-sessionizer\n"
