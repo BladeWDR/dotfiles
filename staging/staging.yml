@@ -41,7 +41,7 @@
         git checkout stable
         make CMAKE_BUILD_TYPE=RelWithDebInfo
         cd build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
-    when: neovim_version is undefined or neovim_version == neovim_current
+    when: neovim_version is undefined or neovim_version not equal neovim_current
 
   - name: Check if files / folders exist and are symlinks.
     stat:
