@@ -28,5 +28,5 @@
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
-    - [chmod +x ~/.local/scripts]
+    - [chmod +x ~/.local/scripts/*]
 
