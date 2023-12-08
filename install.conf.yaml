@@ -6,7 +6,7 @@
 
 - create:
   - ~/.config/alacritty
-  - ~/zsh
+  - ~/.local/scripts
 
 - link:
     ~/aliasrc: aliasrc
@@ -23,7 +23,7 @@
     ~/.p10k.zsh: p10k.zsh
     ~/.tmux.conf: tmux.conf
     ~/.zshrc: zshrc
-    ~/zsh/aliasrc: zsh_aliasrc
+    ~/aliasrc: zsh_aliasrc
 
 
 - shell:

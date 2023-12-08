@@ -9,4 +9,4 @@ alias whatup="sudo systemctl status"
 alias bat="batcat"
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias pyans='source /home/scott/ansible/bin/activate'
-alias git fetch='git fetch && git status'
+alias gfetch='git fetch && git status'
