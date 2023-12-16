@@ -1,4 +1,10 @@
 --- 
+apps:
+  - neofetch 
+  - zoxide 
+  - thefuck 
+  - direnv
+
 dot_files: 
   - .bashrc
   - .compton.conf
@@ -13,14 +19,11 @@ dot_files:
   - .tmux.conf
   - .zshrc
 
-
 username: scott
-
 
 folders:
   - git
   - .local
-
 
 depends:
   - ninja-build
