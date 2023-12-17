@@ -9,7 +9,7 @@
   - ~/.local/
 
 - link:
-    ~/aliasrc: aliasrc
+    ~/aliasrc: zsh_aliasrc
     ~/.bashrc: bashrc
     ~/.compton.conf: compton.conf
     ~/.config/nvim: nvim
@@ -23,7 +23,6 @@
     ~/.p10k.zsh: p10k.zsh
     ~/.tmux.conf: tmux.conf
     ~/.zshrc: zshrc
-    ~/aliasrc: zsh_aliasrc
 
 
 - shell:
