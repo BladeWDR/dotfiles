@@ -1,4 +1,5 @@
 neofetch
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -46,11 +47,13 @@ bindkey '^[[1;5D' emacs-backward-word
 [ -f "$HOME/aliasrc" ] && source "$HOME/aliasrc"
 
 # Load ; should be last.
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 #source /usr/share/autojump/autojump.zsh 2>/dev/null
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 
+#change ZSH autosuggest highlight color
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=006'
 # export TERM=xterm-256color
 
 
