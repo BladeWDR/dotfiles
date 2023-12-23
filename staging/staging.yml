@@ -24,6 +24,13 @@
       cache_valid_time: 3600
     when: ansible_os_family == "Debian" 
 
+  - name: NEOVIM BUILD - Make sure that the neovim-runtime package from apt is not installed.
+    apt:
+      name: neovim-runtime
+      state: absent
+    when: ansible_os_family == "Debian" 
+    
+
   - name: NEOVIM BUILD - get versions of all installed packages. 
     package_facts:
       manager: auto 
