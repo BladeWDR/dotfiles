@@ -86,14 +86,6 @@
       mode: 0755
     when: not local_exist.stat.exists
 
-  - name: Install ssh private key.
-    copy: 
-      src: id_github
-      dest: "/home/{{ username }}/.ssh/id_rsa"
-      owner: "{{ username }}"
-      group: "{{ username }}" 
-      mode: 0600
-
   - name: git pull the repo to get the submodules.
     git:
       repo: git@github.com:BladeWDR/dotfiles.git
