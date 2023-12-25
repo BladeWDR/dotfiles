@@ -88,7 +88,7 @@
 
   - name: git pull the repo to get the submodules.
     git:
-      repo: git@github.com:BladeWDR/dotfiles.git
+      repo: https://github.com/BladeWDR/dotfiles.git
       dest: "/home/{{ username }}/git/dotfiles"
       accept_newhostkey: true
     become_user: "{{ username }}" 
