@@ -1,7 +1,6 @@
 #!/bin/bash
 #
 release_file=/etc/os-release
-sudobin=$(which sudo)
 
 sudo apt update
 sudo apt install software-properties-common python3-launchpadlib git -y
@@ -14,10 +13,8 @@ then
     sudo apt update
 else
     source /etc/os-release
-    distro_codename=$VERSION_CODENAME
-    sed -i 's/$(distro_codename)/jammy/' /etc/apt/sources.list.d/ansible-ubuntu-ansible-$(distro_codename).list
+    sudo sed -i "s/$VERSION_CODENAME/jammy/" /etc/apt/sources.list.d/ansible-ubuntu-ansible-"$VERSION_CODENAME".list
 fi
 
 sudo apt update
 sudo apt install ansible -y
-
