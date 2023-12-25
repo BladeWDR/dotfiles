@@ -10,5 +10,7 @@ install: setup
 	ansible-playbook -K staging.yml
 
 setup:
-	@echo "Marking ansible_setup.sh as executable."
+	@echo "Running ansible installation script."
 	chmod +x ansible_install.sh
+	./ansible_install.sh
+
