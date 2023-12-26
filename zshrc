@@ -55,7 +55,7 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 #change ZSH autosuggest highlight color
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=006'
 #Set the Tab key to accept autocomplete suggestions.
-bindkey '^I' autosuggest-accept
+#bindkey '^I' autosuggest-accept
 # export TERM=xterm-256color
 
 

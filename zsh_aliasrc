@@ -10,3 +10,4 @@ alias bat="batcat"
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias pyans='source /home/scott/ansible/bin/activate'
 alias gfetch='git fetch && git status'
+alias dps='tput rmam; docker ps --format="table {{.Names}}\t{{.ID}}\t{{.Image}}\t{{.RunningFor}}\t{{.State}}\t{{.Status}}" | (sed -u 1q; sort); tput smam'
