@@ -3,14 +3,20 @@ VERSION_CODENAME=$(shell . /etc/os-release && echo $$VERSION_CODENAME)
 .PHONY: install-dependencies add-ansible-repository update-apt-repository install-ansible setup
 
 dotbot: setup install
+	@echo "######################################################"
 	@echo "Configuring dotfiles..."
+	@echo "######################################################"
 	cd ~/dotfiles
 	./install
+	@echo "######################################################"
 	@echo "Configuration done."
+	@echo "######################################################"
 
 
 install: setup 
+	@echo "######################################################"
 	@echo "Running ansible playbook."
+	@echo "######################################################"
 	ansible-playbook -K ./staging/staging.yml
 
 setup: install-dependencies add-ansible-repository update-apt-repository install-ansible
