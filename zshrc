@@ -39,9 +39,13 @@ compinit
 _comp_options+=(globdots)               # Include hidden files.
 
 # Custom ZSH Binds
+bindkey -e #set emac keymap
 bindkey '^ ' autosuggest-accept
 bindkey '^[[1;5C' emacs-forward-word
 bindkey '^[[1;5D' emacs-backward-word
+bindkey '^H' backward-kill-word
+bindkey '^A' beginning-of-line 
+bindkey '^E' end-of-line
 
 # Load aliases and shortcuts if existent.
 [ -f "$HOME/aliasrc" ] && source "$HOME/aliasrc"
