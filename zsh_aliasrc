@@ -3,7 +3,6 @@ alias dcfr='docker-compose up -d --force-recreate'
 alias dcu='docker-compose up -d'
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/.git --work-tree=$HOME'
 alias ls='ls -l'
-alias vim='nvim'
 alias ..="cd .."
 alias whatup="sudo systemctl status"
 alias bat="batcat"
