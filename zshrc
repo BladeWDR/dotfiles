@@ -40,21 +40,16 @@ _comp_options+=(globdots)               # Include hidden files.
 
 # Custom ZSH Binds
 bindkey -e #set emac keymap
-bindkey '^ ' autosuggest-accept
 bindkey '^[[1;5C' emacs-forward-word
 bindkey '^[[1;5D' emacs-backward-word
 bindkey '^H' backward-kill-word
 bindkey '^A' beginning-of-line 
 bindkey '^E' end-of-line
+bindkey '^ ' autosuggest-accept
 
 # Load aliases and shortcuts if existent.
 [ -f "$HOME/aliasrc" ] && source "$HOME/aliasrc"
 
-# Load ; should be last.
-source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
-#source /usr/share/autojump/autojump.zsh 2>/dev/null
-source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 #change ZSH autosuggest highlight color
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=006'
@@ -76,3 +71,9 @@ eval "$(direnv hook bash)"
 #export TERM=alacritty
 
 bindkey -s ^f "tmux-sessionizer\n"
+
+# Load ; should be last.
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+#source /usr/share/autojump/autojump.zsh 2>/dev/null
+source ~/powerlevel10k/powerlevel10k.zsh-theme
