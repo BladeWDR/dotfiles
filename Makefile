@@ -23,7 +23,7 @@ setup: install-dependencies add-ansible-repository update-apt-repository install
 
 install-dependencies:
 	sudo apt update
-	sudo apt install software-properties-common python3-launchpadlib git -y
+	sudo apt install software-properties-common python3-launchpadlib git zsh zsh-autosuggestions zsh-syntax-highlighting tmux neofetch direnv thefuck zoxide -y
 
 add-ansible-repository:
 	if [ -f /etc/apt/sources.list.d/ansible-ubuntu-ansible-$(VERSION_CODENAME).list ]; then \
