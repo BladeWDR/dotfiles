@@ -43,11 +43,11 @@ endif
 install-ansible:
 	sudo apt install ansible -y
 
-neovim: setup
+install-neovim: install
 	@echo "######################################################"
 	@echo "Installing Neovim."
 	@echo "######################################################"
-	ansible-playbook -K ./staging/staging.yml
+	ansible-playbook -K ./staging/neovim.yml
 	@echo "######################################################"
 	@echo "Neovim installed."
 	@echo "######################################################"
