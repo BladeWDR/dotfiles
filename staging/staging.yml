@@ -43,10 +43,17 @@
       mode: 0755
     when: not local_exist.stat.exists
 
-  - name: git pull the repo to get the submodules.
+  - name: Pull the dotfiles repository.
     git:
       repo: https://github.com/BladeWDR/dotfiles.git
       dest: "/home/{{ username }}/git/dotfiles"
+      accept_newhostkey: true
+    become_user: "{{ username }}" 
+
+  - name: Pull the Neovim configuration repository.
+    git:
+      repo: https://github.com/BladeWDR/init.lua.git
+      dest: "/home/{{ username }}/git/dotfiles/nvim"
       accept_newhostkey: true
     become_user: "{{ username }}" 
 
