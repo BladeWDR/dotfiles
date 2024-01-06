@@ -17,6 +17,7 @@
     ~/.config/i3: i3
     ~/.config/neofetch: neofetch
     ~/.config/rofi: rofi
+    ~/.gitconfig: .gitconfig
     ~/.local/scripts/: scripts
     ~/powerlevel10k/: powerlevel10k
     ~/powerlevel10k.zsh-theme: powerlevel10k.zsh-theme
