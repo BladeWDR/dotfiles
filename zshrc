@@ -67,6 +67,8 @@ PATH=$PATH:/var/lib/flatpak/exports/bin:~/.local/share/flatpak/exports/bin:/home
 eval "$(thefuck --alias)"
 # Start hook for direnv
 eval "$(direnv hook bash)"
+#Start hook for zoxide
+eval "$(zoxide init zsh)"
 
 #export TERM=alacritty
 
