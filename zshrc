@@ -46,6 +46,7 @@ bindkey '^H' backward-kill-word
 bindkey '^A' beginning-of-line 
 bindkey '^E' end-of-line
 bindkey '^ ' autosuggest-accept
+bindkey '^[[3~' delete-char
 
 # Load aliases and shortcuts if existent.
 [ -f "$HOME/aliasrc" ] && source "$HOME/aliasrc"
@@ -66,7 +67,7 @@ PATH=$PATH:/var/lib/flatpak/exports/bin:~/.local/share/flatpak/exports/bin:/home
 # Start thefuck
 eval "$(thefuck --alias)"
 # Start hook for direnv
-eval "$(direnv hook bash)"
+eval "$(direnv hook zsh)"
 #Start hook for zoxide
 eval "$(zoxide init zsh)"
 
@@ -77,5 +78,4 @@ bindkey -s ^f "tmux-sessionizer\n"
 # Load ; should be last.
 source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
-#source /usr/share/autojump/autojump.zsh 2>/dev/null
 source ~/powerlevel10k/powerlevel10k.zsh-theme
