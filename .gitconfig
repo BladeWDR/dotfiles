@@ -1,0 +1,6 @@
+[user]
+	email = ssbarning@gmail.com
+	name = Scott Barning
+[alias]
+	ci = commit -m
+	push = push origin
