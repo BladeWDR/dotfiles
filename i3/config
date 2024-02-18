@@ -251,7 +251,7 @@ exec_always --no-startup-id greenclip daemon>>/dev/null
 
 #Assign workspaces
 #to find class for window, run 'xprop | grep CLASS'
-assign [class="firefox"] $ws1
+#assign [class="firefox"] $ws1
 #assign [class="discord"] $ws2
 
 #Scratchpads
