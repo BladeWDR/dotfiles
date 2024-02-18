@@ -160,6 +160,8 @@ bindsym $mod+Shift+e exec i3-msg exit
 bindsym $mod+Shift+s exec systemctl poweroff -i
 # Make the currently focused window a scratchpad
 bindsym $mod+Shift+slash move scratchpad
+# Take a screenshot with Flameshot.
+bindsym Print exec flameshot gui --path /home/scott/Pictures
 
 # Show the first scratchpad window
 bindsym $mod+slash scratchpad show
@@ -243,7 +245,7 @@ exec_always --no-startup-id ~/.config/i3/polybar.sh &
 exec_always --no-startup-id feh --no-fehbg --bg-scale '/home/scott/.wallpaper.jpg'
 exec --no-startup-id compton -f
 exec --no-startup-id '/home/scott/.local/share/flatpak/exports/bin/com.discordapp.Discord'
-exec --no-startup-id '/usr/bin/firefox'
+#exec --no-startup-id '/usr/bin/firefox'
 exec --no-startup-id '/usr/bin/flameshot'
 exec_always --no-startup-id greenclip daemon>>/dev/null
 
