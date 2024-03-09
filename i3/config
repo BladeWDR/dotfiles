@@ -76,10 +76,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+bindsym $mod+Shift+h move left 100
+bindsym $mod+Shift+j move down 100
+bindsym $mod+Shift+k move up 100
+bindsym $mod+Shift+l move right 100
 
 # move windows between monitors
 bindsym $mod+Shift+greater move container to output right
@@ -178,16 +178,16 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym h resize shrink width 10 px or 10 ppt
-        bindsym j resize grow height 10 px or 10 ppt
-        bindsym k resize shrink height 10 px or 10 ppt
-        bindsym l resize grow width 10 px or 10 ppt
+        bindsym h resize shrink width 100 px or 100 ppt
+        bindsym j resize grow height 100 px or 100 ppt
+        bindsym k resize shrink height 100 px or 100 ppt
+        bindsym l resize grow width 100 px or 100 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym Left resize shrink width 100 px or 100 ppt
+        bindsym Down resize grow height 100 px or 100 ppt
+        bindsym Up resize shrink height 100 px or 100 ppt
+        bindsym Right resize grow width 100 px or 100 ppt
 
         # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
