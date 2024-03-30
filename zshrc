@@ -64,12 +64,8 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=006'
 
 # Add flatpak to PATH
 PATH=$PATH:/var/lib/flatpak/exports/bin:~/.local/share/flatpak/exports/bin:/home/scott/.local/bin:/home/scott/.local/scripts
-# Start thefuck
-eval "$(thefuck --alias)"
 # Start hook for direnv
 eval "$(direnv hook zsh)"
-#Start hook for zoxide
-eval "$(zoxide init zsh)"
 
 #export TERM=alacritty
 
