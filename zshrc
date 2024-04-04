@@ -69,6 +69,9 @@ eval "$(direnv hook zsh)"
 
 #export TERM=alacritty
 
+# Prevent ranger from loading it's default config.
+export RANGER_LOAD_DEFAULT_RC=false
+
 bindkey -s ^f "tmux-sessionizer\n"
 
 # Load ; should be last.

@@ -16,6 +16,7 @@
     ~/.config/alacritty/alacritty.yml: alacritty.yml
     ~/.config/i3: i3
     ~/.config/neofetch: neofetch
+    ~/.config/ranger: ranger 
     ~/.config/rofi: rofi
     ~/.gitconfig: .gitconfig
     ~/.local/scripts/: scripts
