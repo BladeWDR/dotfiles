@@ -259,7 +259,7 @@ exec_always --no-startup-id feh --no-fehbg --bg-scale '/home/scott/.wallpaper.jp
 exec --no-startup-id compton -f
 exec --no-startup-id '/home/scott/.local/share/flatpak/exports/bin/com.discordapp.Discord'
 #exec --no-startup-id '/usr/bin/firefox'
-exec --no-startup-id '/usr/bin/flameshot'
+exec --no-startup-id '/usr/bin/flameshot &'
 exec_always --no-startup-id greenclip daemon>>/dev/null
 
 #Assign workspaces
