@@ -1,8 +1,6 @@
 --- 
 apps:
   - neofetch 
-  - zoxide 
-  - thefuck 
   - direnv
 
 dot_files: 
