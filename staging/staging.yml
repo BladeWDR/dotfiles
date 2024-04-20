@@ -8,6 +8,12 @@
 
   tasks:
 
+  - name: Add Alacritty PPA
+    ansible.builtin.apt_repository:
+      repo: ppa:aslatter/ppa
+      state: present 
+    when: ansible_os_family == "Debian" 
+
   - name: Install some common applications.
     apt:
       name: "{{ apps }}"
