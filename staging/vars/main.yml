@@ -2,6 +2,11 @@
 apps:
   - neofetch 
   - direnv
+  - rofi
+  - polybar
+  - chromium
+  - compton
+  - alacritty
 
 dot_files: 
   - .bashrc
@@ -38,4 +43,4 @@ depends:
   - fzf
   - fd-find
 
-neovim_current: 0.9.3
+neovim_current: 0.9.5
