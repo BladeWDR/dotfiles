@@ -11,6 +11,7 @@
 - link:
     ~/aliasrc: zsh_aliasrc
     ~/.bashrc: bashrc
+    ~/.bash_aliases: bash_aliases
     ~/.compton.conf: compton.conf
     ~/.config/nvim: nvim
     ~/.config/alacritty/alacritty.yml: alacritty.yml
