@@ -1,6 +1,8 @@
 [user]
-	email = ssbarning@gmail.com
-	name = Scott Barning
+	email = scott@ssb-tech.net 
+	name = BladeWDR 
 [alias]
 	ci = commit -m
 	push = push origin
+[core]
+	editor = vim
