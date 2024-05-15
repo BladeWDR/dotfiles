@@ -49,13 +49,14 @@
       mode: 0755
     when: not local_exist.stat.exists
 
-  - name: Pull the Neovim configuration repository.
-    git:
-      repo: https://github.com/BladeWDR/init.lua.git
-      dest: "/home/{{ username }}/dotfiles/nvim"
-      accept_newhostkey: true
-    become_user: "{{ username }}" 
-
+  # - name: Pull the Neovim configuration repository.
+  #   git:
+  #     repo: https://github.com/BladeWDR/init.lua.git
+  #     dest: "/home/{{ username }}/dotfiles/nvim"
+  #     accept_newhostkey: true
+  #   become_user: "{{ username }}" 
+  #
   - name: Run dotbot setup script.
     shell: "/home/{{ username }}/dotfiles/install"
     become_user: "{{ username }}"
+    ignore_errors: true
