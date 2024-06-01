@@ -44,4 +44,4 @@ depends:
   - fzf
   - fd-find
 
-neovim_current: 0.9.5
+neovim_current: 0.10.0
