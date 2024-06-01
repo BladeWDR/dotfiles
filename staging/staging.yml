@@ -9,10 +9,15 @@
   tasks:
 
   - name: Add Alacritty PPA
-    ansible.builtin.apt_repository:
-      repo: ppa:aslatter/ppa
-      state: present 
-    when: ansible_os_family == "Debian" 
+    ansible.builtin.deb822_repository:
+      name: alacritty
+      types: [deb]
+      uris: "https://ppa.launchpadcontent.net/aslatter/ppa/ubuntu"
+      suites: ["{{ ansible_distribution_release|lower }}"]
+      components: [main]
+      signed_by: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3A160895CC2CE253085D08A552B24DF7D43B5377"
+      state: present
+    when: ansible_os_family == "Debian"
 
   - name: Install some common applications.
     apt:
