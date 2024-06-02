@@ -18,7 +18,7 @@
         components: [main]
         signed_by: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3A160895CC2CE253085D08A552B24DF7D43B5377"
         state: present
-      when: ansible_os_family == "Debian"
+      when: (ansible_distribution == "Ubuntu") or (ansible_distribution == "Pop!_OS")
 
     - name: Add Node.JS Repository
       ansible.builtin.deb822_repository:
@@ -35,7 +35,6 @@
     - name: Install packages via pip.
       ansible.builtin.pip:
         name: "{{ pip_packages }}"
-        extra_args: --user
       become: false
 
     - name: Install some common applications.
