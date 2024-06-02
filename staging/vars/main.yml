@@ -10,15 +10,20 @@ apps:
   - alacritty
 
 dot_files: 
+  - zsh_aliasrc
   - .bashrc
+  - .bash_aliases
   - .compton.conf
   - .config/nvim
   - .config/alacritty/alacritty.yml
   - .config/i3
-  - .config/neofetch
+  - .config/polybar
+  - .config/ranger
   - .config/rofi
+  - .gitconfig
   - .local/scripts
   - powerlevel10k
+  - powerlevel10k.zsh-theme
   - .p10k.zsh
   - .tmux.conf
   - .zshrc
