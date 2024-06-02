@@ -116,13 +116,16 @@ if ! shopt -oq posix; then
   fi
 fi
 alias ls='ls -l --color'
-# Run Neofetch at login
-neofetch
+# Run fastfetch at login
+fastfetch
+# Set editor
+if ! nvim --version &> /dev/null; then
+    export EDITOR=/usr/bin/vim
+else
+    export EDITOR=/usr/bin/nvim 
 # Add flatpak to PATH
 PATH=$PATH:/var/lib/flatpak/exports/bin:~/.local/share/flatpak/exports/bin:/home/scott/.local/bin
 # Start Zoxide
 eval "$(zoxide init bash)"
 # Start thefuck
-eval "$(thefuck --alias)"
 eval "$(direnv hook bash)"
-
