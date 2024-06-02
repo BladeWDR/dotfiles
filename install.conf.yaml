@@ -16,7 +16,6 @@
     ~/.config/nvim: nvim
     ~/.config/alacritty/alacritty.yml: alacritty.yml
     ~/.config/i3: i3
-    ~/.config/neofetch: neofetch
     ~/.config/polybar: polybar
     ~/.config/ranger: ranger 
     ~/.config/rofi: rofi
