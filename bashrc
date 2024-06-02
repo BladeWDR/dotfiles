@@ -117,7 +117,10 @@ if ! shopt -oq posix; then
 fi
 alias ls='ls -l --color'
 # Run Neofetch at login
-neofetch
+fastfetch
+# Set editor
+export EDITOR=/usr/bin/vim
+export VISUAL=/usr/bin/vim
 # Add flatpak to PATH
 PATH=$PATH:/var/lib/flatpak/exports/bin:~/.local/share/flatpak/exports/bin:/home/scott/.local/bin
 # Start Zoxide
@@ -125,4 +128,3 @@ eval "$(zoxide init bash)"
 # Start thefuck
 eval "$(thefuck --alias)"
 eval "$(direnv hook bash)"
-
