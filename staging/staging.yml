@@ -1,68 +1,88 @@
 ---
-- hosts: localhost
+- name: Dotfiles staging playbook.
+  hosts: localhost
   connection: local
   become: true
 
-  vars_files: 
+  vars_files:
     - main.yml
 
   tasks:
 
-  - name: Add Alacritty PPA
-    ansible.builtin.deb822_repository:
-      name: alacritty
-      types: [deb]
-      uris: "https://ppa.launchpadcontent.net/aslatter/ppa/ubuntu"
-      suites: ["{{ ansible_distribution_release|lower }}"]
-      components: [main]
-      signed_by: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3A160895CC2CE253085D08A552B24DF7D43B5377"
-      state: present
-    when: ansible_os_family == "Debian"
+    - name: Add Alacritty PPA
+      ansible.builtin.deb822_repository:
+        name: alacritty
+        types: [deb]
+        uris: "https://ppa.launchpadcontent.net/aslatter/ppa/ubuntu"
+        suites: ["{{ ansible_distribution_release|lower }}"]
+        components: [main]
+        signed_by: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3A160895CC2CE253085D08A552B24DF7D43B5377"
+        state: present
+      when: ansible_os_family == "Debian"
 
-  - name: Install some common applications.
-    apt:
-      name: "{{ apps }}"
-      state: latest
-      update_cache: true
-      cache_valid_time: 3600
-    when: ansible_os_family == "Debian" 
+    - name: Add Node.JS Repository
+      ansible.builtin.deb822_repository:
+        name: nodejs
+        types: [deb]
+        uris: "https://deb.nodesource.com/node_{{ NODE_VERSION }}"
+        suites: ["nodistro"]
+        components: [main]
+        signed_by: "https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key"
+        state: present
+        architectures: amd64
+      when: ansible_os_family == "Debian"
 
-  - name: Check if files / folders exist and are symlinks.
-    stat:
-      path: "/home/{{ username }}/{{ item }}"
-    register: symlink_check
-    with_items: "{{ dot_files }}"
+    - name: Install packages via pip.
+      ansible.builtin.pip:
+        name: "{{ pip_packages }}"
+        extra_args: --user
+      become: false
 
-  - name: Delete any file or folder that is not a symlink.
-    file:
-      path: "{{ item.stat.path }}"
-      state: absent
-    when: item.stat.islnk is false 
-    with_items: "{{ symlink_check.results }}"
+    - name: Install some common applications.
+      ansible.builtin.apt:
+        name: "{{ apps }}"
+        state: latest
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
 
-  - name: check if the .local folder already exist.
-    stat:
-      path: "/home/{{ username }}/.local"
-    register: local_exist
+    - name: Check if files / folders exist and are symlinks.
+      ansible.builtin.stat:
+        path: "/home/{{ username }}/{{ item }}"
+      register: symlink_check
+      with_items: "{{ dot_files }}"
 
-  - name: Create the .local folder if it doesn't exist.
-    file:
-      path: "/home/{{ username }}/.local"
-      state: directory 
-      owner: "{{ username }}"
-      group: "{{ username }}"
-      mode: 0755
-    when: not local_exist.stat.exists
+    - name: Delete any file or folder that is not a symlink.
+      ansible.builtin.file:
+        path: "{{ item.stat.path }}"
+        state: absent
+      when: item.stat.islnk is false
+      with_items: "{{ symlink_check.results }}"
 
-  # - name: Pull the Neovim configuration repository.
-  #   git:
-  #     repo: https://github.com/BladeWDR/init.lua.git
-  #     dest: "/home/{{ username }}/dotfiles/nvim"
-  #     accept_newhostkey: true
-  #   become_user: "{{ username }}" 
-  #
-  - name: Run dotbot setup script.
-    shell: "/home/{{ username }}/dotfiles/install"
-    become_user: "{{ username }}"
-    ignore_errors: true
-    changed_when: false
+    - name: Check if the .local folder already exist.
+      ansible.builtin.stat:
+        path: "/home/{{ username }}/.local"
+      register: local_exist
+
+    - name: Create the .local folder if it doesn't exist.
+      ansible.builtin.file:
+        path: "/home/{{ username }}/.local"
+        state: directory
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: "0755"
+      when: not local_exist.stat.exists
+
+    # - name: Pull the Neovim configuration repository.
+    #   ansible.builtin.git:
+    #     repo: https://github.com/BladeWDR/init.lua.git
+    #     dest: "/home/{{ username }}/dotfiles/nvim"
+    #     accept_newhostkey: true
+    #   become_user: "{{ username }}"
+    #
+    - name: Run dotbot setup script.
+      ansible.builtin.shell: "/home/{{ username }}/dotfiles/install"
+      become_user: "{{ username }}"
+      become: true
+      ignore_errors: true
+      changed_when: false
