@@ -69,6 +69,12 @@ eval "$(direnv hook zsh)"
 
 #export TERM=alacritty
 
+if ! nvim --version &> /dev/null; then
+  export EDITOR=/usr/bin/vim
+else
+  export EDITOR=/usr/bin/nvim
+fi
+
 # Prevent ranger from loading it's default config.
 export RANGER_LOAD_DEFAULT_RC=false
 
