@@ -65,3 +65,4 @@
     shell: "/home/{{ username }}/dotfiles/install"
     become_user: "{{ username }}"
     ignore_errors: true
+    changed_when: false
