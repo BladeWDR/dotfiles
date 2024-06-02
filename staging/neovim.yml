@@ -34,6 +34,16 @@
                           list }}" 
     when: "'neovim' in ansible_facts.packages"
 
+  - name: NEOVIM BUILD - Cleanup - check to see if the neovim directory has already been cloned.
+    stat:
+      path: "/home/{{ username }}/neovim"
+    register: cloned
+
+  - name: NEOVIM BUILD - cleanup - remove neovim directory if it exists.
+    file:
+      path: "/home/{{ username }}/neovim"
+      state: absent
+    when: cloned.stat.exists
 
   - block: 
 
