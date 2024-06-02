@@ -265,10 +265,10 @@ exec_always --no-startup-id greenclip daemon>>/dev/null
 #Assign workspaces
 #to find class for window, run 'xprop | grep CLASS'
 #assign [class="firefox"] $ws1
-#assign [class="discord"] $ws2
+assign [class="discord"] $ws2
 
 #Scratchpads
-for_window [class="discord"] , move scratchpad
+#for_window [class="discord"] , move scratchpad
 for_window [class="scratchpad"] , move scratchpad
 bindsym $mod+period [title="^NVIM"] scratchpad show
 bindsym $mod+comma [class="discord"] scratchpad show
