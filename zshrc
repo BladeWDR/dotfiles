@@ -1,4 +1,4 @@
-fastfetch
+neofetch
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -68,6 +68,12 @@ PATH=$PATH:/var/lib/flatpak/exports/bin:~/.local/share/flatpak/exports/bin:/home
 eval "$(direnv hook zsh)"
 
 #export TERM=alacritty
+
+if ! nvim --version &> /dev/null; then
+  export EDITOR=/usr/bin/vim
+else
+  export EDITOR=/usr/bin/nvim
+fi
 
 # Prevent ranger from loading it's default config.
 export RANGER_LOAD_DEFAULT_RC=false

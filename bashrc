@@ -123,6 +123,8 @@ if ! nvim --version &> /dev/null; then
     export EDITOR=/usr/bin/vim
 else
     export EDITOR=/usr/bin/nvim 
+fi
+
 # Add flatpak to PATH
 PATH=$PATH:/var/lib/flatpak/exports/bin:~/.local/share/flatpak/exports/bin:/home/scott/.local/bin
 # Start Zoxide
