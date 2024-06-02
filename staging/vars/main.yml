@@ -1,6 +1,5 @@
 --- 
 apps:
-  - neofetch 
   - direnv
   - rofi
   - compton
@@ -8,6 +7,13 @@ apps:
   - gzip
   - polybar
   - alacritty
+  - apt-transport-https
+  - ca-certificates
+  - gnupg
+
+pip_packages:
+  - ansible-lint
+  - yamllint
 
 dot_files: 
   - zsh_aliasrc
@@ -50,3 +56,4 @@ depends:
   - fd-find
 
 neovim_current: 0.10.0
+NODE_VERSION: 20.x
