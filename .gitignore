@@ -1,2 +1,3 @@
 nvim/
+!staging/roles/
 staging/roles/*
