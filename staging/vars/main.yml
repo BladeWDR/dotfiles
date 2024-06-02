@@ -3,9 +3,10 @@ apps:
   - neofetch 
   - direnv
   - rofi
-  - polybar
-  - chromium
   - compton
+  - unzip
+  - gzip
+  - polybar
   - alacritty
 
 dot_files: 
