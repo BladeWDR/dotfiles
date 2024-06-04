@@ -17,7 +17,7 @@ install: setup
 	@echo "######################################################"
 	@echo "Running ansible playbook."
 	@echo "######################################################"
-	ansible-galaxy install -r requirements.yml --roles-path ./staging/roles
+	ansible-galaxy install -r staging/meta/requirements.yml --roles-path ./staging/roles
 	ansible-playbook -K ./staging/staging.yml
 
 setup: install-dependencies add-ansible-repository update-apt-repository install-ansible
