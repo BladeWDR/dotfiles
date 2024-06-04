@@ -23,11 +23,6 @@
         state: present
       when: (ansible_distribution == "Ubuntu") or (ansible_distribution == "Pop!_OS")
 
-    - name: Install packages via pip.
-      ansible.builtin.pip:
-        name: "{{ pip_packages }}"
-      become: false
-
     - name: Install some common applications.
       ansible.builtin.apt:
         name: "{{ apps }}"
@@ -35,6 +30,12 @@
         update_cache: true
         cache_valid_time: 3600
       when: ansible_os_family == "Debian"
+
+    - name: Install packages via pip.
+      ansible.builtin.pip:
+        name: "{{ pip_packages }}"
+        extra_args: --break-system-packages
+      become: false
 
     - name: Check if files / folders exist and are symlinks.
       ansible.builtin.stat:
