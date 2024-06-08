@@ -24,7 +24,7 @@ setup: install-dependencies add-ansible-repository update-apt-repository install
 
 install-dependencies:
 	sudo apt update
-	sudo apt install software-properties-common python3-launchpadlib git zsh zsh-autosuggestions zsh-syntax-highlighting tmux neofetch direnv thefuck zoxide -y
+	sudo apt install software-properties-common python3-launchpadlib git zsh zsh-autosuggestions zsh-syntax-highlighting tmux neofetch direnv -y
 
 add-ansible-repository:
 	if [ -f /etc/apt/sources.list.d/ansible-ubuntu-ansible-$(VERSION_CODENAME).list ]; then \
@@ -45,15 +45,6 @@ install-ansible:
 	sudo apt install ansible -y
 
 install-neovim: install
-	@echo "######################################################"
-	@echo "Installing Neovim."
-	@echo "######################################################"
-	ansible-playbook -K ./staging/neovim.yml
-	@echo "######################################################"
-	@echo "Neovim installed."
-	@echo "######################################################"
-
-upgrade-neovim: 
 	@echo "######################################################"
 	@echo "Installing Neovim."
 	@echo "######################################################"
