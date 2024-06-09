@@ -1,4 +1,6 @@
-neofetch
+if [[ $(hostname) == "SB-Desktop" ]] || [[ $(hostname) == "sb-desktop" ]] || [[ $(hostname) == "framework" ]]; then
+    fastfetch
+fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -80,11 +82,6 @@ export RANGER_LOAD_DEFAULT_RC=false
 
 bindkey -s ^f "tmux-sessionizer\n"
 
-# Load ; should be last.
-source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
-source ~/powerlevel10k/powerlevel10k.zsh-theme
-
 # Check to see if there are updates to the dotfiles or nvim repositories.
 BRANCH=master
 
@@ -106,3 +103,8 @@ if [ $local_commit_nvim != $remote_commit_nvim ]; then
     echo 'neovim repository is out of date! Git pull to update.'
 fi
 popd > /dev/null
+
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+
+eval "$(starship init zsh)"
