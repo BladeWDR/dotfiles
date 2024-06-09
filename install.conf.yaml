@@ -1,6 +1,7 @@
 - defaults:
     link:
       relink: true
+      force: true
 
 - clean: ['~']
 
@@ -19,6 +20,7 @@
     ~/.config/polybar: polybar
     ~/.config/ranger: ranger 
     ~/.config/rofi: rofi
+    ~/.config/starship.toml: starship.toml 
     ~/.gitconfig: .gitconfig
     ~/.local/scripts/: scripts
     ~/powerlevel10k/: powerlevel10k
