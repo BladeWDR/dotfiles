@@ -6,7 +6,7 @@
 
   vars_files:
     - main.yml
-
+  
   roles:
     - geerlingguy.nodejs
 
@@ -70,7 +70,15 @@
     #     dest: "/home/{{ username }}/dotfiles/nvim"
     #     accept_newhostkey: true
     #   become_user: "{{ username }}"
-    #
+    
+    - name: Include starship install tasks
+      import_tasks: starship.yml
+      tags: starship
+
+    - name: Include lazygit install tasks
+      import_tasks: lazygit.yml
+      tags: lazygit
+
     - name: Run dotbot setup script.
       ansible.builtin.shell: "/home/{{ username }}/dotfiles/install"
       become_user: "{{ username }}"
