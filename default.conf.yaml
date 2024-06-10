@@ -16,8 +16,6 @@
     ~/.compton.conf: compton.conf
     ~/.config/nvim: nvim
     ~/.config/alacritty/alacritty.yml: alacritty.yml
-    ~/.config/i3: i3
-    ~/.config/polybar: polybar
     ~/.config/ranger: ranger 
     ~/.config/rofi: rofi
     ~/.config/starship.toml: starship.toml 

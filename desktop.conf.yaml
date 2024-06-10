@@ -1,0 +1,10 @@
+---
+
+- defaults:
+    link:
+      relink: true
+      force: true
+
+- link:
+    ~/.config/polybar: configs/polybar_desktop
+    ~/.config/i3: configs/i3_desktop
