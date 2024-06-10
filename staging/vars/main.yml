@@ -59,3 +59,8 @@ depends:
 
 neovim_current: 0.10.0
 nodejs_version: "20.x"
+
+starship_version: "latest"
+starship_url: https://github.com/starship/starship/releases/latest/download/starship-{{ ansible_architecture }}-unknown-linux-gnu.tar.gz
+starship_download_path: "/tmp/starship.tar.gz"
+starship_installation_directory: "/usr/local/bin"
