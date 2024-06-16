@@ -111,4 +111,6 @@ fi
 source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 
-eval "$(starship init zsh)"
+if which starship >/dev/null 2>&1; then
+    eval "$(starship init zsh)"
+fi
