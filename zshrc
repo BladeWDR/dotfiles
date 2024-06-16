@@ -85,24 +85,28 @@ bindkey -s ^f "tmux-sessionizer\n"
 # Check to see if there are updates to the dotfiles or nvim repositories.
 BRANCH=master
 
-pushd "$HOME/dotfiles" > /dev/null
-git fetch &> /dev/null
-local_commit_dotfiles=$(git show --no-notes --format=format:"%H" $BRANCH | head -n 1)
-remote_commit_dotfiles=$(git show --no-notes --format=format:"%H" origin/$BRANCH | head -n 1)
-if [ $local_commit_dotfiles != $remote_commit_dotfiles ]; then
-    echo 'dotfiles repository is out of date! Git pull to update.'
+if [ -d "$HOME/dotfiles" ]; then
+    pushd "$HOME/dotfiles" > /dev/null
+    git fetch &> /dev/null
+    local_commit_dotfiles=$(git show --no-notes --format=format:"%H" $BRANCH | head -n 1)
+    remote_commit_dotfiles=$(git show --no-notes --format=format:"%H" origin/$BRANCH | head -n 1)
+    if [ $local_commit_dotfiles != $remote_commit_dotfiles ]; then
+        echo 'dotfiles repository is out of date! Git pull to update.'
+    fi
+    popd > /dev/null
 fi
-popd > /dev/null
 
-BRANCH=main
-pushd "$HOME/dotfiles/nvim" > /dev/null
-git fetch &> /dev/null
-local_commit_nvim=$(git show --no-notes --format=format:"%H" $BRANCH | head -n 1)
-remote_commit_nvim=$(git show --no-notes --format=format:"%H" origin/$BRANCH | head -n 1)
-if [ $local_commit_nvim != $remote_commit_nvim ]; then
-    echo 'neovim repository is out of date! Git pull to update.'
+if [ -d "$HOME/dotfiles/nvim" ]; then
+    BRANCH=main
+    pushd "$HOME/dotfiles/nvim" > /dev/null
+    git fetch &> /dev/null
+    local_commit_nvim=$(git show --no-notes --format=format:"%H" $BRANCH | head -n 1)
+    remote_commit_nvim=$(git show --no-notes --format=format:"%H" origin/$BRANCH | head -n 1)
+    if [ $local_commit_nvim != $remote_commit_nvim ]; then
+        echo 'neovim repository is out of date! Git pull to update.'
+    fi
+    popd > /dev/null
 fi
-popd > /dev/null
 
 source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
