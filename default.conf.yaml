@@ -14,7 +14,9 @@
     ~/.bashrc: bashrc
     ~/.bash_aliases: bash_aliases
     ~/.compton.conf: compton.conf
-    ~/.config/nvim: nvim
+    ~/.config/nvim:
+      if: '[ -d ~/dotfiles/nvim ]'
+      path: nvim
     ~/.config/alacritty/alacritty.yml: alacritty.yml
     ~/.config/ranger: ranger 
     ~/.config/rofi: rofi
