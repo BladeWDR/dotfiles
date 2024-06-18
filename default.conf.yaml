@@ -17,7 +17,7 @@
     ~/.config/nvim:
       if: '[ -d ~/dotfiles/nvim ]'
       path: nvim
-    ~/.config/alacritty/alacritty.yml: alacritty.yml
+    ~/.config/alacritty/alacritty.toml: alacritty.toml
     ~/.config/ranger: ranger 
     ~/.config/rofi: rofi
     ~/.config/starship.toml: starship.toml 

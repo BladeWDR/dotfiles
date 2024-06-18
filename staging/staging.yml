@@ -9,6 +9,7 @@
   
   roles:
     - geerlingguy.nodejs
+    - geerlingguy.pip
 
   tasks:
 
@@ -31,26 +32,13 @@
         cache_valid_time: 3600
       when: ansible_os_family == "Debian"
 
-    - name: Install packages via pip.
-      ansible.builtin.pip:
-        name: "{{ pip_packages }}"
-        extra_args: --break-system-packages
-      become: false
+    # - name: Install packages via pip.
+    #   ansible.builtin.pip:
+    #     name: "{{ pip_packages }}"
+    #     extra_args: --break-system-packages
+    #   become: false
 
-    - name: Check if files / folders exist and are symlinks.
-      ansible.builtin.stat:
-        path: "/home/{{ username }}/{{ item }}"
-      register: symlink_check
-      with_items: "{{ dot_files }}"
-
-    - name: Delete any file or folder that is not a symlink.
-      ansible.builtin.file:
-        path: "{{ item.stat.path }}"
-        state: absent
-      when: item.stat.islnk is false
-      with_items: "{{ symlink_check.results }}"
-
-    - name: Check if the .local folder already exist.
+    - name: Check if the .local folder already exists.
       ansible.builtin.stat:
         path: "/home/{{ username }}/.local"
       register: local_exist
@@ -64,13 +52,6 @@
         mode: "0755"
       when: not local_exist.stat.exists
 
-    # - name: Pull the Neovim configuration repository.
-    #   ansible.builtin.git:
-    #     repo: https://github.com/BladeWDR/init.lua.git
-    #     dest: "/home/{{ username }}/dotfiles/nvim"
-    #     accept_newhostkey: true
-    #   become_user: "{{ username }}"
-    
     - name: Include starship install tasks
       import_tasks: starship.yml
       tags: starship
@@ -79,9 +60,9 @@
       import_tasks: lazygit.yml
       tags: lazygit
 
-    - name: Run dotbot setup script.
-      ansible.builtin.shell: "/home/{{ username }}/dotfiles/install"
-      become_user: "{{ username }}"
-      become: true
-      ignore_errors: true
-      changed_when: false
+    # - name: Run dotbot setup script.
+    #   ansible.builtin.shell: "/home/{{ username }}/dotfiles/install"
+    #   become_user: "{{ username }}"
+    #   become: true
+    #   ignore_errors: true
+    #   changed_when: false
