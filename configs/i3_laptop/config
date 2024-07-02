@@ -173,8 +173,8 @@ bindsym $mod+Shift+e exec i3-msg exit
 bindsym $mod+Shift+s exec systemctl poweroff -i
 # Make the currently focused window a scratchpad
 bindsym $mod+Shift+slash move scratchpad
-# Take a screenshot with Flameshot.
-bindsym Print exec flameshot gui --path /home/scott/Pictures
+# Take a screenshot with Flameshot. (Make sure you don't pass any arguments here or Ctrl+C to copy to clipboard won't work!)
+bindsym Print exec flameshot gui
 
 # Show the first scratchpad window
 bindsym $mod+slash scratchpad show
