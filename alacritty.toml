@@ -27,7 +27,7 @@ background = "#0E1415"
 foreground = "#CECECE"
 
 [font]
-size = 14 
+size = 12
 bold = { family = "FiraCode Nerd Font", style = "Bold" }
 italic = { family = "FiraCode Nerd Font", style = "Italic" }
 normal = { family = "FiraCode Nerd Font", style = "Regular" }
