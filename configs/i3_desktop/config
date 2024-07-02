@@ -238,6 +238,7 @@ client.urgent               $urgent-bg-colr   $urgent-bg-color   $text-color    
 # start rofi (a program launcher)
 #bindsym $mod+d exec "rofi -modi drun,run -show drun" 
 bindsym $mod+d exec rofi -show drun 
+bindsym $mod+c exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
 # Open NVIM in a scratchpad.
 bindsym $mod+Shift+N exec --no-startup-id "alacritty -t NVIM --class scratchpad -e nvim"
@@ -271,7 +272,7 @@ exec --no-startup-id compton -f
 #exec --no-startup-id i3-msg 'workspace 9'; '/home/scott/.local/share/flatpak/exports/bin/com.discordapp.Discord'
 #exec --no-startup-id '/usr/bin/firefox'
 exec --no-startup-id '/usr/bin/flameshot &'
-exec_always --no-startup-id greenclip daemon>>/dev/null
+exec --no-startup-id greenclip daemon>>/dev/null
 
 #Assign workspaces
 #to find class for window, run 'xprop | grep CLASS'
@@ -286,7 +287,6 @@ assign [class="Discord"] $ws9
 for_window [class="scratchpad"] , move scratchpad
 bindsym $mod+period [title="^NVIM"] scratchpad show
 bindsym $mod+comma [class="discord"] scratchpad show
-bindsym $mod+Shift+B exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
 # set wallpaper last
 exec_always --no-startup-id feh --no-fehbg --bg-fill '/home/scott/.wallpaper.jpg'
