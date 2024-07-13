@@ -272,4 +272,4 @@ assign [class="discord"] $ws2
 for_window [class="scratchpad"] , move scratchpad
 bindsym $mod+period [title="^NVIM"] scratchpad show
 bindsym $mod+comma [class="discord"] scratchpad show
-bindsym $mod+Shift+B exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
+bindsym $mod+C exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
