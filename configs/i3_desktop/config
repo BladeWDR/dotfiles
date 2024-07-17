@@ -181,7 +181,7 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec i3-msg exit
 # shut down the PC
 bindsym $mod+Shift+s exec systemctl poweroff
-bindsym $mod+Shift+F10 exec systemctl reboot 
+bindsym $mod+Shift+0 exec systemctl reboot 
 
 # Make the currently focused window a scratchpad
 bindsym $mod+Shift+slash move scratchpad
