@@ -5,7 +5,6 @@ alias config='/usr/bin/git --git-dir=$HOME/.cfg/.git --work-tree=$HOME'
 alias ls='ls -l'
 alias ..="cd .."
 alias whatup="sudo systemctl status"
-alias bat="batcat"
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias pyans='source /home/scott/ansible/bin/activate'
 alias gfetch='git fetch && git status'
