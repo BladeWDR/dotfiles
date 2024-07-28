@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+VAULT_DIR="$HOME/git/wiki"
+NOTE_DIR="$VAULT_DIR/docs/00 inbox"
+TEMPLATE_PATH="$VAULT_DIR/_templates/frontmatter.md"
+DATESTAMP=$(date +%y%m%d%H%M%S)
+FILEPATH="$NOTE_DIR/$DATESTAMP.md"
+
+cat "$TEMPLATE_PATH" > "$FILEPATH"
+
+nvim "$FILEPATH"
