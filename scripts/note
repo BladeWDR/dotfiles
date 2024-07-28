@@ -3,9 +3,35 @@
 VAULT_DIR="$HOME/git/wiki"
 NOTE_DIR="$VAULT_DIR/docs/00 inbox"
 TEMPLATE_PATH="$VAULT_DIR/_templates/frontmatter.md"
-DATESTAMP=$(date +%y%m%d%H%M%S)
-FILEPATH="$NOTE_DIR/$DATESTAMP.md"
+DATESTAMP=$(date "+%Y-%m-%d %T")
+ZETTEL_ID=$(date "+%y%m%d%H%M%S")
 
-cat "$TEMPLATE_PATH" > "$FILEPATH"
+if [[ $# -eq 0 ]]; then
+    read -p "Enter a filename (without .md extension): " FILENAME 
+elif [[ $# -eq 1 ]]; then
+	FILENAME=$1
+else
+    echo "Too many arguments, this script only takes one argument."
+    echo "Please enter the filename only."
+fi
 
-nvim "$FILEPATH"
+FILEPATH="$NOTE_DIR/$FILENAME.md"
+
+# Create YAML frontmatter.
+
+    {
+		echo "---"
+		echo -en "id:\n"
+		echo -en "aliases:\n"
+		echo -en "tags:\n"
+		echo -en "creation date: $DATESTAMP\n"
+        echo "---"
+		echo -en "\n"
+        echo -en "$ZETTEL_ID\n"
+	} >>"$FILEPATH"
+
+# Sleep so Neovim won't complain about the file being modified after reading.
+sleep 0.3
+
+#nvim '+ normal gg10ji' "$FILEPATH"
+nvim -c "normal Go" -c "normal o" -c "startinsert" "$FILEPATH"
