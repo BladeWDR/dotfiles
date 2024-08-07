@@ -56,7 +56,7 @@ else
 fi
 
 # Prevent ranger from loading it's default config.
-export RANGER_LOAD_DEFAULT_RC=false
+export RANGER_LOAD_DEFAULT_RC=FALSE
 
 bindkey -s ^f "tmux-sessionizer\n"
 
