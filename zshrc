@@ -92,3 +92,5 @@ source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/nul
 if which starship >/dev/null 2>&1; then
     eval "$(starship init zsh)"
 fi
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
