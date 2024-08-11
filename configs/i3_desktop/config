@@ -66,7 +66,7 @@ bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
 
 # Key remaps
 # remap CapsLock to Esc
-exec_always --no-startup-id "setxkbmap -option 'caps:escape'"
+exec_always --no-startup-id "setxkbmap -option 'caps:swapescape'"
 
 
 # Use Mouse+$mod to drag floating windows to their wanted position
