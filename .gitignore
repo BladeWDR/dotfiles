@@ -1,3 +1,5 @@
 nvim/
 staging/roles/*
 !staging/roles/.keep
+mutt/gmailsmtp
+mutt/ssbtechsmtp
