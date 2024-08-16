@@ -1,0 +1,90 @@
+################### FOLDER CONFIGURATION ###################
+# Defaults
+## Folder with emails
+# set folder = "~/.mail/ssbtech"
+# ## Type of mailbox
+set mbox_type = Maildir
+# ## Directory to poll for new mail
+# set spoolfile = +Inbox
+# ## Directory to save sent messages into
+# set record = +Sent
+# ## Sets the drafts folder
+# set postponed = +Drafts
+# ## File that headers will be cached
+set header_cache = ~/.cache/mutt
+# # Set email FROM
+# set from = "Scott Barning <scott@ssb-tech.net>"
+
+source ~/.config/mutt/config
+
+# Folder hooks
+# Personal mail server
+source "~/.config/mutt/ssbtech"
+folder-hook $folder 'source ~/.config/mutt/ssbtech'
+
+# Gmail account
+# source "~/.config/mutt/gmail"
+folder-hook gmail 'source ~/.config/mutt/gmail'
+
+################### SMTP CONFIGURATION ###################
+## Use an external command to get the password
+set my_smtp_pass = `pass show mail/ssbtech`
+## Set the smtp url
+set smtp_url="smtps://scott@ssb-tech.net:$my_smtp_pass@mail.ssb-tech.net:465"
+
+## If STARTTLS is needed, uncomment the line below.
+#set ssl_starttls = yes
+set ssl_force_tls = yes
+# ssl_use_tlsv1_3 = yes
+
+################### CONFIGURE EMAIL EDITOR ###################
+## Use nvim but don't force text width (looks terrible if read on a phone)
+set editor = "nvim +':set textwidth=0'"
+
+################### Preferences ###################
+# Run mbsync on Mutt start.
+#startup-hook 'echo `/usr/bin/mbsync -a`'
+
+# Don't ask, just do it.
+set quit
+set date_format = "%m/%d"
+set index_format = "[%Z]  %D  %-20.20F  %s"
+set sort = threads                         # like gmail
+set sort_aux = reverse-last-date-received  # like gmail
+set uncollapse_jump                        # don't collapse on an unread message
+set sort_re                                # thread based on regex
+set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
+## Mailcap file is used to tell mutt how to open different types of file
+set mailcap_path = "~/.config/mutt/mailcap"
+# Beep for new mail.
+set beep_new = yes
+set signature = "~/.config/mutt/signature"
+
+################### Remaps ###################
+# Does not replace any currently mapped keys and acts like the vim command gg and takes
+# you to the top of the page
+# Need to bind g to not do anything first.
+bind index g noop
+bind index gg first-entry
+
+# Replaces the retrieval of mail from a POP server. This will take you to the bottom of
+# the page, just like it does in vim
+bind index G last-entry
+
+bind pager,browser gg top-page
+bind pager,browser G bottom-page
+
+# delete message and bypass trash.
+bind index p purge-thread
+
+# Manually reload mbsync
+macro index S '<shell-escape>mbsync -a<enter>' "sync email"
+
+# Switch to mailbox ssbtech
+#macro index \Ce '<change-folder> ~/.mail/gmail/Inbox<enter>'
+#macro index \Cf '<change-folder> ~/.mail/ssbtech/Inbox<enter>'
+macro index <f2> '<change-folder> ~/.mail/gmail/Inbox<enter>'
+macro index <f3> '<change-folder> ~/.mail/ssbtech/Inbox<enter>'
+
+# Send me to the top of my inbox when I open mutt.
+push <first-entry>

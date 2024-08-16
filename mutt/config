@@ -1,0 +1,15 @@
+# configure sidebar
+#mailboxes "~/.mail/ssbtech/Inbox" "~/.mail/gmail/Inbox" "~/.mail/gmail/AO3"
+set sidebar_visible = yes
+#set sidebar_format = "%B%<F? [%F]>%* %<N?%N/>%S"
+set sidebar_format = "%B%* %n"
+set sidebar_delim_chars ='/'
+set sidebar_new_mail_only = no
+#set mail_check_stats
+
+bind index \CP sidebar-prev
+bind index \CN sidebar-next
+bind index \CO sidebar-open
+bind pager \CP sidebar-prev
+bind pager \CN sidebar-next
+bind pager \CO sidebar-open

@@ -1,0 +1,9 @@
+set folder = "~/.mail/gmail"
+set spoolfile = +Inbox
+set record = +Sent
+set postponed = +Drafts
+set trash = +Trash
+set my_smtp_pass = `pass show mail/gmail`
+source ./gmailsmtp
+unmailboxes *
+mailboxes "+Inbox" "+AO3" "+Drafts" "+Sent" "+Trash" 

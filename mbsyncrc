@@ -1,0 +1,111 @@
+IMAPAccount ssbtech
+## Address to connect to
+Host mail.ssb-tech.net
+Port 993
+User scott@ssb-tech.net
+PassCmd "pass mail/ssbtech"
+SSLType IMAPS
+AuthMechs LOGIN
+
+IMAPStore ssbtech-remote
+Account ssbtech
+
+MaildirStore ssbtech-local
+## Copy folder hierarchy
+Subfolders Verbatim
+## The trailing "/" is important
+Path ~/.mail/ssbtech/
+Inbox ~/.mail/ssbtech/Inbox
+
+Channel ssbtech
+Far :ssbtech-remote:
+Near :ssbtech-local:
+## Include everything
+Patterns *
+## Automatically create missing mailboxes, both locally and on the server
+Create Both
+Expunge Both
+## Save the synchronization state files in the relevant directory
+SyncState *
+
+IMAPAccount gmail
+## Address to connect to
+Host imap.gmail.com
+Port 993
+User ssbarning@gmail.com
+PassCmd "pass mail/gmail"
+SSLType IMAPS
+AuthMechs LOGIN
+
+IMAPStore gmail-remote
+Account gmail
+
+MaildirStore gmail-local
+## Copy folder hierarchy
+Subfolders Verbatim
+## The trailing "/" is important
+Path ~/.mail/gmail/
+Inbox ~/.mail/gmail/Inbox
+
+Channel gmail
+Far :gmail-remote:
+Near :gmail-local:
+## Include everything
+Patterns INBOX
+#Patterns * ![Gmail]* "[Gmail]/Starred" "[Gmail]/All Mail" "[Gmail]/Trash" "[Gmail]/Drafts"
+## Automatically create missing mailboxes, both locally and on the server
+Create Both
+Expunge Both
+## Save the synchronization state files in the relevant directory
+MaxMessages 300
+SyncState *
+
+Channel gmail-all
+Far :gmail-remote:"[Gmail]/All Mail"
+Near :gmail-local:"All Mail"
+## Automatically create missing mailboxes, both locally and on the server
+Create Both
+Expunge Both
+## Save the synchronization state files in the relevant directory
+MaxMessages 300
+SyncState *
+
+Channel gmail-drafts
+Far :gmail-remote:"[Gmail]/Drafts"
+Near :gmail-local:"Drafts"
+## Automatically create missing mailboxes, both locally and on the server
+Create Both
+Expunge Both
+## Save the synchronization state files in the relevant directory
+MaxMessages 300
+SyncState *
+
+Channel gmail-ao3
+Far :gmail-remote:"AO3"
+Near :gmail-local:"AO3"
+## Automatically create missing mailboxes, both locally and on the server
+Create Both
+Expunge Both
+## Save the synchronization state files in the relevant directory
+MaxMessages 300
+SyncState *
+
+Channel gmail-trash
+Far :gmail-remote:"[Gmail]/Trash"
+Near :gmail-local:"Trash"
+## Automatically create missing mailboxes, both locally and on the server
+Create Both
+Expunge Both
+## Save the synchronization state files in the relevant directory
+MaxMessages 300
+SyncState *
+
+Channel gmail-sent
+Far :gmail-remote:"[Gmail]/Sent Mail"
+Near :gmail-local:"Sent"
+## Automatically create missing mailboxes, both locally and on the server
+Create Both
+Expunge Both
+## Save the synchronization state files in the relevant directory
+MaxMessages 300
+SyncState *
