@@ -1,0 +1,27 @@
+################### Remaps ###################
+
+# Does not replace any currently mapped keys and acts like the vim command gg and takes
+# you to the top of the page
+
+# Need to bind g to not do anything first.
+bind index g noop
+bind index gg first-entry
+
+# Replaces the retrieval of mail from a POP server. This will take you to the bottom of
+# the page, just like it does in vim
+bind index G last-entry
+
+bind pager,browser gg top-page
+bind pager,browser G bottom-page
+
+# delete message and bypass trash.
+bind index p purge-thread
+
+# Manually reload mbsync
+macro index S '<shell-escape>mbsync -a<enter>' "sync email"
+
+# Switch to mailbox ssbtech
+# macro index \Ce '<change-folder> ~/.mail/gmail/Inbox<enter>'
+# macro index \Cf '<change-folder> ~/.mail/ssbtech/Inbox<enter>'
+macro index,pager <f2> '<change-folder> ~/.mail/gmail/Inbox<enter>'
+macro index,pager <f3> '<change-folder> ~/.mail/ssbtech/Inbox<enter>'

@@ -3,7 +3,6 @@ set spoolfile = +Inbox
 set record = +Sent
 set postponed = +Drafts
 set trash = +Trash
-set my_smtp_pass = `pass show mail/ssbtech`
 source ./ssbtechsmtp
 unmailboxes *
 mailboxes "+Inbox" "+Drafts" "+Sent" "+Trash" 

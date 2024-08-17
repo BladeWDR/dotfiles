@@ -1,0 +1,3 @@
+set my_smtp_pass = `pass show mail/mailbox`
+set from = "Full Name <joeblow@email.domain>"
+set smtp_url="smtps://joeblow@email.domain:$my_smtp_pass@smtp.gmail.com:465"

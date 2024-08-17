@@ -1,12 +1,43 @@
+# Type of mailbox
+set mbox_type = Maildir
+
+# ## File that headers will be cached
+set header_cache = ~/.cache/mutt
+
+# Force Encryption
+set ssl_force_tls = yes
+
+################### CONFIGURE EMAIL EDITOR ###################
+## Use nvim but don't force text width (looks terrible if read on a phone)
+set editor = "nvim +':set textwidth=0'"
+
+################### Preferences ###################
+
+# Don't ask, just do it.
+set quit
+# for macros, don't wait for input after running them.
+set wait_key = no
+set date_format = "%m/%d"
+set index_format = "[%Z]  %D  %-20.20F  %s"
+set sort = threads                         # like gmail
+set sort_aux = reverse-last-date-received  # like gmail
+set uncollapse_jump                        # don't collapse on an unread message
+set sort_re                                # thread based on regex
+set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
+## Mailcap file is used to tell mutt how to open different types of file
+set mailcap_path = "~/.config/mutt/mailcap"
+# Beep for new mail.
+set beep_new = yes
+set signature = "~/.config/mutt/signature"
+
 # configure sidebar
-#mailboxes "~/.mail/ssbtech/Inbox" "~/.mail/gmail/Inbox" "~/.mail/gmail/AO3"
 set sidebar_visible = yes
 #set sidebar_format = "%B%<F? [%F]>%* %<N?%N/>%S"
 set sidebar_format = "%B%* %n"
 set sidebar_delim_chars ='/'
 set sidebar_new_mail_only = no
-#set mail_check_stats
-
+set pager_index_lines = 10
+# keybinds for sidebar
 bind index \CP sidebar-prev
 bind index \CN sidebar-next
 bind index \CO sidebar-open
