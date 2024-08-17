@@ -25,3 +25,6 @@ macro index S '<shell-escape>mbsync -a<enter>' "sync email"
 # macro index \Cf '<change-folder> ~/.mail/ssbtech/Inbox<enter>'
 macro index,pager <f2> '<change-folder> ~/.mail/gmail/Inbox<enter>'
 macro index,pager <f3> '<change-folder> ~/.mail/ssbtech/Inbox<enter>'
+
+# Link handling in HTML emails.
+macro pager \cb <pipe-entry>'urlscan'<enter> 'Follow links with urlscan'
