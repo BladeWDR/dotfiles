@@ -93,4 +93,6 @@ if which starship >/dev/null 2>&1; then
     eval "$(starship init zsh)"
 fi
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+if [ -d /home/linuxbrew/ ]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
