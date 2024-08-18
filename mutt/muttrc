@@ -3,12 +3,13 @@ source ~/.config/mutt/config
 source ~/.config/mutt/remaps
 
 # Folder hooks
-# Personal mail server
 source "~/.config/mutt/gmail"
-folder-hook $folder 'source ~/.config/mutt/ssbtech'
 
 # Gmail account
 folder-hook gmail 'source ~/.config/mutt/gmail'
+
+# Personal mail server
+folder-hook ssbtech 'source ~/.config/mutt/ssbtech'
 
 # Send me to the top of my inbox when I open mutt.
 push <first-entry>
