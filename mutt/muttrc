@@ -1,6 +1,7 @@
 # Defaults
 source ~/.config/mutt/config
 source ~/.config/mutt/remaps
+source ~/.config/mutt/colors
 
 # Folder hooks
 source "~/.config/mutt/gmail"
