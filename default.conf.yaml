@@ -25,6 +25,7 @@
     ~/.config/starship.toml: starship.toml 
     ~/.gitconfig: .gitconfig
     ~/.local/scripts/: scripts
+    ~/.local/share/systemd/user: systemd
     ~/.tmux.conf: tmux.conf
     ~/.zshrc: zshrc
 
