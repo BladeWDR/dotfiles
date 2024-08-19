@@ -55,6 +55,11 @@ else
   export EDITOR=/usr/bin/nvim
 fi
 
+if [ -f ~/.browser ]; then
+    source ~/.browser
+fi
+
+
 # Prevent ranger from loading it's default config.
 export RANGER_LOAD_DEFAULT_RC=FALSE
 

@@ -5,4 +5,4 @@ set postponed = +Drafts
 set trash = +Trash
 source ./ssbtechsmtp
 unmailboxes *
-mailboxes "+Inbox" "+Drafts" "+Sent" "+Trash" 
+mailboxes "+Inbox" "+Drafts" "+Sent" "+Trash" "+LKML"
