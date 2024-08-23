@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+path="$HOME/Downloads"
+packagename=$(ls -t Downloads | grep 'discord.*.deb' | head -n 1)
+fullpath="$path/$packagename"
+
+sudo dpkg -i "$fullpath"
+
+rm $fullpath
