@@ -6,6 +6,10 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
 setopt SHARE_HISTORY
 
+# Prevent ranger from loading it's default config.
+export RANGER_LOAD_DEFAULT_RC=FALSE
+
+
 # configure PATH
 setopt extended_glob null_glob
 
@@ -30,21 +34,17 @@ export PATH
 bindkey -v
 export KEYTIMEOUT=1
 
-# set my EDITOR and BROWSER variables based on what is available.
-if ! nvim --version &> /dev/null; then
-  export EDITOR=/usr/bin/vim
+# Set EDITOR
+if command -v nvim >/dev/null; then
+    export EDITOR=/usr/bin/nvim
 else
-  export EDITOR=/usr/bin/nvim
+    export EDITOR=/usr/bin/vim
 fi
-if [ -f ~/.browser ]; then
-    source ~/.browser
-fi
+
+# Source browser settings if file exists
+[ -f ~/.browser ] && source ~/.browser
 
 export TERM=tmux-256color
-
-# Enable colors and change prompt:
-#autoload -U colors && colors
-#PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
 # Basic auto/tab complete:
 autoload -U compinit
@@ -71,20 +71,11 @@ bindkey "^?" backward-delete-char
 
 #change ZSH autosuggest highlight color
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=006'
-#Set the Tab key to accept autocomplete suggestions.
-#bindkey '^I' autosuggest-accept
-
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# Set ctrl+space to accept suggestion.
+bindkey '^ ' autosuggest-accept
 
 # Start hook for direnv
 eval "$(direnv hook zsh)"
-
-#export TERM=alacritty
-
-# Prevent ranger from loading it's default config.
-export RANGER_LOAD_DEFAULT_RC=FALSE
 
 bindkey -s '^f' "tmux-sessionizer\n"
 
