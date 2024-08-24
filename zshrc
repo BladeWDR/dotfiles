@@ -1,3 +1,23 @@
+# configure PATH
+setopt extended_glob null_glob
+
+path=(
+    $path
+    /var/lib/flatpak/exports/bin
+    $HOME/.local/share/flatpak/exports/bin
+    $HOME/.local/bin
+    $HOME/.local/scripts
+)
+
+# remove duplicate entries from PATH.
+typeset -U path
+# exclude any directories that don't exist.
+path=($^path(N-/))
+
+# finally, set the PATH. Remember that there is a special relationship in zsh
+# between $PATH and $path, which allows you to do to this.
+export PATH
+
 # Enable colors and change prompt:
 autoload -U colors && colors
 PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
@@ -42,8 +62,6 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=006'
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Add flatpak to PATH
-PATH=$PATH:/var/lib/flatpak/exports/bin:~/.local/share/flatpak/exports/bin:/home/scott/.local/bin:/home/scott/.local/scripts
 # Start hook for direnv
 eval "$(direnv hook zsh)"
 
@@ -63,7 +81,7 @@ fi
 # Prevent ranger from loading it's default config.
 export RANGER_LOAD_DEFAULT_RC=FALSE
 
-bindkey -s ^f "tmux-sessionizer\n"
+bindkey -s '^f' "tmux-sessionizer\n"
 
 # Check to see if there are updates to the dotfiles or nvim repositories.
 BRANCH=master
