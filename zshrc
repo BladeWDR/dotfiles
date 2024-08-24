@@ -1,3 +1,11 @@
+# History in cache directory:
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.cache/zshhistory
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt SHARE_HISTORY
+
 # configure PATH
 setopt extended_glob null_glob
 
@@ -18,18 +26,25 @@ path=($^path(N-/))
 # between $PATH and $path, which allows you to do to this.
 export PATH
 
+# enable vi mode
+bindkey -v
+export KEYTIMEOUT=1
+
+# set my EDITOR and BROWSER variables based on what is available.
+if ! nvim --version &> /dev/null; then
+  export EDITOR=/usr/bin/vim
+else
+  export EDITOR=/usr/bin/nvim
+fi
+if [ -f ~/.browser ]; then
+    source ~/.browser
+fi
+
+export TERM=tmux-256color
+
 # Enable colors and change prompt:
 autoload -U colors && colors
 PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
-
-# Custom Variables
-EDITOR=nvim
-
-# History in cache directory:
-HISTSIZE=10000
-SAVEHIST=10000
-HISTFILE=~/.cache/zshhistory
-setopt appendhistory
 
 # Basic auto/tab complete:
 autoload -U compinit
@@ -56,7 +71,6 @@ bindkey '^[[3~' delete-char
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=006'
 #Set the Tab key to accept autocomplete suggestions.
 #bindkey '^I' autosuggest-accept
-# export TERM=xterm-256color
 
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -66,17 +80,6 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=006'
 eval "$(direnv hook zsh)"
 
 #export TERM=alacritty
-
-if ! nvim --version &> /dev/null; then
-  export EDITOR=/usr/bin/vim
-else
-  export EDITOR=/usr/bin/nvim
-fi
-
-if [ -f ~/.browser ]; then
-    source ~/.browser
-fi
-
 
 # Prevent ranger from loading it's default config.
 export RANGER_LOAD_DEFAULT_RC=FALSE
