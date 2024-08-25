@@ -60,19 +60,20 @@ fi
 
 read -p "Does this machine have a GUI?" DESKTOP_APPS_CHOICE
 
-if [ $DESKTOP_APPS_CHOICE != "Y" ] && [ $DESKTOP_APPS_CHOICE != "y" ]; then
-    echo "Skipping desktop apps."
-else
-    sudo apt install $DESKTOP_APPS_APT
+if [ $DESKTOP_APPS_CHOICE == "Y" ] || [ $DESKTOP_APPS_CHOICE == "y" ]; then
+   sudo apt install $DESKTOP_APPS_APT
 fi
 
 read -p "Would you like to install Neovim?" NVIM_CHOICE
 
-if [ $NVIM_CHOICE != "Y" ] && [ $NVIM_CHOICE != "y" ]; then
-    echo "Not installing Neovim."
-else
-    # Test to make sure that the homebrew binary is available.
-    if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
-        /home/linuxbrew/.linuxbrew/bin/brew install neovim
-    fi
+if [ $NVIM_CHOICE == "Y" ] || [ $NVIM_CHOICE == "y" ]; then
+   # Test to make sure that the homebrew binary is available.
+   if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
+       /home/linuxbrew/.linuxbrew/bin/brew install neovim
+   fi
 fi
+
+echo "######################################################"
+echo "Script complete."
+echo "Remember to run ./install <config name> to actually create the symlinks."
+echo "######################################################"
