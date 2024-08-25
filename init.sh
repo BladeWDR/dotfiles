@@ -19,6 +19,7 @@ BASICS=(
         zsh-syntax-highlighting
         tmux
         direnv
+        curl
 )
 
 # desktop apps that can be installed via apt
