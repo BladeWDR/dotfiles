@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+LOGFILE="/tmp/init.log"
+
+# Redirect stdout and stderr to both the screen and the log file
+exec > >(tee -a "$LOGFILE") 2>&1
+
 # source the release file so I can get the VERSION_CODENAME variable.
 . /etc/os-release
 
@@ -62,7 +67,6 @@ else
 fi
 
 read -p "Would you like to install Neovim?" NVIM_CHOICE
-
 
 if [ $NVIM_CHOICE != "Y" ] && [ $NVIM_CHOICE != "y" ]; then
     echo "Not installing Neovim."
