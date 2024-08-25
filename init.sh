@@ -67,13 +67,13 @@ fi
 # Install Homebrew.
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-read -p "Does this machine have a GUI?" DESKTOP_APPS_CHOICE
+read -p "Does this machine have a GUI? " DESKTOP_APPS_CHOICE
 
 if [ $DESKTOP_APPS_CHOICE == "Y" ] || [ $DESKTOP_APPS_CHOICE == "y" ]; then
    sudo apt install -y "${DESKTOP_APPS_APT[@]}"
 fi
 
-read -p "Would you like to install Neovim?" NVIM_CHOICE
+read -p "Would you like to install Neovim? " NVIM_CHOICE
 
 if [ $NVIM_CHOICE == "Y" ] || [ $NVIM_CHOICE == "y" ]; then
    # Test to make sure that the homebrew binary is available.
