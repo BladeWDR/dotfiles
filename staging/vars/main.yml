@@ -12,6 +12,9 @@ apps:
   - apt-transport-https
   - ca-certificates
   - gnupg
+  - fd-find
+  - ripgrep
+  - fzf
 
 pip_install_packages:
   - ansible-lint
