@@ -43,6 +43,11 @@ fi
 
 sudo apt update && sudo apt install ansible -y
 
+# Use a glob pattern to directly find directories matching python3.*
+# Need to remove the EXTERNALLY-MANAGED file so that Ansible doesn't cough up a lung trying to use pip.
+for dir in /usr/lib/python3.*; do
+   rm -f "$dir/EXTERNALLY-MANAGED"
+done
 
 ANSIBLE_PATH=$(which ansible)
 
