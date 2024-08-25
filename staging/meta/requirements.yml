@@ -3,7 +3,3 @@ roles:
     - name: geerlingguy.nodejs 
     - name: geerlingguy.pip
     - name: geerlingguy.homebrew
-
-collections:
-    - name: community.general.homebrew
-      type: galaxy
