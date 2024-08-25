@@ -55,8 +55,20 @@ fi
 
 read -p "Does this machine have a GUI?" DESKTOP_APPS_CHOICE
 
-if ![ $DESKTOP_APPS_CHOICE == "Y" ] || ![ $DESKTOP_APPS_CHOICE == "y" ]; then
+if [ $DESKTOP_APPS_CHOICE != "Y" ] && [ $DESKTOP_APPS_CHOICE != "y" ]; then
     echo "Skipping desktop apps."
 else
     sudo apt install $DESKTOP_APPS_APT
+fi
+
+read -p "Would you like to install Neovim?" NVIM_CHOICE
+
+
+if [ $NVIM_CHOICE != "Y" ] && [ $NVIM_CHOICE != "y" ]; then
+    echo "Not installing Neovim."
+else
+    # Test to make sure that the homebrew binary is available.
+    if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
+        /home/linuxbrew/.linuxbrew/bin/brew install neovim
+    fi
 fi
