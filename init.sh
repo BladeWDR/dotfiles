@@ -33,7 +33,7 @@ DESKTOP_APPS_APT=(
 
 # Install dependencies.
 sudo apt update
-sudo apt install $BASICS -y
+sudo apt install -y "${BASICS[@]}"
 
 # Check to see if the ansible repo already exists, if it does not, then add it.
 if [ -f "/etc/apt/sources.list.d/ansible-ubuntu-ansible-$VERSION_CODENAME.list" ]; then
@@ -70,7 +70,7 @@ fi
 read -p "Does this machine have a GUI?" DESKTOP_APPS_CHOICE
 
 if [ $DESKTOP_APPS_CHOICE == "Y" ] || [ $DESKTOP_APPS_CHOICE == "y" ]; then
-   sudo apt install $DESKTOP_APPS_APT
+   sudo apt install -y "${DESKTOP_APPS_APT[@]}"
 fi
 
 read -p "Would you like to install Neovim?" NVIM_CHOICE
