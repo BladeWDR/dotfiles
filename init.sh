@@ -63,6 +63,9 @@ else
     exit 1
 fi
 
+# Install Homebrew.
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
 read -p "Does this machine have a GUI?" DESKTOP_APPS_CHOICE
 
 if [ $DESKTOP_APPS_CHOICE == "Y" ] || [ $DESKTOP_APPS_CHOICE == "y" ]; then

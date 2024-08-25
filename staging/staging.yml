@@ -10,7 +10,6 @@
   roles:
     - geerlingguy.nodejs
     - geerlingguy.pip
-    - geerlingguy.homebrew
 
   tasks:
 
