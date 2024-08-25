@@ -33,7 +33,7 @@ DESKTOP_APPS_APT=(
 
 # Install dependencies.
 sudo apt update
-sudo apt install $BASICS
+sudo apt install $BASICS -y
 
 # Check to see if the ansible repo already exists, if it does not, then add it.
 if [ -f "/etc/apt/sources.list.d/ansible-ubuntu-ansible-$VERSION_CODENAME.list" ]; then
