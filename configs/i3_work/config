@@ -255,7 +255,7 @@ default_floating_border normal 1
 ### autostart programs
 #exec --no-startup-id xrandr --output eDP-1 --mode 2256x1504 --rate 60 --dpi 200 
 exec_always --no-startup-id ~/.config/i3/polybar.sh &
-exec_always --no-startup-id feh --no-fehbg --bg-scale '/home/scott/.wallpaper.jpg'
+exec_always --no-startup-id feh --no-fehbg --bg-fill '/home/scott/.wallpaper.jpg'
 exec --no-startup-id compton -f
 exec --no-startup-id '/home/scott/.local/share/flatpak/exports/bin/com.discordapp.Discord'
 #exec --no-startup-id '/usr/bin/firefox'
