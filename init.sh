@@ -31,6 +31,9 @@ DESKTOP_APPS_APT=(
     pcscd
 )
 
+# add the current user to the video group so they can use brightnessctl without sudo.
+sudo usermod -aG video $USER
+
 # Install dependencies.
 sudo apt update
 sudo apt install -y "${BASICS[@]}"
