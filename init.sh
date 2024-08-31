@@ -67,6 +67,10 @@ else
     exit 1
 fi
 
+# Install greenclip.
+sudo wget -O /usr/local/bin/greenclip "https://github.com/erebe/greenclip/releases/download/v4.2/greenclip"
+sudo chmod +x /usr/local/bin/greenclip
+
 # Install Homebrew.
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
