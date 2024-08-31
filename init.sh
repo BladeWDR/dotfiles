@@ -86,6 +86,8 @@ if [ $NVIM_CHOICE == "Y" ] || [ $NVIM_CHOICE == "y" ]; then
    # Test to make sure that the homebrew binary is available.
    if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
        /home/linuxbrew/.linuxbrew/bin/brew install neovim
+   else
+    echo "Homebrew does not seem to be installed. Skipping."
    fi
 fi
 
