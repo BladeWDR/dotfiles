@@ -76,6 +76,8 @@ bindkey '^ ' autosuggest-accept
 
 # Start hook for direnv
 eval "$(direnv hook zsh)"
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
 
 bindkey -s '^f' "tmux-sessionizer\n"
 
