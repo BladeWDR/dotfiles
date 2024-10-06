@@ -290,4 +290,4 @@ bindsym $mod+period [title="^NVIM"] scratchpad show
 bindsym $mod+comma [class="discord"] scratchpad show
 
 # set wallpaper last
-exec_always --no-startup-id feh --no-fehbg --bg-scale '/home/scott/.wallpaper.jpg'
+exec_always --no-startup-id bash -c "sleep 1 && feh --no-fehbg --bg-scale /home/scott/.wallpaper.jpg"
