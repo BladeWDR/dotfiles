@@ -76,8 +76,6 @@ bindkey '^ ' autosuggest-accept
 
 # Start hook for direnv
 eval "$(direnv hook zsh)"
-# Set up fzf key bindings and fuzzy completion
-source <(fzf --zsh)
 
 bindkey -s '^f' "tmux-sessionizer\n"
 
@@ -117,3 +115,6 @@ fi
 if [ -d /home/linuxbrew/ ]; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
+
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
