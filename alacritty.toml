@@ -34,4 +34,4 @@ normal = { family = "FiraCode Nerd Font", style = "Regular" }
 
 [window]
 decorations = "none"
-opacity = 0.8
+opacity = 1.0
