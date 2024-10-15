@@ -5,10 +5,10 @@
 	"position": "top",
 
 	"modules-left": [
-		"sway/workspaces",
+		"sway/workspaces"
 	],
 	"modules-center": [
-		"clock",
+		"clock"
 	],
 	"modules-right": [
 		"pulseaudio",
@@ -16,25 +16,9 @@
 		"cpu",
 		"battery",
 		"disk",
+        "network",
 		"tray"
 	],
-
-	"custom/left-arrow-dark": {
-		"format": "",
-		"tooltip": false
-	},
-	"custom/left-arrow-light": {
-		"format": "",
-		"tooltip": false
-	},
-	"custom/right-arrow-dark": {
-		"format": "",
-		"tooltip": false
-	},
-	"custom/right-arrow-light": {
-		"format": "",
-		"tooltip": false
-	},
 
 	"sway/workspaces": {
 		"disable-scroll": true,
@@ -89,6 +73,14 @@
 		"format": "Disk {percentage_used:2}%",
 		"path": "/"
 	},
+    "network": {
+        // "interface": "wlp166s0", // (Optional) To force the use of this interface
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected ",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    },
 	"tray": {
 		"icon-size": 12 
 	}

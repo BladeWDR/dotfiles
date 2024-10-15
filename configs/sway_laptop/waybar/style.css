@@ -27,6 +27,7 @@ window#waybar {
 #cpu,
 #battery,
 #disk,
+#network,
 #tray {
 	background: #292b2e;
     padding: 0 5px;
@@ -63,6 +64,15 @@ window#waybar {
 }
 #disk {
 	color: #b58900;
+}
+
+#network {
+    color: white;
+
+}
+
+#network.disconnected {
+    background-color: #f53c3c;
 }
 
 #clock,
