@@ -219,6 +219,8 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
 bindsym $mod+c exec "greenclip print | grep . | dmenu -i -l 10 -p clipboard | xargs -r -d'\n' -I '{}' greenclip print '{}'"
+# shut down the PC
+bindsym $mod+Shift+s exec systemctl poweroff -i
 
 # Automatically launch background apps:
 exec --no-startup-id nm-applet --indicator
