@@ -8,16 +8,6 @@ window#waybar {
 	color: #fdf6e3;
 }
 
-#custom-right-arrow-dark,
-#custom-left-arrow-dark {
-	color: #1a1a1a;
-}
-#custom-right-arrow-light,
-#custom-left-arrow-light {
-	color: #292b2e;
-	background: #1a1a1a;
-}
-
 #workspaces,
 #clock.1,
 #clock.2,
@@ -81,5 +71,5 @@ window#waybar {
 #cpu,
 #battery,
 #disk {
-	padding: 0 10px;
+	padding: 0 5px;
 }
