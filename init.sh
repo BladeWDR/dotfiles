@@ -29,6 +29,12 @@ DESKTOP_APPS_APT=(
     pavucontrol
     brightnessctl
     pcscd
+    qtwayland5
+    xdg-desktop-portal-gtk
+    xdg-desktop-portal-wlr
+    sway
+    waybar
+    j4-dmenu-desktop
 )
 
 # add the current user to the video group so they can use brightnessctl without sudo.
@@ -75,6 +81,12 @@ sudo chmod +x /usr/local/bin/greenclip
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 read -p "Does this machine have a GUI? " DESKTOP_APPS_CHOICE
+
+if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
+   /home/linuxbrew/.linuxbrew/bin/brew install fzf
+else
+echo "Homebrew does not seem to be installed. Skipping."
+fi
 
 if [ $DESKTOP_APPS_CHOICE == "Y" ] || [ $DESKTOP_APPS_CHOICE == "y" ]; then
    sudo apt install -y "${DESKTOP_APPS_APT[@]}"
