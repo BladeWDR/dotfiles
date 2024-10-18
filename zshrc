@@ -34,13 +34,6 @@ export PATH
 bindkey -v
 export KEYTIMEOUT=1
 
-# Set EDITOR
-if command -v nvim >/dev/null; then
-    export EDITOR=/usr/bin/nvim
-else
-    export EDITOR=/usr/bin/vim
-fi
-
 # Source browser settings if file exists
 [ -f ~/.browser ] && source ~/.browser
 
@@ -114,6 +107,14 @@ fi
 
 if [ -d /home/linuxbrew/ ]; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
+# Set EDITOR.
+# Do this AFTER loading brew vars, since it's installed via homebrew now on a lot of my systems.
+if command -v nvim >/dev/null; then
+    export EDITOR=$(which nvim)
+else
+    export EDITOR=/usr/bin/vim
 fi
 
 # Set up fzf key bindings and fuzzy completion
