@@ -208,7 +208,7 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
-bindsym $mod+c exec "greenclip print | grep . | dmenu -i -l 10 -p clipboard | xargs -r -d'\n' -I '{}' greenclip print '{}'"
+bindsym $mod+c exec clipman pick
 # shut down the PC
 bindsym $mod+Shift+s exec systemctl poweroff -i
 
@@ -216,7 +216,9 @@ bindsym $mod+Shift+s exec systemctl poweroff -i
 exec --no-startup-id nm-applet --indicator
 exec --no-startup-id blueman-applet
 exec --no-startup-id '/usr/bin/flameshot &'
-exec --no-startup-id greenclip daemon>>/dev/null
+exec wl-paste -t text --watch clipman store --no-persist
+exec wl-paste -p -t text --watch clipman store -P --histpath="~/.local/share/clipman.json"
+#exec --no-startup-id greenclip daemon>>/dev/null
 
 # Launch specific applications with hotkeys:
 # Launch flameshot directly with raw and pipe to wl-copy as a workaround for the issues copying to clipboard
