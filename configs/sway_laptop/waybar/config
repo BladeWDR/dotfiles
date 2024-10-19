@@ -63,7 +63,8 @@
 			"",
 			"",
 			""
-		]
+		],
+        "format-charging": "{icon} {capacity}%",
 	},
 	"disk": {
 		"interval": 5,
