@@ -39,7 +39,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-#      icon = "assets/volume-low.png"
+      icon = "icons/vol-down.png"
       label = "Lower Vol"
       fontsize = 8
   [keys.action]
@@ -52,7 +52,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      #icon = "assets/volume-high.png"
+      icon = "icons/vol-up.png"
       label = "Raise Vol"
       fontsize = 8
   [keys.action]
@@ -65,50 +65,47 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      label = "Sleep"
+      icon="icons/playpause.png"
+      label = "Play/Pause"
   [keys.action]
-    device = "sleep"
+    keycode = "Playpause"
 
 [[keys]]
   index = 8
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      #icon = "assets/go-previous.png"
-      label = "Dim"
+      icon="icons/prevsong.png"
+      label = "Next"
   [keys.action]
-    device = "brightness-10"
+    keycode = "Previoussong"
 
 [[keys]]
   index = 9
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      #icon = "assets/go-next.png"
-      label = "Brighten"
+      icon="icons/nextsong.png"
+      label = "Next"
   [keys.action]
-    device = "brightness+10"
+    keycode = "Nextsong"
 
 [[keys]]
-  index = 10
-  [keys.widget]
-    id = "recentWindow"
-    [keys.widget.config]
-      window = 1
-      showTitle = true
+    index = 10
+    [keys.widget]
+        id = "button"
+        [keys.widget.config]
+            icon = "icons/mute.png"
+            label = "Mute"
+        [keys.action]
+            keycode = "Leftctrl-Leftshift-M"
 
 [[keys]]
-  index = 11
-  [keys.widget]
-    id = "recentWindow"
-    [keys.widget.config]
-      window = 2
-      showTitle = true
-
-[[keys]]
-  index = 12
-  [keys.widget]
-    id = "recentWindow"
-    [keys.widget.config]
-      window = 3
-      showTitle = true
+    index = 11
+    [keys.widget]
+        id = "button"
+        [keys.widget.config]
+            icon = "icons/disconnect.png"
+            label = "Disconnect"
+        [keys.action]
+            keycode = "Leftctrl-Leftshift-Leftalt-D"
