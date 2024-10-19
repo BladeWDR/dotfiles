@@ -74,12 +74,6 @@ bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
-
 # move focused window
 bindsym $mod+Shift+h move left 100
 bindsym $mod+Shift+j move down 100
@@ -89,12 +83,6 @@ bindsym $mod+Shift+l move right 100
 # move windows between monitors
 bindsym $mod+Shift+greater move container to output right
 bindsym $mod+Shift+less move container to output left
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
 bindsym $mod+b split h
