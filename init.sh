@@ -73,10 +73,6 @@ else
     exit 1
 fi
 
-# Install greenclip.
-sudo wget -O /usr/local/bin/greenclip "https://github.com/erebe/greenclip/releases/download/v4.2/greenclip"
-sudo chmod +x /usr/local/bin/greenclip
-
 # Install Homebrew.
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
@@ -90,6 +86,9 @@ fi
 
 if [ $DESKTOP_APPS_CHOICE == "Y" ] || [ $DESKTOP_APPS_CHOICE == "y" ]; then
    sudo apt install -y "${DESKTOP_APPS_APT[@]}"
+   # Install greenclip.
+   sudo wget -O /usr/local/bin/greenclip "https://github.com/erebe/greenclip/releases/download/v4.2/greenclip"
+   sudo chmod +x /usr/local/bin/greenclip
 fi
 
 read -p "Would you like to install Neovim? " NVIM_CHOICE
