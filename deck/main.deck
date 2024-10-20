@@ -98,7 +98,7 @@
             icon = "icons/mute.png"
             label = "Mute"
         [keys.action]
-            keycode = "Leftctrl-Leftshift-M"
+            keycode = "Leftctrl-Leftalt-Leftshift-M"
 
 [[keys]]
     index = 11
