@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-url=$(curl -Ls -I -o /dev/null -w %{url_effective} 'https://discord.com/api/download?platform=linux&format=deb')
+url=$(curl -Ls -m 1 -I -o /dev/null -w %{url_effective} 'https://discord.com/api/download?platform=linux&format=deb')
 current_version=$(echo "$url" | grep -oP '(?<=/)[0-9]+\.[0-9]+\.[0-9]+(?=/)')
 installed_version=$(dpkg-query -W -f='${Version}' discord &> /dev/null || echo "")
 download_path="/tmp/discord-$current_version.deb"
