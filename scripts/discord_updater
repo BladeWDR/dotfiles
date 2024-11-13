@@ -4,7 +4,7 @@ set -euo pipefail
 
 url=$(curl -Ls -m 1 -I -o /dev/null -w %{url_effective} 'https://discord.com/api/download?platform=linux&format=deb')
 current_version=$(echo "$url" | grep -oP '(?<=/)[0-9]+\.[0-9]+\.[0-9]+(?=/)')
-installed_version=$(dpkg-query -W -f='${Version}' discord &> /dev/null || echo "")
+installed_version=$(dpkg-query -W -f='${Version}' discord 2> /dev/null || echo "")
 download_path="/tmp/discord-$current_version.deb"
 
 if [[ -z "$installed_version" ]]; then
@@ -12,7 +12,7 @@ if [[ -z "$installed_version" ]]; then
 elif [[ "$(echo -e "$current_version\n$installed_version" | sort -V | head -n 1)" != "$current_version" ]]; then
     notify-send "Discord $current_version available. Installing update..."
     wget -q -O "$download_path" "$url"
-    dpkg -i "$download_path"
+    sudo dpkg -i "$download_path"
     rm "$download_path"
 else
     echo "No updates available."
