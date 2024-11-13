@@ -1,0 +1,10 @@
+[Unit]
+Description=Discord update service
+
+[Service]
+Type=oneshot
+ExecStart="/home/scott/.local/scripts/discord_updater"
+RemainAfterExit=true
+
+[Install]
+WantedBy=default.target
