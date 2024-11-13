@@ -12,7 +12,7 @@ if [[ -z "$installed_version" ]]; then
 elif [[ "$(echo -e "$current_version\n$installed_version" | sort -V | head -n 1)" != "$current_version" ]]; then
     notify-send "Discord $current_version available. Installing update..."
     wget -q -O "$download_path" "$url"
-    sudo dpkg -i "$download_path"
+    dpkg -i "$download_path"
     rm "$download_path"
 else
     echo "No updates available."
