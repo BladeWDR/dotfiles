@@ -120,6 +120,6 @@ fi
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
-if [ -f /home/linuxbrew/.linuxbrew/bin/zoxide ]; then
+if [ -f /home/linuxbrew/.linuxbrew/bin/zoxide ] || [ -f /usr/bin/zoxide ]; then
     eval "$(zoxide init zsh --cmd cd)"
 fi
