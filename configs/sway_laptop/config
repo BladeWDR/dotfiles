@@ -208,25 +208,24 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
-bindsym $mod+c exec clipman pick
+bindsym $mod+c exec clipman pick --tool CUSTOM --tool-args "dmenu -i -l 5"
 # shut down the PC
 bindsym $mod+Shift+s exec systemctl poweroff -i
 
 # Automatically launch background apps:
 exec --no-startup-id nm-applet --indicator
 exec --no-startup-id blueman-applet
-exec --no-startup-id '/usr/bin/flameshot &'
+#exec --no-startup-id '/usr/bin/flameshot &'
 exec wl-paste -t text --watch clipman store --no-persist
 exec wl-paste -p -t text --watch clipman store -P --histpath="~/.local/share/clipman.json"
 #exec --no-startup-id greenclip daemon>>/dev/null
 
 # Launch specific applications with hotkeys:
-# Launch flameshot directly with raw and pipe to wl-copy as a workaround for the issues copying to clipboard
-# on Wayland.
-bindsym --to-code Print exec bash -c "flameshot gui --raw | wl-copy"
+bindsym Print exec grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') - | tee "$(xdg-user-dir PICTURES)/screenshots/$(date +'screenshot_%Y%m%d_%H%M%S.png')" | wl-copy && notify-send "Screenshot saved to grim $(xdg-user-dir PICTURES)/$(date +'%s_grim.png')"
+bindsym Ctrl+Print exec grim -g "$(slurp)" - | tee "$(xdg-user-dir PICTURES)/screenshots/$(date +'screenshot_%Y%m%d_%H%M%S.png')" | wl-copy && notify-send "Screenshot saved and copied to clipboard"
+
 
 # Per window settings:
-for_window [app_id="flameshot"] border pixel 0, floating enable, fullscreen disable, move absolute position 0 0
 
 #
 # Status Bar:
