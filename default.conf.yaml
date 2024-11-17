@@ -8,6 +8,7 @@
 - create:
   - ~/.config/alacritty
   - ~/.local/
+  - ~/.local/share/systemd
 
 - link:
     ~/aliasrc: zsh_aliasrc
