@@ -21,8 +21,10 @@
     ~/.config/alacritty/alacritty.toml: alacritty.toml
     ~/.config/mutt: mutt
     ~/.mbsyncrc: mbsyncrc
+    ~/.config/fuzzel: fuzzel
     ~/.config/ranger: ranger 
     ~/.config/rofi: rofi
+    ~/.config/networkmanager-dmenu: networkmanager-dmenu
     ~/.config/starship.toml: starship.toml 
     ~/.gitconfig: .gitconfig
     ~/.local/scripts/: scripts
