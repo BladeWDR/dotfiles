@@ -29,7 +29,7 @@ set $term alacritty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu j4-dmenu-desktop --dmenu="dmenu -i -l 5" --term="alacritty"
+set $menu fuzzel -i --hide-before-typing -l 3
 
 
 include /etc/sway/config-vars.d/*
@@ -164,7 +164,10 @@ input "2362:628:PIXA3854:00_093A:0274_Touchpad" {
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
-#
+
+## Dmenu // Network Manager // 🪟 <Ctrl> N ##
+bindsym $mod+Ctrl+n exec /home/scott/.local/scripts/networkmanager_dmenu
+
 # Scratchpad:
 #
     # Sway has a "scratchpad", which is a bag of holding for windows.
@@ -208,7 +211,7 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
-bindsym $mod+c exec clipman pick --tool CUSTOM --tool-args "dmenu -i -l 5"
+bindsym $mod+c exec clipman pick --tool CUSTOM --tool-args "fuzzel -i -l 15 --dmenu"
 # shut down the PC
 bindsym $mod+Shift+s exec systemctl poweroff -i
 
