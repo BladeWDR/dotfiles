@@ -98,8 +98,18 @@ if [ -d "$HOME/dotfiles/nvim" ]; then
     popd > /dev/null
 fi
 
-source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+# pacman and apt put these in 2 different locations 
+# so I need to figure out which one to load depending on what OS I'm currently using.
+
+# Arch / Pacman
+if [[ -d /usr/share/zsh ]]; then
+    source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
+    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+# Ubuntu / APT
+elif [[ -d /usr/share/zsh-autosuggestions ]]; then
+    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
+    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+fi
 
 if which starship >/dev/null 2>&1; then
     eval "$(starship init zsh)"
