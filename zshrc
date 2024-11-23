@@ -102,7 +102,7 @@ fi
 # so I need to figure out which one to load depending on what OS I'm currently using.
 
 # Arch / Pacman
-if [[ -d /usr/share/zsh ]]; then
+if [[ -d /usr/share/zsh/plugins ]]; then
     source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
     source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 # Ubuntu / APT
