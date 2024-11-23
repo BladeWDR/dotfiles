@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
+# remember to use absolute paths in this file. 
+# Don't feel like handling shell expansion of variables...
+INPUT_FILE="$HOME/.tmuxsessionizer"
+
+readarray -t SEARCH_DIRS < $INPUT_FILE
+
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/git ~/Sync ~/terraform ~/dotfiles ~/projects -mindepth 1 -maxdepth 1 -type d | fzf)
+    selected=$(find "${SEARCH_DIRS[@]}" -mindepth 1 -maxdepth 1 -type d | fzf)
 fi
 
 if [[ -z $selected ]]; then
