@@ -12,9 +12,9 @@
 set $mod Mod1
 
 # Displays
-set $primary DP-4
-set $left DP-2
-set $right DP-1
+set $primary DisplayPort-0
+set $left DisplayPort-1
+set $right DisplayPort-2
 
 workspace 1 output $primary
 workspace 4 output $primary
