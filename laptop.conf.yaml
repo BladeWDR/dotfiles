@@ -10,3 +10,5 @@
    ~/.config/i3: configs/i3_laptop
    ~/.config/sway: configs/sway_laptop
    ~/.config/waybar: configs/sway_laptop/waybar
+   ~/.config/networkmanager-dmenu: configs/networkmanager-dmenu-fuzzel
+
