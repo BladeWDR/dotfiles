@@ -35,10 +35,8 @@ exec --no-startup-id dex --autostart --environment i3
 #exec_always --no-startup-id xss-lock --transfer-sleep-lock -- lock.sh # command to use to lock the screen 
 
 
-# NetworkManager is the most popular way to manage wireless networks on Linux,
-# and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
-exec --no-startup-id blueman-applet
+## Dmenu // Network Manager // 🪟 <Ctrl> N ##
+bindsym $mod+Ctrl+n exec /home/scott/.local/scripts/networkmanager_dmenu
 
 # Enable tap to click on the touchpad
 exec --no-startup-id xinput set-prop "PIXA3854:00 093A:0274 Touchpad" "libinput Tapping Enabled" 1
