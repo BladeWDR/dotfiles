@@ -19,8 +19,8 @@
       if: '[ -d ~/dotfiles/nvim ]'
       path: nvim
     ~/.config/alacritty/alacritty.toml: alacritty.toml
-    ~/.config/mutt: mutt
-    ~/.mbsyncrc: mbsyncrc
+  # ~/.config/mutt: mutt
+  # ~/.mbsyncrc: mbsyncrc
     ~/.config/fuzzel: fuzzel
     ~/.config/ranger: ranger 
     ~/.config/rofi: rofi
