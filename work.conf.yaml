@@ -8,3 +8,4 @@
 - link:
    ~/.config/polybar: configs/polybar_laptop
    ~/.config/i3: configs/i3_work
+   ~/.config/networkmanager-dmenu: configs/networkmanager-dmenu-rofi
