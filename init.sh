@@ -9,9 +9,9 @@ exec > >(tee -a "$LOGFILE") 2>&1
 # source the release file so I can get the variables therein.
 . /etc/os-release
 
-if ["$NAME" = "Ubuntu"]; then
+if [ "$NAME" = "Ubuntu" ]; then
     source "$INCLUDEDIR/ubuntu.sh"
-elif ["$NAME" = "Fedora Linux"]; then
+elif [ "$NAME" = "Fedora Linux" ]; then
     source "$INCLUDEDIR/fedora.sh"
 else
     echo "Distro not supported."
