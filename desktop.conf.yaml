@@ -8,3 +8,6 @@
 - link:
     ~/.config/polybar: configs/polybar_desktop
     ~/.config/i3: configs/i3_desktop
+    ~/.config/sway: configs/sway_desktop
+    ~/.config/waybar: configs/sway_desktop/waybar
+    ~/.config/networkmanager-dmenu: configs/networkmanager-dmenu-fuzzel
