@@ -131,6 +131,11 @@ gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 zshpath=$(which zsh)
 sudo chsh -s "$zshpath" $USER
 
+# Enable and start the syncthing service.
+if ! systemctl is-active --quiet "syncthing@$USER.service"; then
+    sudo systemctl enable "syncthing@$USER.service" && sudo systemctl start "syncthing@$USER.service"
+fi
+
 # Start GDM (This should launch the graphical environment.)
 if ! systemctl is-active --quiet gdm; then
     sudo systemctl start gdm
