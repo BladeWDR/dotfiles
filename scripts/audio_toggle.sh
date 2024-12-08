@@ -10,18 +10,18 @@ current=$(pactl get-default-sink)
 
 next=""
 
-if [[ $current == *"goxlr_system"* ]]; then
+if [[ $current == *"TC-Helicon_GoXLR-00.HiFi__Speaker"* ]]; then
     while read -r line; do
         sink=$(echo "$line" | awk '{print $2}')
-        if [[ $sink == *"Generic_USB_Audio"* ]]; then
+        if [[ $sink == *"Generic_USB_Audio-00.HiFi__Speaker"* ]]; then
             next=$sink
             break
         fi
     done < <(pactl list short sinks)
-elif [[ $current == *"Generic_USB_Audio"* ]]; then
+elif [[ $current == *"Generic_USB_Audio-00.HiFi__Speaker"* ]]; then
     while read -r line; do
         sink=$(echo "$line" | awk '{print $2}')
-        if [[ $sink == *"goxlr_system"* ]]; then
+        if [[ $sink == *"TC-Helicon_GoXLR-00.HiFi__Speaker"* ]]; then
             next="$sink"
             break
         fi
@@ -30,7 +30,7 @@ else
     echo "Not set to either speakers or headphones. Setting to headphones by default."
     while read -r line; do
         sink=$(echo "$line" | awk '{print $2}')
-        if [[ $sink == *"goxlr_system"* ]]; then
+        if [[ $sink == *"TC-Helicon_GoXLR-00.HiFi__Speaker"* ]]; then
             next="$sink"
             break
         fi
