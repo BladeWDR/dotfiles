@@ -48,6 +48,10 @@ declare -a pkgs=(
     "kernel-devel"
     "tar"
     "unzip"
+    "zsh"
+    "zsh-autosuggestions"
+    "zsh-syntax-highlighting"
+    "alacritty"
 )
 
 declare -a grppkgs=(
