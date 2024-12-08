@@ -1,9 +1,24 @@
 set number relativenumber
 set vicmd=nvim
 set confirm=permdelete
+set ignorecase
+set smartcase
 colorscheme dracula
+
+" Format the file list columns
+set viewcolumns=*{name}..,16{mtime},7{}.
 
 " Mappings
 
 nmap b :bmarks<cr>
 nmap v ggVG
+" I wanted vifm's zf to act more like how it does in ranger
+nnoremap zf :filter!<space> 
+nnoremap br :rename<cr>
+nnoremap dD :delete!<cr>
+nnoremap mk :mkdir<space>
+nnoremap cd :cd<space>
+
+" Open files in correct applications
+"filetype * !xdg-open %
+filetype * launcher.sh %
