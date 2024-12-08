@@ -1,0 +1,9 @@
+set number relativenumber
+set vicmd=nvim
+set confirm=permdelete
+colorscheme dracula
+
+" Mappings
+
+nmap b :bmarks<cr>
+nmap v ggVG

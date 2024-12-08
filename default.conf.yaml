@@ -29,6 +29,7 @@
     ~/.local/scripts/: scripts
     ~/.local/share/systemd/user: systemd
     ~/.tmux.conf: tmux.conf
+    ~/.vifm: .vifm
     ~/.zshrc: zshrc
 
 
