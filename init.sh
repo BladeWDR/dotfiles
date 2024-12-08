@@ -1,105 +1,21 @@
 #!/usr/bin/env bash
 
 LOGFILE="/tmp/init.log"
+INCLUDEDIR="./include.d"
 
 # Redirect stdout and stderr to both the screen and the log file
 exec > >(tee -a "$LOGFILE") 2>&1
 
-# source the release file so I can get the VERSION_CODENAME variable.
+# source the release file so I can get the variables therein.
 . /etc/os-release
 
-# apps I want on every system, including servers.
-# Keep this to the VERY basics, as most things will be installed by the ansible playbook.
-BASICS=(
-        software-properties-gtk
-        python3-launchpadlib
-        git
-        zsh
-        zsh-autosuggestions
-        zsh-syntax-highlighting
-        tmux
-        direnv
-        curl
-)
-
-# desktop apps that can be installed via apt
-DESKTOP_APPS_APT=(
-    i3
-    pulseaudio
-    pavucontrol
-    brightnessctl
-    pcscd
-    qtwayland5
-    xdg-desktop-portal-gtk
-    xdg-desktop-portal-wlr
-    sway
-    waybar
-    j4-dmenu-desktop
-)
-
-# add the current user to the video group so they can use brightnessctl without sudo.
-sudo usermod -aG video $USER
-
-# Install dependencies.
-sudo apt update
-sudo apt install -y "${BASICS[@]}"
-
-# Check to see if the ansible repo already exists, if it does not, then add it.
-if [ -f "/etc/apt/sources.list.d/ansible-ubuntu-ansible-$VERSION_CODENAME.list" ]; then
-    echo "Repository already exists, skipping."
+if ["$NAME" = "Ubuntu"]; then
+    source "$INCLUDEDIR/ubuntu.sh"
+elif ["$NAME" = "Fedora Linux"]; then
+    source "$INCLUDEDIR/fedora.sh"
 else
-    sudo apt-add-repository ppa:ansible/ansible -y -n
-fi
-
-sudo apt update && sudo apt install ansible -y
-
-# Use a glob pattern to directly find directories matching python3.*
-# Need to remove the EXTERNALLY-MANAGED file so that Ansible doesn't cough up a lung trying to use pip.
-for dir in /usr/lib/python3.*; do
-   sudo rm "$dir/EXTERNALLY-MANAGED"
-done
-
-ANSIBLE_PATH=$(which ansible)
-
-if [ -f "$ANSIBLE_PATH" ]; then
-    echo "######################################################"
-    echo "Running ansible playbook."
-    echo "######################################################"
-    ansible-galaxy install -r staging/meta/requirements.yml --roles-path ./staging/roles
-    ansible-playbook -K ./staging/staging.yml
-else
-    echo "Error: Ansible not found."
-    echo "Something has gone horribly wrong."
+    echo "Distro not supported."
     exit 1
-fi
-
-# Install Homebrew.
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-read -p "Does this machine have a GUI? " DESKTOP_APPS_CHOICE
-
-if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
-   /home/linuxbrew/.linuxbrew/bin/brew install fzf
-else
-echo "Homebrew does not seem to be installed. Skipping."
-fi
-
-if [ $DESKTOP_APPS_CHOICE == "Y" ] || [ $DESKTOP_APPS_CHOICE == "y" ]; then
-   sudo apt install -y "${DESKTOP_APPS_APT[@]}"
-   # Install greenclip.
-   sudo wget -O /usr/local/bin/greenclip "https://github.com/erebe/greenclip/releases/download/v4.2/greenclip"
-   sudo chmod +x /usr/local/bin/greenclip
-fi
-
-read -p "Would you like to install Neovim? " NVIM_CHOICE
-
-if [ $NVIM_CHOICE == "Y" ] || [ $NVIM_CHOICE == "y" ]; then
-   # Test to make sure that the homebrew binary is available.
-   if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
-       /home/linuxbrew/.linuxbrew/bin/brew install neovim
-   else
-    echo "Homebrew does not seem to be installed. Skipping."
-   fi
 fi
 
 echo "######################################################"
