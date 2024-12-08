@@ -7,7 +7,7 @@ set -eou pipefail
 
 # vars
 
-SCRIPTROOT="$HOME/$USER/dotfiles"
+SCRIPTROOT="$HOME/dotfiles"
 
 # Various packages
 declare -a pkgs=(
@@ -22,6 +22,8 @@ declare -a pkgs=(
     "fastfetch"
     "pavucontrol"
     "librewolf"
+    "firefox"
+    "google-chrome-stable"
     "syncthing"
     "mullvad-vpn"
     "ranger"
@@ -54,7 +56,7 @@ declare -a grppkgs=(
     "swaywm"
 )
 
-dnfopts=(
+declare -a dnfopts=(
     "--assumeyes"
     "--setopt=localpkg_gpgcheck=0"
     "--setopt=gpgcheck=1"
@@ -78,6 +80,9 @@ sudo dnf "${dnfopts[@]}" install https://mirrors.rpmfusion.org/free/fedora/rpmfu
 # Enable COPR repo for lazygit
 sudo dnf "${dnfopts[@]}" copr enable atim/lazygit -y
 
+# Enable Google Chrome repository
+sudo dnf "${dnfopts[@]}" config-manager --set-enabled google-chrome
+
 # Add Librewolf repository
 curl -fsSL https://repo.librewolf.net/librewolf.repo | sudo tee /etc/yum.repos.d/librewolf.repo
 
@@ -88,7 +93,7 @@ sudo dnf "${dnfopts[@]}" config-manager addrepo --from-repofile=https://reposito
 sudo dnf "${dnfopts[@]}" group install "${grppkgs[@]}"
 
 # Install all the listed packages
-sudo dnf "${dnfopts[@]}" install "${pkgs[@]} "
+sudo dnf "${dnfopts[@]}" install "${pkgs[@]}"
 
 # Use my staging Ansible playbook to install Starship prompt
 
