@@ -134,6 +134,7 @@ exec swayidle -w \
     bindsym $mod+9 workspace number 9
     bindsym $mod+0 workspace number 10
     # Move focused container to workspace
+
     bindsym $mod+Shift+1 move container to workspace number 1; workspace number 1
     bindsym $mod+Shift+2 move container to workspace number 2; workspace number 2
     bindsym $mod+Shift+3 move container to workspace number 3; workspace number 3
@@ -144,6 +145,7 @@ exec swayidle -w \
     bindsym $mod+Shift+8 move container to workspace number 8; workspace number 8
     bindsym $mod+Shift+9 move container to workspace number 9; workspace number 9
     bindsym $mod+Shift+0 move container to workspace number 10; workspace number 10
+
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
 #
@@ -221,8 +223,11 @@ bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
 bindsym $mod+c exec clipman pick --tool CUSTOM --tool-args "fuzzel -i -l 15 --dmenu"
 # shut down the PC
 bindsym $mod+Shift+s exec systemctl poweroff -i
+<<<<<<< HEAD
 # Toggle between speakers and headphones.
 bindsym F12 exec --no-startup-id ~/.local/scripts/audio_toggle.sh
+=======
+>>>>>>> 29ca446 (update)
 
 # Automatically launch background apps:
 #exec --no-startup-id nm-applet --indicator
