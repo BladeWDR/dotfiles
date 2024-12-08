@@ -15,7 +15,6 @@ declare -a pkgs=(
     "tmux"
     "fzf"
     "wdisplays"
-    "fastfetch"
     "discord"
     "telegram"
     "thunderbird"
