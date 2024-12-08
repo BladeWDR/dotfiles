@@ -78,6 +78,9 @@ sudo dnf "${dnfopts[@]}" install https://mirrors.rpmfusion.org/free/fedora/rpmfu
 # Enable COPR repo for lazygit
 sudo dnf "${dnfopts[@]}" copr enable atim/lazygit -y
 
+# Add Librewolf repository
+curl -fsSL https://repo.librewolf.net/librewolf.repo | sudo tee /etc/yum.repos.d/librewolf.repo
+
 # Add Mullvad VPN repository for their desktop client.
 sudo dnf "${dnfopts[@]}" config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
 
