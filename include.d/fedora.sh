@@ -105,7 +105,7 @@ cd "$SCRIPTROOT"
 pythonpath=$(which python3)
 
 if [[ ! -z "$pythonpath" ]]; then
-    pythonpath -m venv .venv
+    "$pythonpath" -m venv .venv
 
     source ".venv/bin/activate"
 
