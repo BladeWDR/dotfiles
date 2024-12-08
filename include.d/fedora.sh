@@ -81,6 +81,7 @@ sudo dnf "${dnfopts[@]}" install https://mirrors.rpmfusion.org/free/fedora/rpmfu
 sudo dnf "${dnfopts[@]}" copr enable atim/lazygit -y
 
 # Enable Google Chrome repository
+sudo dnf "${dnfopts[@]}" install fedora-workstation-repositories
 sudo dnf "${dnfopts[@]}" config-manager setopt google-chrome.enabled=1
 
 # Add Librewolf repository
