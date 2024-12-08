@@ -13,6 +13,7 @@ SCRIPTROOT="$HOME/dotfiles"
 declare -a pkgs=(
     "direnv"
     "tmux"
+    "fzf"
     "wdisplays"
     "fastfetch"
     "discord"
@@ -126,6 +127,10 @@ sudo systemctl set-default graphical.target
 
 # Set GTK to prefer dark themes.
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+
+# set default shell to zsh
+zshpath=$(which zsh)
+sudo chsh -s "$zshpath" $USER
 
 # Start GDM (This should launch the graphical environment.)
 if ! systemctl is-active --quiet gdm; then
