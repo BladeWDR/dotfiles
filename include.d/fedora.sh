@@ -54,7 +54,11 @@ declare -a grppkgs=(
     "swaywm"
 )
 
-dnfopts='--assumeyes --setopt=localpkg_gpgcheck=0 --setopt=gpgcheck=1'
+dnfopts=(
+    "--assumeyes"
+    "--setopt=localpkg_gpgcheck=0"
+    "--setopt=gpgcheck=1"
+)
 
 # Update the system
 sudo dnf --assumeyes upgrade
@@ -69,19 +73,19 @@ if [[ -f /var/run/reboot-required ]]; then
 fi
 
 # Install RPM Fusion Repo (For non-free codecs, H264 hardware acceleration support, etc).
-sudo dnf "$dnfopts" install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+sudo dnf "${dnfopts[@]}" install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 # Enable COPR repo for lazygit
-sudo dnf "$dnfopts" copr enable atim/lazygit -y
+sudo dnf "${dnfopts[@]}" copr enable atim/lazygit -y
 
 # Add Mullvad VPN repository for their desktop client.
-sudo dnf "$dnfopts" config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
+sudo dnf "${dnfopts[@]}" config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
 
 # All group installs
-sudo dnf "$dnfopts" group install "${grppkgs[@]}"
+sudo dnf "${dnfopts[@]}" group install "${grppkgs[@]}"
 
 # Install all the listed packages
-sudo dnf "$dnfopts" install "${pkgs[@]} "
+sudo dnf "${dnfopts[@]}" install "${pkgs[@]} "
 
 # Use my staging Ansible playbook to install Starship prompt
 
