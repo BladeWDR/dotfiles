@@ -33,6 +33,8 @@ exec --no-startup-id dex --autostart --environment i3
 #exec_always --no-startup-id  xset dpms 0 0 600 # screen lock after x seconds
 #exec_always --no-startup-id xss-lock i3lock-fancy # command to use to lock the screen 
 #exec_always --no-startup-id xss-lock --transfer-sleep-lock -- lock.sh # command to use to lock the screen 
+# Set the screen timeout to 30 minutes:
+exec --no-startup-id xset dpms 1800 0 0
 
 
 ## Dmenu // Network Manager // 🪟 <Ctrl> N ##
