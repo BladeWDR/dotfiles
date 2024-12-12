@@ -5,10 +5,11 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 
 # Set window borders
 # Reminder that anything changed here will NOT apply retroactively to already open windows!
-default_border pixel 0
+default_border pixel 1
+default_floating_border pixel 1
 titlebar_padding 1
 titlebar_border_thickness 0
-hide_edge_borders smart
+hide_edge_borders both
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
@@ -240,6 +241,7 @@ bindsym Ctrl+Print exec grim -g "$(slurp)" - | tee "$(xdg-user-dir PICTURES)/scr
 
 
 # Per window settings:
+for_window [app_id="firefox"] border none
 
 #
 # Status Bar:
