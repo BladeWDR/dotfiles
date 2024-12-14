@@ -14,11 +14,12 @@ nmap b :bmarks<cr>
 nmap v ggVG
 " I wanted vifm's zf to act more like how it does in ranger
 nnoremap zf :filter!<space> 
-nnoremap br :rename<cr>
+noremap br :rename<cr>
 nnoremap dD :delete!<cr>
 nnoremap mk :mkdir<space>
 nnoremap cd :cd<space>
 
 " Open files in correct applications
-"filetype * !xdg-open %
-filetype * launcher.sh %
+" Need this line so that VLC doesn't launch in the same process as vifm
+filetype *.mp4,*.mkv,*.avi,*.mov vlc --started-from-file %f %i &
+filetype * xdg-open
