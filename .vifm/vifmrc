@@ -3,6 +3,8 @@ set vicmd=nvim
 set confirm=permdelete
 set ignorecase
 set smartcase
+set incsearch
+set syscalls
 colorscheme dracula
 
 " Format the file list columns
