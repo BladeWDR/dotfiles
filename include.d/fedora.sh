@@ -130,9 +130,12 @@ sudo systemctl set-default graphical.target
 # Set GTK to prefer dark themes.
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 
+# Prevent dings and dongs from random system events.
+dconf write /org/gnome/desktop/sound/event-sounds "false"
+
 # set default shell to zsh
 zshpath=$(which zsh)
-sudo chsh -s "$zshpath" $USER
+sudo chsh -s "$zshpath" "$USER"
 
 # Enable and start the syncthing service.
 if ! systemctl is-active --quiet "syncthing@$USER.service"; then
