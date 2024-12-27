@@ -4,3 +4,4 @@ window-title-font-family = "FiraCode Nerd Font Mono"
 theme = catppuccin-mocha
 window-theme = dark
 gtk-titlebar = false
+window-decoration = false
