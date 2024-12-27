@@ -22,6 +22,7 @@
   # ~/.config/mutt: mutt
   # ~/.mbsyncrc: mbsyncrc
     ~/.config/fuzzel: fuzzel
+    ~/.config/ghostty: ghostty
     ~/.config/managarr: managarr
     ~/.config/ranger: ranger 
     ~/.config/rofi: rofi
