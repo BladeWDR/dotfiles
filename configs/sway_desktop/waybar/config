@@ -24,7 +24,8 @@
 	},
 
     "sway/window": { 
-      "format": "{title}"
+      "format": "{title}",
+      "all-outputs": true
     },
 
     "clock": {

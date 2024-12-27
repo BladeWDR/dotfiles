@@ -5,7 +5,8 @@
 	"position": "top",
 
 	"modules-left": [
-		"sway/workspaces"
+		"sway/workspaces",
+        "sway/window"
 	],
 	"modules-center": [
 		"clock"
@@ -21,6 +22,11 @@
 		"disable-scroll": true,
 		"format": "{name}"
 	},
+
+    "sway/window": { 
+      "format": "{title}",
+      "all-outputs": true
+    },
 
     "clock": {
         "format": "{:%a %d %b %H:%M}",
