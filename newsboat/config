@@ -6,19 +6,13 @@ browser "wslview"
 show-read-feeds no
 auto-reload yes
 reload-threads 100
+text-width 100
 
 color info black blue
 color title black blue
 color listfocus black yellow
 
-unbind-key j
-unbind-key k
-unbind-key shift+j
-unbind-key shift+k
-
-
 bind-key j next
 bind-key k prev
-bind-key shift+j next-feed
-bind-key shift+k prev-feed
-bind-key q hard-quit
+bind-key J next-feed
+bind-key K prev-feed
