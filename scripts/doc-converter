@@ -17,7 +17,7 @@ fi
 files=()
 while read -r -d ''; do
     files+=("$REPLY")
-done < <(find "$TARGET" -maxdepth 1 -type f \( -name "*.docx" -o -name "*.odt" \) -print0)
+done < <(find "$TARGET" -maxdepth 1 -type f \( -name "*.docx" -o -name "*.odt" -o -name "*.txt" -o -name "*.doc" \) -print0)
 
 for i in "${files[@]}"; do
     FILENAME=$(basename "${i%.*}")
