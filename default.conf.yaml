@@ -9,6 +9,7 @@
   - ~/.config/alacritty
   - ~/.local/
   - ~/.local/share/systemd
+  - ~/.local/share/newsboat
 
 - link:
     ~/aliasrc: zsh_aliasrc
@@ -24,6 +25,7 @@
     ~/.config/fuzzel: fuzzel
     ~/.config/ghostty: ghostty
     ~/.config/managarr: managarr
+    ~/.config/newsboat: newsboat
     ~/.config/ranger: ranger 
     ~/.config/rofi: rofi
     ~/.config/starship.toml: starship.toml 
