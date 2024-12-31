@@ -5,14 +5,19 @@ freshrss-passwordeval "pass freshrss"
 browser "wslview"
 show-read-feeds no
 auto-reload yes
+refresh-on-startup yes
 reload-threads 100
 text-width 100
 
-color info black blue
-color title black blue
-color listfocus black yellow
+color listnormal cyan default
+color listfocus black yellow standout bold
+color listnormal_unread blue default
+color listfocus_unread yellow default bold
+color info red black bold
+color article cyan default
 
 bind-key j next
 bind-key k prev
 bind-key J next-feed
 bind-key K prev-feed
+
