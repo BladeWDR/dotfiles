@@ -16,10 +16,12 @@ nmap b :bmarks<cr>
 nmap v ggVG
 " I wanted vifm's zf to act more like how it does in ranger
 nnoremap zf :filter!<space> 
+" reset filters
+nnoremap <C-f> zR
 noremap br :rename<cr>
 nnoremap dD :delete!<cr>
 nnoremap mk :mkdir<space>
-nnoremap cd :cd<space>
+nnoremap cd :zoxide<space>
 
 " Run my document converter script in the current directory
 nnoremap dc :!doc-converter %d<cr>:filter! md<cr>
@@ -41,3 +43,5 @@ nnoremap yr :!echo -n %c:r | wl-copy %i<cr>:echo expand('%"c:r') "is yanked to c
 " Need this line so that VLC doesn't launch in the same process as vifm
 filetype *.mp4,*.mkv,*.avi,*.mov vlc --started-from-file %f %i &
 filetype * xdg-open
+
+command! zoxide :set noquickview | :execute 'cd' fnameescape(system('zoxide query -l "%a" | fzf --height 20 2>/dev/tty')) '%IU' | redraw
