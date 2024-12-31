@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -eu
+PINENTRY_TERMINAL='/usr/bin/pinentry-curses'
+PINENTRY_GNOME='/usr/bin/pinentry-gnome3'
+if [ -n "${DISPLAY-}" -a -z "${TERM-}" ]; then
+    exec "$PINENTRY_GNOME" "$@"
+else
+    exec "$PINENTRY_TERMINAL" "$@"
+fi

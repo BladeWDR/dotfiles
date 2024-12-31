@@ -7,6 +7,7 @@
 
 - create:
   - ~/.config/alacritty
+  - ~/.gnupg
   - ~/.local/
   - ~/.local/share/systemd
   - ~/.local/share/newsboat
@@ -30,6 +31,7 @@
     ~/.config/rofi: rofi
     ~/.config/starship.toml: starship.toml 
     ~/.gitconfig: .gitconfig
+    ~/.gnupg/gpg-agent.conf: gpg-agent.conf
     ~/.local/scripts/: scripts
     ~/.local/share/systemd/user: systemd
     ~/.tmux.conf: tmux.conf
