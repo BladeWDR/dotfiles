@@ -30,6 +30,10 @@ path=($^path(N-/))
 # between $PATH and $path, which allows you to do to this.
 export PATH
 
+# Set env variable for GPG
+GPG_TTY=$(tty)
+export GPG_TTY
+
 # enable vi mode
 bindkey -v
 export KEYTIMEOUT=1
