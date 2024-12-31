@@ -2,8 +2,8 @@ urls-source "freshrss"
 freshrss-url "https://rss.bladewdr.xyz/api/greader.php"
 freshrss-login "scott"
 freshrss-passwordeval "pass freshrss"
-browser          "firefox"
-show-read-feeds  yes
+browser "wslview"
+show-read-feeds no
 auto-reload yes
 reload-threads 100
 
@@ -11,7 +11,14 @@ color info black blue
 color title black blue
 color listfocus black yellow
 
+unbind-key j
+unbind-key k
+unbind-key shift+j
+unbind-key shift+k
+
+
 bind-key j next
 bind-key k prev
 bind-key shift+j next-feed
 bind-key shift+k prev-feed
+bind-key q hard-quit
