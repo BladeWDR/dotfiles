@@ -7,6 +7,7 @@ show-read-feeds no
 auto-reload yes
 refresh-on-startup yes
 reload-threads 100
+max-items 200
 text-width 100
 
 color listnormal cyan default
