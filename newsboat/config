@@ -17,8 +17,19 @@ color listfocus_unread yellow default bold
 color info red black bold
 color article cyan default
 
+unbind-key j
+unbind-key k
+unbind-key J
+unbind-key K
 bind-key j next
 bind-key k prev
-bind-key J next-feed
-bind-key K prev-feed
+bind-key K next-feed
+bind-key J prev-feed
 
+unbind-key g # bound to `sort` by default
+bind-key g home
+unbind-key G # bound to `rev-sort` by default
+bind-key G end
+
+bind-key s sort
+bind-key S rev-sort
