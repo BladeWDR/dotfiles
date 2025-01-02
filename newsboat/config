@@ -8,14 +8,7 @@ auto-reload yes
 refresh-on-startup yes
 reload-threads 100
 max-items 200
-text-width 100
-
-color listnormal cyan default
-color listfocus black yellow standout bold
-color listnormal_unread blue default
-color listfocus_unread yellow default bold
-color info red black bold
-color article cyan default
+text-width 80
 
 unbind-key j
 unbind-key k
@@ -33,3 +26,5 @@ bind-key G end
 
 bind-key s sort
 bind-key S rev-sort
+
+include ~/.config/newsboat/catppuccin
