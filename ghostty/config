@@ -6,4 +6,4 @@ theme = catppuccin-mocha
 window-theme = dark
 gtk-titlebar = false
 window-decoration = false
-clipboard-paste-bracketed-safe = true
+clipboard-paste-protection = false
