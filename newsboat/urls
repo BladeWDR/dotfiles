@@ -1,1 +1,2 @@
 "query:Unread:unread = \"yes\"
+"query:Today:age <= 1"
