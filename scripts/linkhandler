@@ -1,0 +1,39 @@
+#!/bin/bash
+# Wrapper script to handle certain actions in Newsboat.
+
+# I do unfortunately end up usingn WSL a lot, so add in some logic to make Newsboat usable.
+# Else, I'm probably using Sway, so it'll be Wayland.
+if [[ $(grep Microsoft /proc/version) ]]; then
+  BROWSER='explorer.exe'
+  CLIPBOARD_UTILITY='xclip'
+else
+  BROWSER='firefox'
+  CLIPBOARD_UTILITY='wl-copy'
+  IMG_UTILITY='swayimg'
+fi
+
+# If the first argument doesn't exist then there's nothing to do.
+if [[ -z "$1" ]]; then
+  exit 13
+fi
+
+# Check to see if this is being invoked by my clipboard macro in Newsboat.
+if [[ "$2" = "clip" ]]; then
+  echo -n "$1" | wl-copy
+  exit 0
+fi
+
+# If we're not copying something to the clipboard, what are we doing?
+case "$1" in
+  http://*|https://*)
+    "$BROWSER" "$1"
+    ;;
+  *png|*jpg|*jpe|*jpeg|*gif)
+    "$IMG_UTILITY" "$1"
+    ;;
+  *)
+    if [ -f "$1" ]; then "$EDITOR" "$1"
+    else open "$1" >/dev/null 2>&1
+    fi
+    ;;
+esac
