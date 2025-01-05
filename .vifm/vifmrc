@@ -21,7 +21,7 @@ nnoremap <C-f> zR
 noremap br :rename<cr>
 nnoremap dD :delete!<cr>
 nnoremap mk :mkdir<space>
-nnoremap cd :zoxide<space>
+nnoremap cd :zoxide<cr>
 
 " Run my document converter script in the current directory
 nnoremap dc :!doc-converter %d<cr>:filter! md<cr>
@@ -44,4 +44,7 @@ nnoremap yr :!echo -n %c:r | wl-copy %i<cr>:echo expand('%"c:r') "is yanked to c
 filetype *.mp4,*.mkv,*.avi,*.mov vlc --started-from-file %f %i &
 filetype * xdg-open
 
-command! zoxide :set noquickview | :execute 'cd' fnameescape(system('zoxide query -l "%a" | fzf --height 20 2>/dev/tty')) '%IU' | redraw
+command! zoxide :set noquickview | :let $FZF_RES = system('(zoxide query -l "%a"; fd -t d -d 1) | fzf --height 20 2>/dev/tty') | if $FZF_RES != '' | execute 'cd' fnameescape($FZF_RES) '%IU' | endif | redraw
+
+" Add directories I navigate to into zoxide
+autocmd DirEnter * !zoxide add %d %i
