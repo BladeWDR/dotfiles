@@ -30,7 +30,7 @@ nnoremap dc :!doc-converter %d<cr>:filter! md<cr>
 nnoremap yd :!echo -n %d | wl-copy %i<cr>:echo expand('%"d') "is yanked to clipboard"<cr>
 
 " Yank current file path into the clipboard
-nnoremap yf :!echo -n %c:p | wl-copy %i<cr>:echo expand('%"c:p') "is yanked to clipboard"<cr>
+nnoremap yp :!echo -n %c:p | wl-copy %i<cr>:echo expand('%"c:p') "is yanked to clipboard"<cr>
 
 " Yank current filename without path into the clipboard
 nnoremap yn :!echo -n %c | wl-copy %i<cr>:echo expand('%"c') "is yanked to clipboard"<cr>
