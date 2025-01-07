@@ -3,11 +3,11 @@ freshrss-url "https://rss.bladewdr.xyz/api/greader.php"
 freshrss-login "scott"
 freshrss-passwordeval "pass freshrss"
 browser "~/.local/scripts/linkhandler"
+goto-next-feed no
 show-read-feeds no
 show-read-articles no
 auto-reload yes
-refresh-on-startup yes
-reload-threads 100
+reload-threads 50
 max-items 200
 text-width 80
 
