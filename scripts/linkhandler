@@ -3,7 +3,7 @@
 
 # I do unfortunately end up usingn WSL a lot, so add in some logic to make Newsboat usable.
 # Else, I'm probably using Sway, so it'll be Wayland.
-if [[ $(grep Microsoft /proc/version) ]]; then
+if [[ $(grep microsoft /proc/version) ]]; then
   BROWSER='explorer.exe'
   CLIPBOARD_UTILITY='xclip'
 else
