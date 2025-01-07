@@ -7,6 +7,7 @@ goto-next-feed no
 show-read-feeds no
 show-read-articles no
 auto-reload yes
+refresh-on-startup no
 reload-threads 50
 max-items 200
 text-width 80
