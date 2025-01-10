@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 # This script was written to work with WSL2. I have not tested it anywhere else.
+# It's often convenient for me to be able to quickly convert markdown (which is much easier to write than HTML) into HTML content
+# This is just a convenience wrapper script I made so I don't need to remember all the pandoc options
 
 set -eou pipefail
 
