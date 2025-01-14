@@ -5,10 +5,10 @@
 # Else, I'm probably using Sway, so it'll be Wayland.
 if [[ $(grep microsoft /proc/version) ]]; then
   BROWSER='explorer.exe'
-  CLIPBOARD_UTILITY='xclip'
+  CLIPBOARD_UTILITY=('xclip' '-selection' 'clipboard')
 else
   BROWSER='firefox'
-  CLIPBOARD_UTILITY='wl-copy'
+  CLIPBOARD_UTILITY=('wl-copy')
   IMG_UTILITY='swayimg'
 fi
 
@@ -19,7 +19,7 @@ fi
 
 # Check to see if this is being invoked by my clipboard macro in Newsboat.
 if [[ "$2" = "clip" ]]; then
-  echo -n "$1" | wl-copy
+  echo -n "$1" | "${CLIPBOARD_UTILITY[@]}"
   exit 0
 fi
 
