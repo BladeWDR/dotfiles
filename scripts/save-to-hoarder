@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+if [[ -z $HOARDER_URL ]]; then
+    notify-send "Hoarder environment variable missing."
+    exit 1
+fi
+
+if [[ ! -z "$1" ]]; then
+    URL=$(printf '%q' "$1")
+    KEY=$(pass show hoarder)
+    echo 'hello'
+
+    curl -L "$HOARDER_URL/api/v1/bookmarks" \
+        -H 'Content-Type: application/json' \
+        -H 'Accept: application/json' \
+        -H "Authorization: Bearer $KEY" \
+        -d "{
+            \"archived\": false,
+            \"favourited\": false,
+            \"url\": \"$URL\",
+            \"type\": \"link\"
+        }"
+
+        SAVE_SUCCESS="$?"
+
+        if [[ $SAVE_SUCCESS -eq 0 ]]; then
+            notify-send "Link saved to Hoarder."
+            exit 0
+        else
+            notify-send "Failed to save link to Hoarder"
+            exit 1
+        fi
+else
+    notify-send "No Link Provided. Exit."
+fi
+
