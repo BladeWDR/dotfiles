@@ -2,8 +2,14 @@
 
 set -eo pipefail
 
+function notify(){
+    if command -v notify-send >/dev/null 2>&1; then
+        notify-send "$1"
+    fi
+}
+
 if [[ -z $HOARDER_URL ]]; then
-    notify-send "Hoarder environment variable missing."
+    notify "Hoarder environment variable missing."
     exit 1
 fi
 
@@ -25,13 +31,13 @@ if [[ ! -z "$1" ]]; then
         SAVE_SUCCESS="$?"
 
         if [[ $SAVE_SUCCESS -eq 0 ]]; then
-            notify-send "Link saved to Hoarder."
+            notify "Link saved to Hoarder."
             exit 0
         else
-            notify-send "Failed to save link to Hoarder"
+            notify "Failed to save link to Hoarder"
             exit 1
         fi
 else
-    notify-send "No Link Provided. Exit."
+    notify "No Link Provided. Exit."
 fi
 
