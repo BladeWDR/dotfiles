@@ -10,7 +10,6 @@ fi
 if [[ ! -z "$1" ]]; then
     URL=$(printf '%q' "$1")
     KEY=$(pass show hoarder)
-    echo 'hello'
 
     curl -L "$HOARDER_URL/api/v1/bookmarks" \
         -H 'Content-Type: application/json' \
