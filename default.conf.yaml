@@ -24,6 +24,7 @@
   # ~/.config/mutt: mutt
   # ~/.mbsyncrc: mbsyncrc
     ~/.config/fuzzel: fuzzel
+    ~/.config/gammastep: gammastep
     ~/.config/ghostty: ghostty
     ~/.config/managarr: managarr
     ~/.config/newsboat: newsboat
