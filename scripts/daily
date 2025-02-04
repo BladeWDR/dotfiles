@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+source "$HOME/.bash_profile"
+
+# Set $VAULT_DIR in your .bash_profile
+NOTE_DIR="$VAULT_DIR/_daily"
+FILEDATE=$(date "+%Y-%m-%d")
+
+# %Y-%M-$D.md
+
+FILEPATH="$NOTE_DIR/$FILEDATE.md"
+
+# Sleep so Neovim won't complain about the file being modified after reading.
+sleep 0.3
+
+#nvim '+ normal gg10ji' "$FILEPATH"
+nvim -c "normal Go" -c "normal o" -c "startinsert" "$FILEPATH"

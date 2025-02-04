@@ -2,7 +2,6 @@
 
 VAULT_DIR="$HOME/git/wiki"
 NOTE_DIR="$VAULT_DIR/docs/00 inbox"
-TEMPLATE_PATH="$VAULT_DIR/_templates/frontmatter.md"
 DATESTAMP=$(date "+%Y-%m-%d %T")
 ZETTEL_ID=$(date "+%y%m%d%H%M%S")
 
