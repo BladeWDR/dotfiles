@@ -3,6 +3,13 @@
 source "$HOME/.bash_profile"
 
 # Set $VAULT_DIR in your .bash_profile
+
+# Make sure $VAULT_DIR is set and is a valid path
+if ! [[ -d "$VAULT_DIR" ]]; then
+    echo "VAULT_DIR environment variable is not set. Check your .bash_profile"
+    exit 1
+fi
+
 NOTE_DIR="$VAULT_DIR/_daily"
 FILEDATE=$(date "+%Y-%m-%d")
 
