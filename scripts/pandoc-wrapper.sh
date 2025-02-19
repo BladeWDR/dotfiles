@@ -38,7 +38,7 @@ if [[ $# -eq 0 ]]; then
 fi
 
 input="$1"
-html_content=$(pandoc -f markdown-auto_identifiers+wikilinks_title_after_pipe -t html "$input")
+html_content=$(pandoc -f markdown-auto_identifiers+wikilinks_title_after_pipe-smart -t html "$input")
 
 if [[ "$send_outlook" == true ]]; then
     email_subject=$(echo "$html_content" | sed -n 's|<h1[^>]*>\(.*\)</h1>|\1|p' | head -1)
