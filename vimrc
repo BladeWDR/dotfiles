@@ -13,4 +13,4 @@ set expandtab
 set scrolloff=8
 set incsearch
 
-nnoremap <leader>e :Ex
+nnoremap <leader>e :Ex<CR>
