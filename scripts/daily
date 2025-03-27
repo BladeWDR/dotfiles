@@ -17,6 +17,11 @@ FILEDATE=$(date "+%Y-%m-%d")
 
 FILEPATH="$NOTE_DIR/$FILEDATE.md"
 
+# Set tmux window title
+if [[ -n "$TMUX" ]]; then
+    tmux rename-window "$FILEDATE.md"
+fi
+
 # Sleep so Neovim won't complain about the file being modified after reading.
 sleep 0.3
 
