@@ -26,7 +26,7 @@
     ~/.config/fuzzel: fuzzel
     ~/.config/gammastep: gammastep
     ~/.config/ghostty: ghostty
-    ~/.config/managarr: managarr
+  # ~/.config/managarr: managarr
     ~/.config/newsboat: newsboat
     ~/.config/ranger: ranger 
     ~/.config/rofi: rofi
