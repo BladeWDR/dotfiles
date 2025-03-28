@@ -8,4 +8,6 @@
 - link:
    ~/.config/polybar: configs/polybar_laptop
    ~/.config/i3: configs/i3_work
-   ~/.config/networkmanager-dmenu: configs/networkmanager-dmenu-rofi
+   ~/.config/sway: configs/sway_work
+   ~/.config/waybar: configs/sway_work/waybar
+   ~/.config/networkmanager-dmenu: configs/networkmanager-dmenu-fuzzel
