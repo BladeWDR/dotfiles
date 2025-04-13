@@ -3,14 +3,18 @@
 CONTAINERS=$(docker ps -a --format 'table {{.Names}}' | sed 1d)
 
 if [[ -z $CONTAINERS ]]; then
-    echo "No containers running, nothing to do."
-    exit 0
+  echo "No containers running, nothing to do."
+  exit 0
 fi
+
+# Restart gluetun first since that's needed.
+
+docker restart gluetun >/dev/null
 
 while IFS=' ' read -ra CONTAINER_NAME; do
   for i in "${CONTAINER_NAME[@]}"; do
     # Don't need to restart watchtower if it exists, just the other containers.
-    if [[ "$i" != "watchtower" ]]; then
+    if [[ "$i" != "watchtower" ]] && [[ "$i" != "gluetun" ]]; then
       docker restart "$i" >/dev/null
     fi
   done
