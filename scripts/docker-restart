@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+CONTAINERS=$(docker ps -a --format 'table {{.Names}}' | sed 1d)
+
+if [[ -z $CONTAINERS ]]; then
+    echo "No containers running, nothing to do."
+    exit 0
+fi
+
+while IFS=' ' read -ra CONTAINER_NAME; do
+  for i in "${CONTAINER_NAME[@]}"; do
+    # Don't need to restart watchtower if it exists, just the other containers.
+    if [[ "$i" != "watchtower" ]]; then
+      docker restart "$i" >/dev/null
+    fi
+  done
+done <<< "$CONTAINERS"
