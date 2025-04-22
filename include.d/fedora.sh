@@ -33,7 +33,6 @@ declare -a pkgs=(
     "make"
     "mbuffer"
     "mhash"
-    "mullvad-vpn"
     "neovim"
     "nfs-utils"
     "pavucontrol"
@@ -93,11 +92,6 @@ sudo dnf "${dnfopts[@]}" config-manager setopt google-chrome.enabled=1
 
 # Add Librewolf repository
 curl -fsSL https://repo.librewolf.net/librewolf.repo | sudo tee /etc/yum.repos.d/librewolf.repo
-
-# Add Mullvad VPN repository for their desktop client.
-if [[ ! -f /etc/yum.repos.d/mullvad.repo ]]; then
-    sudo dnf "${dnfopts[@]}" config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
-fi
 
 # All group installs
 sudo dnf "${dnfopts[@]}" group install "${grppkgs[@]}"
