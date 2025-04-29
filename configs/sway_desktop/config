@@ -78,7 +78,7 @@ exec_always {
 # Example configuration:
 #
 exec swayidle -w \
-          timeout 1800 'swaylock -f $HOME/.wallpaper.jpg -c 000000' \
+          timeout 1800 'swaylock -f -i $HOME/.wallpaper.jpg -c 000000' \
           timeout 2500 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
           before-sleep 'swaylock -f -c 000000'
 #
