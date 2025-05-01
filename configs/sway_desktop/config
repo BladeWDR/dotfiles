@@ -58,9 +58,9 @@ output * bg /home/scott/.wallpaper.jpg fill
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
 #output eDP-1 resolution 2256x1504 position 2256,0
 # output DP-2 resolution 2560x1440 position 0 0 transform 90
-output DP-2 resolution 2560x1440 position 3360 0
-output DP-1 resolution 1920x1080 position 1440 0
-output DP-3 resolution 2560x1440 position 0 -1440 
+output DP-2 resolution 2560x1440 position 4480 0
+output DP-1 resolution 1920x1080 position 2560 0
+output DP-3 resolution 2560x1440 position 0 0 
 
 # Set primary output in xrandr (needed so some games using XWayland don't freak out)
 exec_always xrandr --output DP-1 --primary --mode 1920x1080 --rate 240
