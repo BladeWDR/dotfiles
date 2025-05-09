@@ -6,7 +6,7 @@
 
 	"modules-left": [
 		"sway/workspaces",
-        "sway/window"
+                "sway/window"
 	],
 	"modules-center": [
 		"clock"
@@ -14,8 +14,9 @@
 	"modules-right": [
 		"pulseaudio",
 		"battery",
-        "network",
-		"tray"
+		"network",
+		"tray",
+		"custom/notifications"
 	],
 
 	"sway/workspaces": {
@@ -72,11 +73,6 @@
 		],
         "format-charging": "{icon} {capacity}%",
 	},
-	"disk": {
-		"interval": 5,
-		"format": "Disk {percentage_used:2}%",
-		"path": "/"
-	},
     "network": {
         // "interface": "wlp166s0", // (Optional) To force the use of this interface
         "format-wifi": "{essid} ({signalStrength}%) ",
@@ -86,6 +82,13 @@
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
 	"tray": {
-		"icon-size": 18 
-	}
+	        "icon-size": 16,
+		"spacing": 5,
+		"reverse-direction": true
+	},
+    "custom/notifications": {
+        "tooltip": false,
+        "format": "",
+        "on-click": "swaync-client -t -sw"
+    }
 }

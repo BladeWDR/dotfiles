@@ -220,6 +220,10 @@ bindsym $mod+Shift+s exec systemctl poweroff -i
 exec --no-startup-id nm-applet --indicator
 exec --no-startup-id blueman-applet
 exec --no-startup-id gammastep-indicator
+
+# Toggle control center
+bindsym $mod+Shift+n exec swaync-client -t -sw
+
 #exec --no-startup-id '/usr/bin/flameshot &'
 exec wl-paste -t text --watch clipman store --no-persist
 exec wl-paste -p -t text --watch clipman store -P --histpath="~/.local/share/clipman.json"

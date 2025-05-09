@@ -20,20 +20,22 @@ window#waybar {
 #network,
 #tray {
 	background: #292b2e;
-    padding: 0 5px;
 }
 
 #workspaces button {
 	padding: 0 2px;
 	color: #fdf6e3;
 }
+
 #workspaces button.focused {
 	color: #268bd2;
 }
+
 #workspaces button:hover {
 	box-shadow: inherit;
 	text-shadow: inherit;
 }
+
 #workspaces button:hover {
 	background: #1a1a1a;
 	border: #1a1a1a;
@@ -43,26 +45,29 @@ window#waybar {
 #pulseaudio {
 	color: #268bd2;
 }
+
 #memory {
 	color: #2aa198;
 }
+
 #cpu {
 	color: #6c71c4;
 }
+
 #battery {
 	color: #859900;
 }
+
 #disk {
 	color: #b58900;
 }
 
 #network {
-    color: white;
-
+	color: white;
 }
 
 #network.disconnected {
-    background-color: #f53c3c;
+	background-color: #f53c3c;
 }
 
 #clock,
@@ -70,6 +75,10 @@ window#waybar {
 #memory,
 #cpu,
 #battery,
+#network,
+#custom-notifications,
+#tray,
 #disk {
-	padding: 0 5px;
+	padding: 0 6px 0 0;
+	margin: 0 5px;
 }

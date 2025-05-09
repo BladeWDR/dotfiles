@@ -86,6 +86,13 @@
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
 	"tray": {
-		"icon-size": 12 
-	}
+	        "icon-size": 16,
+		"spacing": 5,
+		"reverse-direction": true
+	},
+    "custom/notifications": {
+        "tooltip": false,
+        "format": "",
+        "on-click": "swaync-client -t -sw"
+    }
 }
