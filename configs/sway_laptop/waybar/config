@@ -15,7 +15,8 @@
 		"pulseaudio",
 		"battery",
         "network",
-		"tray"
+		"tray",
+        "custom/notifications"
 	],
 
 	"sway/workspaces": {

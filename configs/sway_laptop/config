@@ -221,6 +221,9 @@ exec --no-startup-id nm-applet --indicator
 exec --no-startup-id blueman-applet
 exec --no-startup-id gammastep-indicator
 
+# Start sway notification daemon
+exec swaync
+
 # Toggle control center
 bindsym $mod+Shift+n exec swaync-client -t -sw
 
@@ -232,7 +235,6 @@ exec wl-paste -p -t text --watch clipman store -P --histpath="~/.local/share/cli
 # Launch specific applications with hotkeys:
 bindsym Print exec grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') - | tee "$(xdg-user-dir PICTURES)/screenshots/$(date +'screenshot_%Y%m%d_%H%M%S.png')" | wl-copy && notify-send "Screenshot saved to grim $(xdg-user-dir PICTURES)/$(date +'%s_grim.png')"
 bindsym Ctrl+Print exec grim -g "$(slurp)" - | tee "$(xdg-user-dir PICTURES)/screenshots/$(date +'screenshot_%Y%m%d_%H%M%S.png')" | wl-copy && notify-send "Screenshot saved and copied to clipboard"
-
 
 # Per window settings:
 
