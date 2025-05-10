@@ -1,12 +1,9 @@
-// -*- mode: json -*-
-
 {
 	"layer": "bottom",
 	"position": "top",
-
 	"modules-left": [
 		"sway/workspaces",
-                "sway/window"
+		"sway/window"
 	],
 	"modules-center": [
 		"clock"
@@ -18,22 +15,18 @@
 		"tray",
 		"custom/notifications"
 	],
-
 	"sway/workspaces": {
 		"disable-scroll": true,
 		"format": "{name}"
 	},
-
-    "sway/window": { 
-      "format": "{title}",
-      "all-outputs": true
-    },
-
-    "clock": {
-        "format": "{:%a %d %b %H:%M}",
-        "tooltip": false
-    },
-
+	"sway/window": {
+		"format": "{title}",
+		"all-outputs": true
+	},
+	"clock": {
+		"format": "{:%a %d %b %H:%M}",
+		"tooltip": false
+	},
 	"pulseaudio": {
 		"format": "{icon} {volume:2}%",
 		"format-bluetooth": "{icon}  {volume}%",
@@ -49,14 +42,6 @@
 		"on-click": "pamixer -t",
 		"on-click-right": "pavucontrol"
 	},
-	"memory": {
-		"interval": 5,
-		"format": "Mem {}%"
-	},
-	"cpu": {
-		"interval": 5,
-		"format": "CPU {usage:2}%"
-	},
 	"battery": {
 		"states": {
 			"good": 95,
@@ -71,24 +56,23 @@
 			"",
 			""
 		],
-        "format-charging": "{icon} {capacity}%",
+		"format-charging": "{icon} {capacity}%"
 	},
-    "network": {
-        // "interface": "wlp166s0", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
-        "format-linked": "{ifname} (No IP) 󰈀",
-        "format-disconnected": "Disconnected ",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
-    },
+	"network": {
+		"format-wifi": "{essid} ",
+		"format-ethernet": "󰈀",
+		"format-linked": "{ifname} (No IP) 󰈀",
+		"format-disconnected": "{ifname}: Disconnected 󰈀",
+		"format-alt": "{ifname}: {ipaddr}/{cidr}"
+	},
 	"tray": {
-	        "icon-size": 16,
+		"icon-size": 16,
 		"spacing": 5,
 		"reverse-direction": true
 	},
-    "custom/notifications": {
-        "tooltip": false,
-        "format": "",
-        "on-click": "swaync-client -t -sw"
-    }
+	"custom/notifications": {
+		"tooltip": false,
+		"format": "",
+		"on-click": "swaync-client -t -sw"
+	}
 }
