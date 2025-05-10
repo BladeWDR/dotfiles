@@ -4,8 +4,8 @@
   border: none;
   border-radius: 0;
   font-family: "FiraCode Nerd Font Mono", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 18px;
-  min-height: 35px;
+  font-size: 14px;
+  min-height: 25px;
 }
 
 window#waybar {
