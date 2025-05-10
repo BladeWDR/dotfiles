@@ -244,6 +244,9 @@ bindsym F12 exec --no-startup-id ~/.local/scripts/audio_toggle.sh
 # Automatically launch background apps:
 #exec --no-startup-id nm-applet --indicator
 
+# Start the KDE connect daemon
+exec /usr/bin/kdeconnectd
+
 # Toggle control center
 bindsym $mod+Shift+n exec swaync-client -t -sw
 
