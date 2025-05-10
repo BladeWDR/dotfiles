@@ -1,84 +1,72 @@
+@import url("catppuccin/mocha.css");
+
 * {
-	font-size: 12px;
-	font-family: monospace;
+  border: none;
+  border-radius: 0;
+  font-family: "FiraCode Nerd Font Mono", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  min-height: 25px;
 }
 
 window#waybar {
-	background: #292b2e;
-	color: #fdf6e3;
+  background: #292b2e;
 }
 
-#workspaces,
-#clock.1,
-#clock.2,
-#clock.3,
-#pulseaudio,
-#memory,
-#cpu,
-#battery,
-#disk,
-#network,
-#tray {
-	background: #292b2e;
+#window {
+  color: @text;
+}
+
+#workspaces {
+  color: @text;
+  padding: 0px 0px 0px 0px;
+  margin: 0 0 0 0;
 }
 
 #workspaces button {
-	padding: 0 2px;
-	color: #fdf6e3;
+  color: @text;
+  padding: 0 5px;
+  background: transparent;
+  border-top: 4px solid transparent;
 }
 
-#workspaces button.focused {
-	color: #268bd2;
+window#waybar #workspaces button.focused {
+  color: @blue;
 }
 
-#workspaces button:hover {
-	box-shadow: inherit;
-	text-shadow: inherit;
+#workspaces button.urgent {
+  border-top: 4px solid @rosewater;
 }
 
-#workspaces button:hover {
-	background: #1a1a1a;
-	border: #1a1a1a;
-	padding: 0 3px;
+.module {
+  color: @text;
+  padding: 0 8px 0 8px;
 }
 
-#pulseaudio {
-	color: #268bd2;
+#network.module {
+  color: @text;
 }
 
-#memory {
-	color: #2aa198;
+#network.disconnected.module {
+  color: @text;
+  background-color: @flamingo;
 }
 
-#cpu {
-	color: #6c71c4;
+#pulseaudio.muted.module {
+  color: @flamingo;
 }
 
-#battery {
-	color: #859900;
+#battery.module {
+  color: @text;
 }
 
-#disk {
-	color: #b58900;
+#battery.discharging {
+  color: @green;
 }
 
-#network {
-	color: white;
+#battery.warning.module {
+  color: @yellow;
 }
 
-#network.disconnected {
-	background-color: #f53c3c;
-}
-
-#clock,
-#pulseaudio,
-#memory,
-#cpu,
-#battery,
-#network,
-#custom-notifications,
-#tray,
-#disk {
-	padding: 0 6px 0 0;
-	margin: 0 5px;
+#battery.critical.module {
+  color: @red;
 }
