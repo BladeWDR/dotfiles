@@ -221,6 +221,9 @@ exec --no-startup-id nm-applet --indicator
 exec --no-startup-id blueman-applet
 exec --no-startup-id gammastep-indicator
 
+# Start the KDE connect daemon
+exec /usr/bin/kdeconnectd
+
 # Start sway notification daemon
 exec swaync
 
