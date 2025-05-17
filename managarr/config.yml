@@ -1,0 +1,8 @@
+radarr:
+  uri: ${RADARR_URL}
+  use_ssl: true
+  api_token: ${RADARR_API_KEY}
+sonarr:
+  uri: ${SONARR_URL}
+  use_ssl: true
+  api_token: ${SONARR_API_KEY}
