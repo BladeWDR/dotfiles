@@ -2,6 +2,8 @@
 
 set -eo pipefail
 
+[[ -f ~/.bash_profile ]] && source ~/.bash_profile
+
 function notify(){
     if command -v notify-send >/dev/null 2>&1; then
         notify-send "$1"
@@ -40,4 +42,3 @@ if [[ ! -z "$1" ]]; then
 else
     notify "No Link Provided. Exit."
 fi
-
