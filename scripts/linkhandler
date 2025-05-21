@@ -5,7 +5,7 @@
 # Else, I'm probably using Sway, so it'll be Wayland.
 if [[ $(grep microsoft /proc/version) ]]; then
   BROWSER='explorer.exe'
-  CLIPBOARD_UTILITY=('xclip' '-selection' 'clipboard')
+  CLIPBOARD_UTILITY=('wl-copy')
 else
   BROWSER='firefox'
   CLIPBOARD_UTILITY=('wl-copy')
