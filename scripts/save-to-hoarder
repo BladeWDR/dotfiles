@@ -30,7 +30,9 @@ if [[ ! -z "$1" ]]; then
             \"type\": \"link\"
         }"
 
-        SAVE_SUCCESS="$?"
+        SAVE_SUCCESS=$?
+
+        echo $SAVE_SUCCESS
 
         if [[ $SAVE_SUCCESS -eq 0 ]]; then
             notify "Link saved to Hoarder."
