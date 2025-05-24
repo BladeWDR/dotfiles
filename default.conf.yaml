@@ -17,9 +17,7 @@
     ~/.bashrc: bashrc
     ~/.bash_aliases: bash_aliases
     ~/.compton.conf: compton.conf
-    ~/.config/nvim:
-      if: '[ -d ~/dotfiles/nvim ]'
-      path: nvim
+    ~/.config/nvim: nvim
     ~/.config/alacritty/alacritty.toml: alacritty.toml
   # ~/.config/mutt: mutt
   # ~/.mbsyncrc: mbsyncrc
