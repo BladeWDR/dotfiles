@@ -7,3 +7,6 @@
 [submodule ".vifm/colors"]
 	path = .vifm/colors
 	url = https://github.com/vifm/vifm-colors
+[submodule "nvim"]
+	path = nvim
+	url = git@github.com:BladeWDR/init.lua.git
