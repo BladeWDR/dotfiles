@@ -5,3 +5,4 @@ mutt/ssbtechsmtp
 .vifm/vifminfo.json
 .vifm/scripts/README
 .vifm/vifm-help.txt
+nvim/spell/*
