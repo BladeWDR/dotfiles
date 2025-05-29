@@ -107,17 +107,6 @@ return {
 						},
 					},
 				},
-				harper_ls = {
-					filetypes = { "markdown" },
-					settings = {
-						["harper-ls"] = {
-							linters = {
-								AvoidCurses = false,
-								SpellCheck = false,
-							},
-						},
-					},
-				},
 			}
 
 			require("mason").setup()
@@ -131,7 +120,6 @@ return {
 				"pyright",
 				"bashls",
 				"markdown-oxide",
-				"harper_ls",
 			})
 			if os_path_separator == "\\" then
 				vim.list_extend(ensure_installed, {
