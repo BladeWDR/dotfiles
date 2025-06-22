@@ -2,9 +2,13 @@
 HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.cache/zshhistory
+HISTORY_IGNORE='(pwd|exit|fg|bg|top|clear|history|ls|uptime|df)'
+
 setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt SHARE_HISTORY
+setopt APPEND_HISTORY
 
 # Prevent ranger from loading it's default config.
 export RANGER_LOAD_DEFAULT_RC=FALSE
