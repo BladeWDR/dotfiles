@@ -1,0 +1,6 @@
+[[mgr.prepend_keymap]]
+on = "yp"
+run = [
+  'shell -- echo -n "$1" | wl-copy',
+  'notify -- "Path copied to clipboard!"'
+]
