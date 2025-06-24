@@ -51,6 +51,7 @@ declare -a pkgs=(
     "unzip"
     "w3m"
     "wdisplays"
+    "yazi"
     "zsh"
     "zsh-autosuggestions"
     "zsh-syntax-highlighting"
@@ -85,6 +86,7 @@ sudo dnf "${dnfopts[@]}" install https://mirrors.rpmfusion.org/free/fedora/rpmfu
 
 # Enable COPR repo for lazygit
 sudo dnf "${dnfopts[@]}" copr enable atim/lazygit -y
+sudo dnf "${dnfopts[@]}" copr enable lihaohong/yazi -y
 
 # Enable Google Chrome repository
 sudo dnf "${dnfopts[@]}" install fedora-workstation-repositories
