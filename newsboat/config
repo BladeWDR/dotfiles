@@ -23,6 +23,10 @@ bind-key ^j next
 bind-key ^k prev
 bind-key K next-feed
 bind-key J prev-feed
+bind-key ^D pagedown article
+bind-key ^U pageup article
+bind-key ^D pagedown articlelist
+bind-key ^U pageup articlelist
 
 unbind-key g # bound to `sort` by default
 bind-key g home
