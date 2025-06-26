@@ -4,3 +4,11 @@ run = [
   'shell -- echo -n "$1" | wl-copy',
   'notify -- "Path copied to clipboard!"'
 ]
+
+[[mgr.append_keymap]]
+on = "<C-t>"
+run = [
+  "shell:trash-empty",
+  'notify -- "Trash emptied!"'
+]
+desc = "Empty the trash"

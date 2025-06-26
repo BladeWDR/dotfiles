@@ -48,6 +48,7 @@ declare -a pkgs=(
     "telegram"
     "thunderbird"
     "tmux"
+    "trash-cli"
     "unzip"
     "w3m"
     "wdisplays"
