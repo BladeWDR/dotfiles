@@ -24,6 +24,7 @@ declare -a pkgs=(
     "gcc-c++"
     "gdm"
     "google-chrome-stable"
+    "hostname"
     "jq"
     "kernel-devel"
     "lazygit"
