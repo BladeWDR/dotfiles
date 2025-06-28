@@ -110,8 +110,15 @@ else
 fi
 
 # Set up fzf key bindings and fuzzy completion
-source <(fzf --zsh)
+if [ -f /home/linuxbrew/.linuxbrew/bin/fzf ] || [ -f /usr/bin/fzf ]; then
+    source <(fzf --zsh)
+fi
 
+# Use zoxide and eza if available.
 if [ -f /home/linuxbrew/.linuxbrew/bin/zoxide ] || [ -f /usr/bin/zoxide ]; then
     eval "$(zoxide init zsh --cmd cd)"
+fi
+
+if [ -f /home/linuxbrew/.linuxbrew/bin/eza ] || [ -f /usr/local/bin/eza ]; then
+    alias ls='eza -l'
 fi
