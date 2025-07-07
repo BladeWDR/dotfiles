@@ -1,8 +1,7 @@
 #!/bin/bash
 
-NOTES_PATH="$HOME/git/work-notes"
-HOSTNAME=$(hostname)
-
+NOTES_PATH="$(pwd)"
+DATESTAMP="$(date '+%Y-%m-%d %k:%M')"
 cd "$NOTES_PATH"
 
 GIT_STATUS=$(git status --porcelain=v1)
@@ -10,6 +9,6 @@ GIT_STATUS=$(git status --porcelain=v1)
 if [[ ! -z $GIT_STATUS ]]; then
    git pull --rebase
    git add --all
-   git commit -m "AUTOCOMMIT - $HOSTNAME" 
+   git commit -m "AUTOCOMMIT - $DATESTAMP - $HOSTNAME" 
    git push
 fi
