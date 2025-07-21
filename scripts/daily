@@ -2,12 +2,36 @@
 
 source "$HOME/.bash_profile"
 
-# Set $VAULT_DIR in your .bash_profile
+create_env() {
+    read -p "Please enter vault directory: " vaultdir
 
+    # Handle the user entering invalid input.
+    if ! [[ -d "$vaultdir" ]]; then
+        echo "The vault directory you entered does not exist. Would you like to create it?"
+        read -p "Y/N? " choice
+
+        if [[ $choice = "Y"]] || [[ $choice = "y"]]; then
+            mkdir -p $vaultdir
+        else
+            echo "Exiting. Vault directory $vaultdir not created."
+            exit 1
+        fi
+    fi
+
+
+    if [[ -f $HOME/.bash_profile ]]; then
+        echo "export VAULT_DIR=$vaultdir" >> $HOME/.bash_profile
+    else
+        echo "export VAULT_DIR=$vaultdir" > $HOME/.bash_profile
+    fi
+
+}
+
+# Set $VAULT_DIR in your .bash_profile
 # Make sure $VAULT_DIR is set and is a valid path
 if ! [[ -d "$VAULT_DIR" ]]; then
-    echo "VAULT_DIR environment variable is not set. Check your .bash_profile"
-    exit 1
+    create_env
+    source "$HOME/.bash_profile"
 fi
 
 NOTE_DIR="$VAULT_DIR/_daily"
@@ -22,8 +46,23 @@ if [[ -n "$TMUX" ]]; then
     tmux rename-window "$FILEDATE.md"
 fi
 
+# Create the NOTE_DIR if it doesn't exist
+mkdir -p "$NOTE_DIR"
+
 # Sleep so Neovim won't complain about the file being modified after reading.
 sleep 0.3
 
-#nvim '+ normal gg10ji' "$FILEPATH"
+# If the file doesn't exist yet, add YAML frontmatter to it.
+
+if ! [[ -f "$FILEPATH" ]]; then
+  cat > "$FILEPATH" << EOF
+---
+id: "$FILEDATE"
+aliases: []
+tags:
+  - daily-notes
+---
+EOF
+fi
+
 nvim -c "normal Go" -c "normal o" -c "startinsert" "$FILEPATH"
