@@ -10,7 +10,7 @@ create_env() {
         echo "The vault directory you entered does not exist. Would you like to create it?"
         read -p "Y/N? " choice
 
-        if [[ $choice = "Y"]] || [[ $choice = "y"]]; then
+        if [[ $choice = "Y" ]] || [[ $choice = "y" ]]; then
             mkdir -p $vaultdir
         else
             echo "Exiting. Vault directory $vaultdir not created."
