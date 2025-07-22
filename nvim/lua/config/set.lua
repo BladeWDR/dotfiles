@@ -5,6 +5,8 @@ vim.opt.relativenumber = true
 vim.opt.nu = true
 vim.g.netrw_bufsettings = "noma nomod nu rnu nobl nowrap ro"
 
+vim.opt.spellfile = vim.fn.expand("~/.spell/en.utf-8.add")
+
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = "a"
 
@@ -70,7 +72,7 @@ vim.keymap.set("i", "(", "<C-g>u(", { noremap = true, silent = true })
 vim.keymap.set("i", ")", ")<C-g>u", { noremap = true, silent = true })
 
 -- Options for nvim-ufo and folds.
-vim.o.foldcolumn = '1' -- '0' is not bad
+vim.o.foldcolumn = "1" -- '0' is not bad
 vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
