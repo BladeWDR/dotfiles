@@ -34,6 +34,7 @@
     ~/.gnupg/gpg-agent.conf: gpg-agent.conf
     ~/.local/scripts/: scripts
     ~/.local/share/systemd/user: systemd
+    ~/.ssh/config: ssh_config
     ~/.tmux.conf: tmux.conf
     ~/.vifm: .vifm
     ~/.zshrc: zshrc
