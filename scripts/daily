@@ -62,6 +62,8 @@ aliases: []
 tags:
   - daily-notes
 ---
+
+# Daily note $FILEDATE
 EOF
 fi
 
