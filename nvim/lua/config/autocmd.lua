@@ -11,8 +11,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- Automatically call vim-pencil when opening a Markdown file to get soft wrapping.
 vim.api.nvim_create_autocmd("BufEnter", {
-    pattern = "*.md",
-    callback = function()
-		vim.cmd(':PencilSoft')
-    end
+	pattern = "*.md",
+	callback = function()
+		vim.cmd(":PencilSoft")
+		vim.cmd("setlocal columns=60")
+		vim.cmd("vertical resize 60")
+	end,
 })

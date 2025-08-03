@@ -4,3 +4,7 @@ vim.opt_local.wrap = true
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.wrap = true
+vim.opt.linebreak = true
+vim.opt.breakindent = true
+vim.opt.list = false
+vim.opt_local.textwidth = 0
