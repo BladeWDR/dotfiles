@@ -5,6 +5,7 @@ return {
 			options = {
 				relativenumber = true,
 			},
+			width = 0.75,
 		},
 		plugins = {
 			tmux = {
