@@ -12,6 +12,7 @@
   - ~/.local/
   - ~/.local/share/systemd
   - ~/.local/share/newsboat
+  - ~/.w3m
 
 - link:
     ~/.config/aerc/aerc.conf: aerc/aerc.conf
@@ -33,6 +34,7 @@
     ~/.config/ranger: ranger 
     ~/.config/rofi: rofi
     ~/.config/starship.toml: starship.toml 
+    ~/.w3m/keymap: w3m/keymap
     ~/.config/yazi: yazi
     ~/.gitconfig: .gitconfig
     ~/.gnupg/gpg-agent.conf: gpg-agent.conf
