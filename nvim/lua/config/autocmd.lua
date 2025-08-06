@@ -14,6 +14,5 @@ vim.api.nvim_create_autocmd("BufEnter", {
 	pattern = "*.md",
 	callback = function()
 		vim.cmd(":PencilSoft")
-		--		vim.cmd("setlocal columns=80")
 	end,
 })
