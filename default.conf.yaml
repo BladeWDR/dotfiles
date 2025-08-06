@@ -18,6 +18,7 @@
     ~/.config/aerc/aerc.conf: aerc/aerc.conf
     ~/.config/aerc/binds.conf: aerc/binds.conf
     ~/.config/aerc/stylesets: aerc/stylesets
+    ~/.config/aerc/templates: aerc/templates
     ~/aliasrc: zsh_aliasrc
     ~/.bashrc: bashrc
     ~/.bash_aliases: bash_aliases
