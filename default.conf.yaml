@@ -7,12 +7,16 @@
 
 - create:
   - ~/.config/alacritty
+  - ~/.config/aerc
   - ~/.gnupg
   - ~/.local/
   - ~/.local/share/systemd
   - ~/.local/share/newsboat
 
 - link:
+    ~/.config/aerc/aerc.conf: aerc/aerc.conf
+    ~/.config/aerc/binds.conf: aerc/binds.conf
+    ~/.config/aerc/stylesets: aerc/stylesets
     ~/aliasrc: zsh_aliasrc
     ~/.bashrc: bashrc
     ~/.bash_aliases: bash_aliases
