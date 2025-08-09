@@ -1,0 +1,6 @@
+
+{{if .Signature}}
+{{.Signature}}
+{{end}}
+
+{{.OriginalText}}
