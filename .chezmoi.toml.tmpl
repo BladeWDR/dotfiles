@@ -1,0 +1,13 @@
+[edit]
+command = "nvim"
+
+[merge]
+command = "nvim"
+args = ["-d", "SOURCE", "TARGET"]
+
+[data]
+{{ if eq .chezmoi.hostname "framework" -}}
+touchpad = "2362:628:PIXA3854:00_093A:0274_Touchpad"
+{{ else if eq .chezmoi.hostname "prothean" -}}
+touchpad = "2PIXA3854:00 093A:0274 Touchpad"
+{{ end }}
