@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+# remember to use absolute paths in this file. 
+# Don't feel like handling shell expansion of variables...
+INPUT_FILE="$HOME/.tmuxsessionizer"
+
+readarray -t SEARCH_DIRS < $INPUT_FILE
+
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    selected=$(find "${SEARCH_DIRS[@]}" -mindepth 1 -maxdepth 1 -type d | fzf)
+fi
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+selected_name=$(basename "$selected" | tr . _)
+tmux_running=$(pgrep tmux)
+
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -s $selected_name -c $selected
+    exit 0
+fi
+
+if ! tmux has-session -t=$selected_name 2> /dev/null; then
+    tmux new-session -ds $selected_name -c $selected
+fi
+
+tmux switch-client -t $selected_name

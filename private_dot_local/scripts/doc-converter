@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# If pandoc isn't installed, exit immediately.
+if ! command -v pandoc > /dev/null; then
+    echo -e "\033[33mERROR: pandoc not found.\033[0m"
+    echo -e "\033[33mMake sure pandoc is installed and on the PATH.\033[0m"
+    exit 1
+fi
+
+# Take directory name as an argument
+TARGET="$1"
+
+if [[ -z $TARGET ]]; then
+    TARGET=$(pwd)
+fi
+
+files=()
+while read -r -d ''; do
+    files+=("$REPLY")
+done < <(find "$TARGET" -maxdepth 1 -type f \( -name "*.docx" -o -name "*.odt" -o -name "*.txt" -o -name "*.doc" \) -print0)
+
+for i in "${files[@]}"; do
+    FILENAME=$(basename "${i%.*}")
+    echo "Converting $i to $FILENAME.md"
+    pandoc --wrap=preserve "$i" -o "$TARGET/$FILENAME.md"
+
+    # strip the unnecessary escape characters from the final result using sed
+    sed -i "s/\\\\'/'/g; s/\\\\,/,/g; s/\\\\\./\./g; s/\\\\!/!/g; s/\\\\:/:/g" "$TARGET/$FILENAME.md"
+done
