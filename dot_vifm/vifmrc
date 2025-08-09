@@ -1,0 +1,50 @@
+set number relativenumber
+set vicmd=nvim
+set confirm=permdelete
+set ignorecase
+set smartcase
+set incsearch
+set syscalls
+colorscheme dracula
+
+" Format the file list columns
+set viewcolumns=*{name}..,16{mtime},7{}.
+
+" Mappings
+
+nmap b :bmarks<cr>
+nmap v ggVG
+" I wanted vifm's zf to act more like how it does in ranger
+nnoremap zf :filter!<space> 
+" reset filters
+nnoremap <C-f> zR
+noremap br :rename<cr>
+nnoremap dD :delete!<cr>
+nnoremap mk :mkdir<space>
+nnoremap cd :zoxide<cr>
+
+" Run my document converter script in the current directory
+nnoremap dc :!doc-converter %d<cr>:filter! md<cr>
+
+" Yank current directory path into the clipboard
+nnoremap yd :!echo -n %d | wl-copy %i<cr>:echo expand('%"d') "is yanked to clipboard"<cr>
+
+" Yank current file path into the clipboard
+nnoremap yp :!echo -n %c:p | wl-copy %i<cr>:echo expand('%"c:p') "is yanked to clipboard"<cr>
+
+" Yank current filename without path into the clipboard
+nnoremap yn :!echo -n %c | wl-copy %i<cr>:echo expand('%"c') "is yanked to clipboard"<cr>
+
+" Yank root of current file's name into the clipboard
+nnoremap yr :!echo -n %c:r | wl-copy %i<cr>:echo expand('%"c:r') "is yanked to clipboard"<cr>
+
+
+" Open files in correct applications
+" Need this line so that VLC doesn't launch in the same process as vifm
+filetype *.mp4,*.mkv,*.avi,*.mov vlc --started-from-file %f %i &
+filetype * xdg-open
+
+command! zoxide :set noquickview | :let $FZF_RES = system('(zoxide query -l "%a"; fd -t d -d 1) | fzf --height 20 2>/dev/tty') | if $FZF_RES != '' | execute 'cd' fnameescape($FZF_RES) '%IU' | endif | redraw
+
+" Add directories I navigate to into zoxide
+autocmd DirEnter * !zoxide add %d %i
