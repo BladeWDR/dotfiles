@@ -1,0 +1,3 @@
+{{ if and (ne .chezmoi.hostname "prothean") (ne .chezmoi.hostname "sb-desktop") (ne .chezmoi.hostname "framework") }}
+.config/sway
+{{ end }}
