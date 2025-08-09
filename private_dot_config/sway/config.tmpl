@@ -78,13 +78,17 @@ exec swayidle -w \
           before-sleep 'swaylock -f -c 000000'
 
 ### Input configuration
+{{ if .SwapEscape }}
 input "type:keyboard" xkb_options "caps:swapescape"
+{{ end }}
+{{ if hasKey . "touchpad" }}
 input "{{ .touchpad }}" {
     dwt enabled
     tap enabled
     natural_scroll disabled
     middle_emulation enabled
 }
+{{ end }}
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
 
