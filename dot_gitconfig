@@ -1,0 +1,8 @@
+[user]
+	email = github@ssb-tech.net
+	name = BladeWDR 
+[alias]
+	ci = commit -m
+	push = push origin
+[core]
+	editor = vim

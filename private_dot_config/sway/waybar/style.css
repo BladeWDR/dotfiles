@@ -1,0 +1,72 @@
+@import url("catppuccin/mocha.css");
+
+* {
+  border: none;
+  border-radius: 0;
+  font-family: "FiraCode Nerd Font Mono", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  min-height: 25px;
+}
+
+window#waybar {
+  background: #292b2e;
+}
+
+#window {
+  color: @text;
+}
+
+#workspaces {
+  color: @text;
+  padding: 0px 0px 0px 0px;
+  margin: 0 0 0 0;
+}
+
+#workspaces button {
+  color: @text;
+  padding: 0 5px;
+  background: transparent;
+  border-top: 4px solid transparent;
+}
+
+window#waybar #workspaces button.focused {
+  color: @blue;
+}
+
+#workspaces button.urgent {
+  border-top: 4px solid @rosewater;
+}
+
+.module {
+  color: @text;
+  padding: 0 8px 0 8px;
+}
+
+#network.module {
+  color: @text;
+}
+
+#network.disconnected.module {
+  color: @text;
+  background-color: @flamingo;
+}
+
+#pulseaudio.muted.module {
+  color: @flamingo;
+}
+
+#battery.module {
+  color: @text;
+}
+
+#battery.discharging {
+  color: @green;
+}
+
+#battery.warning.module {
+  color: @yellow;
+}
+
+#battery.critical.module {
+  color: @red;
+}

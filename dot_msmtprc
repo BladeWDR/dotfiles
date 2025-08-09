@@ -1,0 +1,33 @@
+account scott@ssb-tech.net
+host mail.ssb-tech.net
+port 465
+from scott@ssb-tech.net
+user scott@ssb-tech.net
+passwordeval "pass scott@ssb-tech.net"
+auth on
+tls on
+tls_trust_file	/etc/ssl/certs/ca-certificates.crt
+logfile /home/scott/.local/state/msmtp/msmtp.log
+tls_starttls off
+account scott@ssb-tech.net
+host mail.ssb-tech.net
+port 465
+from scott@ssb-tech.net
+user scott@ssb-tech.net
+passwordeval "pass scott@ssb-tech.net"
+auth on
+tls on
+tls_trust_file	/etc/ssl/certs/ca-certificates.crt
+logfile /home/scott/.local/state/msmtp/msmtp.log
+tls_starttls off
+account ssbarning@gmail.com
+host smtp.gmail.com
+port 465
+from ssbarning@gmail.com
+user ssbarning@gmail.com
+passwordeval "pass ssbarning@gmail.com"
+auth on
+tls on
+tls_trust_file	/etc/ssl/certs/ca-certificates.crt
+logfile /home/scott/.local/state/msmtp/msmtp.log
+tls_starttls off

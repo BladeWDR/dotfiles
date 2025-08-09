@@ -1,0 +1,234 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+palette = "catppuccin_mocha"
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+[aws]
+disabled = true
+#symbol = "  "
+
+[buf]
+symbol = " "
+
+[c]
+symbol = " "
+
+[conda]
+symbol = " "
+
+[crystal]
+symbol = " "
+
+[dart]
+symbol = " "
+
+[directory]
+read_only = " 󰌾"
+truncation_length = 5
+truncation_symbol = '…/'
+format = "[$path]($style)[$lock_symbol]($lock_style) "
+
+[docker_context]
+symbol = " "
+
+[elixir]
+symbol = " "
+
+[elm]
+symbol = " "
+
+[fennel]
+symbol = " "
+
+[fossil_branch]
+symbol = " "
+
+[git_branch]
+symbol = " "
+format = '[$symbol$branch(:$remote_branch)]($style) '
+
+
+[git_status]
+conflicted = "⚔️ "
+ahead = "🏎️ 💨 ×${count} "
+behind = "🐢 ×${count} "
+diverged = "🔱 🏎️ 💨 ×${ahead_count} 🐢 ×${behind_count} "
+untracked = "🛤️  ×${count} "
+stashed = "📦 "
+modified = "📝 ×${count} "
+staged = "🗃️  ×${count} "
+renamed = "📛 ×${count} "
+deleted = "🗑️  ×${count} "
+style = "bright-white"
+format = "$all_status$ahead_behind"
+
+[golang]
+symbol = " "
+
+[guix_shell]
+symbol = " "
+
+[haskell]
+symbol = " "
+
+[haxe]
+symbol = " "
+
+[hg_branch]
+symbol = " "
+
+[hostname]
+ssh_symbol = " "
+
+[java]
+symbol = " "
+
+[julia]
+symbol = " "
+
+[kotlin]
+symbol = " "
+
+[lua]
+symbol = " "
+
+[memory_usage]
+symbol = "󰍛 "
+
+[meson]
+symbol = "󰔷 "
+
+[nim]
+symbol = "󰆥 "
+
+[nix_shell]
+symbol = " "
+
+[nodejs]
+symbol = " "
+
+[ocaml]
+symbol = " "
+
+[os.symbols]
+Alpaquita = " "
+Alpine = " "
+AlmaLinux = " "
+Amazon = " "
+Android = " "
+Arch = " "
+Artix = " "
+CentOS = " "
+Debian = " "
+DragonFly = " "
+Emscripten = " "
+EndeavourOS = " "
+Fedora = " "
+FreeBSD = " "
+Garuda = "󰛓 "
+Gentoo = " "
+HardenedBSD = "󰞌 "
+Illumos = "󰈸 "
+Kali = " "
+Linux = " "
+Mabox = " "
+Macos = " "
+Manjaro = " "
+Mariner = " "
+MidnightBSD = " "
+Mint = " "
+NetBSD = " "
+NixOS = " "
+OpenBSD = "󰈺 "
+openSUSE = " "
+OracleLinux = "󰌷 "
+Pop = " "
+Raspbian = " "
+Redhat = " "
+RedHatEnterprise = " "
+RockyLinux = " "
+Redox = "󰀘 "
+Solus = "󰠳 "
+SUSE = " "
+Ubuntu = " "
+Unknown = " "
+Void = " "
+Windows = "󰍲 "
+
+[package]
+symbol = "󰏗 "
+
+[perl]
+symbol = " "
+
+[php]
+symbol = " "
+
+[pijul_channel]
+symbol = " "
+
+[python]
+symbol = " "
+
+[rlang]
+symbol = "󰟔 "
+
+[ruby]
+symbol = " "
+
+[rust]
+symbol = " "
+
+[scala]
+symbol = " "
+
+[swift]
+symbol = " "
+
+[zig]
+symbol = " "
+
+[username]
+format = '[$user]($style) '
+
+[username.aliases]
+scott = "󰇴"
+
+# Replace the '❯' symbol in the prompt with '➜'
+[character] # The name of the module we are configuring is 'character'
+success_symbol = '[➜](bold green)' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
+error_symbol = '[✗](bold red)'
+
+[cmd_duration]
+min_time = 10_000  # Show command duration over 10,000 milliseconds (=10 sec)
+format = " took [$duration]($style)"
+
+[palettes.catppuccin_mocha]
+base = "#1e1e2e"
+blue = "#89b4fa"
+crust = "#11111b"
+flamingo = "#f2cdcd"
+green = "#a6e3a1"
+lavender = "#b4befe"
+mantle = "#181825"
+maroon = "#eba0ac"
+mauve = "#cba6f7"
+overlay0 = "#6c7086"
+overlay1 = "#7f849c"
+overlay2 = "#9399b2"
+peach = "#fab387"
+pink = "#f5c2e7"
+red = "#f38ba8"
+rosewater = "#f5e0dc"
+sapphire = "#74c7ec"
+sky = "#89dceb"
+subtext0 = "#a6adc8"
+subtext1 = "#bac2de"
+surface0 = "#313244"
+surface1 = "#45475a"
+surface2 = "#585b70"
+teal = "#94e2d5"
+text = "#cdd6f4"
+yellow = "#f9e2af"
