@@ -1,0 +1,42 @@
+urls-source "freshrss"
+freshrss-url "https://rss.bladewdr.xyz/api/greader.php"
+freshrss-login "scott"
+freshrss-passwordeval "pass freshrss"
+browser "~/.local/scripts/linkhandler"
+goto-next-feed no
+show-read-feeds no
+show-read-articles no
+auto-reload yes
+refresh-on-startup no
+reload-threads 50
+max-items 200
+text-width 80
+
+unbind-key j
+unbind-key k
+unbind-key J
+unbind-key K
+
+bind-key j down
+bind-key k up
+bind-key ^j next
+bind-key ^k prev
+bind-key K next-feed
+bind-key J prev-feed
+bind-key ^D pagedown article
+bind-key ^U pageup article
+bind-key ^D pagedown articlelist
+bind-key ^U pageup articlelist
+
+unbind-key g # bound to `sort` by default
+bind-key g home
+unbind-key G # bound to `rev-sort` by default
+bind-key G end
+
+bind-key s sort
+bind-key S rev-sort
+
+include ~/.config/newsboat/catppuccin
+
+macro y set browser "~/.local/scripts/linkhandler %u clip" ; open-in-browser ; set browser "~/.local/scripts/linkhandler"
+macro h set browser "~/.local/scripts/save-to-hoarder %u" ; open-in-browser ; set browser "~/.local/scripts/linkhandler"
