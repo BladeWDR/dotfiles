@@ -1,6 +1,5 @@
-On {{dateFormat .OriginalDate.Local "Mon Jan 2 2006 3:04 PM"}} {{(index .OriginalFrom 0)}} wrote:
-
-{{trimSignature .OriginalText}}
+> On {{dateFormat .OriginalDate.Local "Mon Jan 2 2006 3:04 PM"}} {{(index .OriginalFrom 0)}} wrote:
+{{trimSignature .OriginalText | quote}}
 
 {{if .Signature}}
 {{.Signature}}
