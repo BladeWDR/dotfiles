@@ -1,3 +1,11 @@
 {{ if and (ne .chezmoi.hostname "prothean") (ne .chezmoi.hostname "sb-desktop") (ne .chezmoi.hostname "framework") }}
 .config/sway
 {{ end }}
+{{ if ne .chezmoi.os "windows" }}
+AppData
+{{ end }}
+{{ if eq .chezmoi.os "windows" }}
+*
+!AppData
+!.config/nvim/*
+{{ end }}
