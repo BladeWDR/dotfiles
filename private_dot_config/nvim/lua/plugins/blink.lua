@@ -17,6 +17,8 @@ return {
 				preset = "default",
 				["<C-p>"] = { "select_prev", "fallback" },
 				["<C-n>"] = { "select_next", "fallback" },
+				["<Tab>"] = { "snippet_forward", "fallback" },
+				["<S-Tab>"] = { "snippet_backward", "fallback" },
 
 				-- show with a list of providers
 				["<C-space>"] = {
@@ -106,9 +108,9 @@ return {
 				update_events = "TextChanged,TextChangedI",
 			})
 
-			-- 			local code_snippet_dir = "~/.config/nvim/snippets"
+			local code_snippet_dir = "~/.config/nvim/snippets"
 			if vim.fn.isdirectory(code_snippet_dir) then
-				require("luasnip.loaders.from_vscode").lazy_load({ paths = code_snippet_dir })
+				require("luasnip.loaders.from_lua").lazy_load({ paths = code_snippet_dir })
 			end
 			require("luasnip.loaders.from_vscode").lazy_load()
 			--
