@@ -1,8 +1,23 @@
 #!/bin/bash
 
+POWERSHELL_EXE="/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"
+
 notify(){
-   if command -v powershell.exe &>/dev/null; then
-      powershell.exe -Command "New-BurntToastNotification -Text 'Autocommit.sh', '$1'"
+    if [ -x "$POWERSHELL_EXE" ]; then
+      title="Autocommit.sh"
+      message="$1"
+      "$POWERSHELL_EXE" -NoProfile -Command "
+        Add-Type -AssemblyName System.Windows.Forms
+        Add-Type -AssemblyName System.Drawing
+        \$notification = New-Object System.Windows.Forms.NotifyIcon
+        \$notification.Icon = [System.Drawing.SystemIcons]::Information
+        \$notification.BalloonTipTitle = '$title'
+        \$notification.BalloonTipText = '$message'
+        \$notification.Visible = \$true
+        \$notification.ShowBalloonTip(5000)
+        Start-Sleep -Seconds 6
+        \$notification.Dispose()
+      "
       echo "$1"
    elif command -v notify-send &>/dev/null; then
       notify-send "Autocommit.sh" "$1"
@@ -36,4 +51,6 @@ if [[ -n $GIT_STATUS ]]; then
    git commit -m "AUTOCOMMIT - $DATESTAMP - $HOSTNAME" 
    git push
    notify "$1 automatically committed."
+else
+   notify "No changes to commit."
 fi
