@@ -1,11 +1,12 @@
 #!/bin/bash
 
 notify(){
-   if command -v notify-send &>/dev/null; then
+   if command -v powershell.exe &>/dev/null; then
+      powershell.exe -Command "New-BurntToastNotification -Text 'Autocommit.sh', '$1'"
+      echo "$1"
+   elif command -v notify-send &>/dev/null; then
       notify-send "Autocommit.sh" "$1"
       echo "$1"
-   elif command -v wsl-notify-send &>/dev/null; then
-      wsl-notify-send --app-name "Autocommit.sh" "$1"
    else
       echo "$1"
    fi
