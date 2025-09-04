@@ -34,4 +34,5 @@ if [[ -n $GIT_STATUS ]]; then
    git add --all
    git commit -m "AUTOCOMMIT - $DATESTAMP - $HOSTNAME" 
    git push
+   notify "$1 automatically committed."
 fi
