@@ -19,3 +19,4 @@ alias lzd='lazydocker'
 alias v='nvim'
 alias ls='eza -l'
 alias cz='chezmoi'
+alias hl='rg --passthru' # Uses ripgrep to highlight search terms. Example use: cat file | hl searchterm
