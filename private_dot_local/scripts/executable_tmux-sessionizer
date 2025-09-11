@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
-# remember to use absolute paths in this file. 
-# Don't feel like handling shell expansion of variables...
-INPUT_FILE="$HOME/.tmuxsessionizer"
-
-readarray -t SEARCH_DIRS < $INPUT_FILE
+if [[ -f "$HOME/.tmuxsessionizer" ]]; then
+    INPUT_FILE="$HOME/.tmuxsessionizer"
+    readarray -t SEARCH_DIRS < $INPUT_FILE
+else
+    SEARCH_DIRS=()
+fi
 
 if [[ $# -eq 1 ]]; then
     selected=$1
