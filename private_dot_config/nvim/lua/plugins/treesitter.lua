@@ -21,6 +21,7 @@ return { -- Highlight, edit, and navigate code
 		},
 		-- Autoinstall languages that are not installed
 		auto_install = true,
+		ignore_install = { "latex" },
 		highlight = {
 			enable = true,
 			-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
