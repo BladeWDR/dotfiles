@@ -1,12 +1,16 @@
 -- Neovide stuff
 
-vim.g.neovide_position_animation_length = 0
-vim.g.neovide_cursor_animation_length = 0.00
-vim.g.neovide_cursor_trail_size = 0
-vim.g.neovide_cursor_animate_in_insert_mode = false
-vim.g.neovide_cursor_animate_command_line = false
-vim.g.neovide_scroll_animation_far_lines = 0
-vim.g.neovide_scroll_animation_length = 0.00
+if vim.g.neovide == true then
+	vim.keymap.set({ "n", "x" }, "<C-S-C>", '"+y', { desc = "Neovide - Copy system clipboard" })
+	vim.keymap.set({ "n", "x" }, "<C-S-V>", '"+p', { desc = "Neovide - Paste system clipboard" })
+	vim.g.neovide_position_animation_length = 0
+	vim.g.neovide_cursor_animation_length = 0.00
+	vim.g.neovide_cursor_trail_size = 0
+	vim.g.neovide_cursor_animate_in_insert_mode = false
+	vim.g.neovide_cursor_animate_command_line = false
+	vim.g.neovide_scroll_animation_far_lines = 0
+	vim.g.neovide_scroll_animation_length = 0.00
+end
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
