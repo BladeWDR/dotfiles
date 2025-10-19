@@ -123,6 +123,6 @@ if [ -f /home/linuxbrew/.linuxbrew/bin/eza ] || [ -f /usr/local/bin/eza ]; then
     alias ls='eza -l'
 fi
 
-if [ -f /home/linuxbrew/.linuxbrew/bin/atuin ] || [ -f /usr/local/bin/atuin ]; then
+if [ -f /home/linuxbrew/.linuxbrew/bin/atuin ] || [ -f /usr/local/bin/atuin ] || [ -f /usr/bin/atuin ]; then
     eval "$(atuin init zsh)"
 fi
