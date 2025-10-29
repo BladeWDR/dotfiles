@@ -16,3 +16,25 @@ vim.api.nvim_create_autocmd("BufEnter", {
 		vim.cmd(":PencilSoft")
 	end,
 })
+
+-- Notification on macro start
+vim.api.nvim_create_autocmd("RecordingEnter", {
+	callback = function()
+		local register = vim.fn.reg_recording()
+		if register ~= "" then
+			require("config.utils").notify_macro_start(register)
+		end
+	end,
+	desc = "Notify macro start",
+})
+
+-- Notification on macro end
+vim.api.nvim_create_autocmd("RecordingLeave", {
+	callback = function()
+		local register = vim.fn.reg_recording()
+		if register ~= "" then
+			require("config.utils").notify_macro_end(register)
+		end
+	end,
+	desc = "Notify macro end",
+})
