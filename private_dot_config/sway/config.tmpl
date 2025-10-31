@@ -5,6 +5,15 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 exec input-remapper-control --command autoload
 exec lxpolkit &
 
+# https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
+set $gnome-schema org.gnome.desktop.interface
+
+exec_always {
+    gsettings set $gnome-schema gtk-theme 'Dracula'
+    gsettings set $gnome-schema icon-theme 'Dracula'
+    gsettings set org.gnome.desktop.wm.preferences theme "Dracula"
+}
+
 # Set window borders
 # Reminder that anything changed here will NOT apply retroactively to already open windows!
 default_border pixel 0
