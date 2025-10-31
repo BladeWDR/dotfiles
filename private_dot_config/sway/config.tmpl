@@ -3,6 +3,7 @@
 xwayland enable
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec input-remapper-control --command autoload
+exec lxpolkit &
 
 # Set window borders
 # Reminder that anything changed here will NOT apply retroactively to already open windows!
