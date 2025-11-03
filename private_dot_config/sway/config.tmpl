@@ -225,6 +225,9 @@ input "{{ .mouse_id }}" {
 ## Dmenu // Network Manager // 🪟 <Ctrl> N ##
 bindsym $mod+Ctrl+n exec /home/scott/.local/scripts/networkmanager_dmenu
 
+## CopyQ clipboard manager
+bindsym $mod+c exec copyq toggle
+
 # Scratchpad:
 #
     # Sway has a "scratchpad", which is a bag of holding for windows.
@@ -268,7 +271,6 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
-bindsym $mod+c exec clipman pick --tool CUSTOM --tool-args "fuzzel -i -l 15 --dmenu"
 # shut down the PC
 bindsym $mod+Shift+s exec systemctl poweroff -i
 {{ if eq .chezmoi.hostname "sb-desktop" }}
@@ -292,14 +294,13 @@ exec swaync
 # Toggle control center
 bindsym $mod+Shift+n exec swaync-client -t -sw
 
-exec wl-paste -t text --watch clipman store --no-persist
-exec wl-paste -p -t text --watch clipman store -P --histpath="~/.local/share/clipman.json"
-
 # Launch specific applications with hotkeys:
 bindsym Print exec grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') - | tee "$(xdg-user-dir PICTURES)/screenshots/$(date +'screenshot_%Y%m%d_%H%M%S.png')" | wl-copy && notify-send "Screenshot saved to grim $(xdg-user-dir PICTURES)/$(date +'%s_grim.png')"
 bindsym Ctrl+Print exec grim -g "$(slurp)" - | tee "$(xdg-user-dir PICTURES)/screenshots/$(date +'screenshot_%Y%m%d_%H%M%S.png')" | wl-copy && notify-send "Screenshot saved and copied to clipboard"
 
 # Per window settings:
+
+for_window [app_id="copyq"] floating enable, sticky enable, resize set height 600px width 550px, move position cursor, move down 330
 
 #
 # Status Bar:
