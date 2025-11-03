@@ -4,6 +4,7 @@ xwayland enable
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec input-remapper-control --command autoload
 exec lxpolkit &
+exec --no-startup-id copyq &
 
 # https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
 set $gnome-schema org.gnome.desktop.interface
