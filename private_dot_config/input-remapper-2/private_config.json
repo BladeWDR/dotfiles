@@ -1,6 +1,7 @@
 {
     "version": "2.1.1",
     "autoload": {
-        "ELECOM TrackBall Mouse DEFT Pro TrackBall": "Deft Pro Remaps"
+        "ELECOM TrackBall Mouse DEFT Pro TrackBall": "Deft Pro Remaps",
+        "Razer Razer Naga V2 HyperSpeed": "Naga"
     }
 }
