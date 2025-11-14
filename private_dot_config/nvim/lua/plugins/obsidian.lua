@@ -17,6 +17,9 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 	},
 	opts = {
+		templates = {
+			frontmatter = false,
+		},
 		completion = {
 			blink = true,
 			nvim_cmp = false,
