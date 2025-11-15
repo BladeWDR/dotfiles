@@ -33,7 +33,7 @@ return { -- Autoformat
 		end,
 		formatters_by_ft = {
 			lua = { "stylua" },
-			markdown = { "mdformat" },
+			---			markdown = { "mdformat" },
 			json = { "fixjson" },
 			css = { "prettier" },
 			-- Conform can also run multiple formatters sequentially
@@ -42,12 +42,12 @@ return { -- Autoformat
 			-- You can use 'stop_after_first' to run the first available formatter from the list
 			-- javascript = { "prettierd", "prettier", stop_after_first = true },
 		},
-		formatters = {
-			mdformat = {
-				command = "mdformat",
-				args = { "--number", "-" }, -- preserve list numbering
-				stdin = true,
-			},
-		},
+		-- formatters = {
+		-- 	mdformat = {
+		-- 		command = "mdformat",
+		-- 		args = { "--number", "-" }, -- preserve list numbering
+		-- 		stdin = true,
+		-- 	},
+		-- },
 	},
 }
