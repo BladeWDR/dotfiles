@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+cat > $file <<- EOF
+---
+id: "$PROJ_TITLE"
+aliases: []
+tags:
+  - to do
+---
+
+# "$PROJ_TITLE"
+
+"$PROJ_DESCRIPTION"
+
+### Todo
+
+### In Progress
+
+### Done ✓
+
+EOF
