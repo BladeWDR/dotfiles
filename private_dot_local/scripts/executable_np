@@ -1,16 +1,80 @@
 #!/usr/bin/env bash
 
-cat > $file <<- EOF
+source "$HOME/.bash_profile"
+
+create_env() {
+    read -p "Please enter vault directory: " -r vaultdir
+
+    # Handle the user entering invalid input.
+    if ! [[ -d "$vaultdir" ]]; then
+        echo "The vault directory you entered does not exist. Would you like to create it?"
+        read -p "Y/N? " choice
+
+        if [[ $choice = "Y" ]] || [[ $choice = "y" ]]; then
+            mkdir -p $vaultdir
+        else
+            echo "Exiting. Vault directory $vaultdir not created."
+            exit 1
+        fi
+    fi
+
+
+    if [[ -f $HOME/.bash_profile ]]; then
+        echo "export VAULT_DIR=$vaultdir" >> $HOME/.bash_profile
+    else
+        echo "export VAULT_DIR=$vaultdir" > $HOME/.bash_profile
+    fi
+
+}
+
+if ! [[ -d "$VAULT_DIR" ]]; then
+    create_env
+    source "$HOME/.bash_profile"
+fi
+
+PROJECTS_DIR=$(find "$VAULT_DIR" -maxdepth 2 -type d -iname "*projects")
+
+read -p "Please enter your project name: " -r PROJECT_NAME
+
+if [[ -z $PROJECTS_DIR ]]; then
+  echo 'Unable to find PROJECTS directory. Please make sure that the $VAULT_DIR environment variable is set.'
+  exit 1
+fi
+
+if [[ -z $PROJECT_NAME ]]; then
+  echo 'Project name cannot be empty.'
+  exit 1
+fi
+
+DIRPATH="$PROJECTS_DIR/$PROJECT_NAME"
+
+if ! [[ -d "$DIRPATH" ]]; then
+read -p "Please enter a project description (optional): " -r PROJECT_DESCRIPTION
+fi
+
+if [[ -z $PROJECT_DESCRIPTION ]]; then
+  PROJECT_DESCRIPTION='Project description placeholder text.'
+fi
+
+MAIN_NOTE_PATH="$DIRPATH/TODO.md"
+
+if ! [[ -d "$DIRPATH" ]]; then
+  mkdir -p "$DIRPATH"
+fi
+
+if ! [[ -f "$MAIN_NOTE_PATH" ]]; then
+cat > "$MAIN_NOTE_PATH" <<- EOF
 ---
-id: "$PROJ_TITLE"
+id: $PROJECT_NAME To Do List
 aliases: []
 tags:
   - to do
+  - project
 ---
 
-# "$PROJ_TITLE"
+# $PROJECT_NAME To Do List
 
-"$PROJ_DESCRIPTION"
+$PROJECT_DESCRIPTION
 
 ### Todo
 
@@ -19,3 +83,14 @@ tags:
 ### Done ✓
 
 EOF
+fi
+
+if [[ -z "$TMUX" ]]; then
+  if tmux has-session -t "$PROJECT_NAME" 2>/dev/null; then
+    tmux attach -t "$PROJECT_NAME"
+  else
+    tmux new-session -s "$PROJECT_NAME" -c "$DIRPATH"
+  fi
+fi
+
+nvim -c "normal 13j" -c "normal o" -c "startinsert" "$MAIN_NOTE_PATH"
