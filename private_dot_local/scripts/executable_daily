@@ -3,7 +3,7 @@
 source "$HOME/.bash_profile"
 
 create_env() {
-    read -p "Please enter vault directory: " vaultdir
+    read -p "Please enter vault directory: " -r vaultdir
 
     # Handle the user entering invalid input.
     if ! [[ -d "$vaultdir" ]]; then
