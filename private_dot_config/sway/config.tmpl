@@ -5,6 +5,9 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 exec input-remapper-control --command autoload
 exec lxpolkit &
 exec copyq --start-server
+{{ if eq .chezmoi.hostname "sb-desktop"}}
+exec --no-startup-id goxlr-daemon
+{{ end }}
 
 # https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
 set $gnome-schema org.gnome.desktop.interface
