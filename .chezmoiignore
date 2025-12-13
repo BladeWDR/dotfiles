@@ -1,4 +1,4 @@
-{{ if and (ne .chezmoi.hostname "prothean") (ne .chezmoi.hostname "sb-desktop") (ne .chezmoi.hostname "framework") }}
+{{ if and (ne .chezmoi.hostname "prothean") (ne .chezmoi.hostname "sb-desktop") (ne .chezmoi.hostname "framework") (ne .chezmoi.hostname "asus-cr11") }}
 .config/sway
 {{ end }}
 {{ if ne .chezmoi.os "windows" }}

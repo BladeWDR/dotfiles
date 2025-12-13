@@ -12,6 +12,10 @@ SwapEscape = true
 {{ else if eq .chezmoi.hostname "prothean" -}}
 touchpad = "2PIXA3854:00 093A:0274 Touchpad"
 SwapEscape = true
+{{ else if eq .chezmoi.hostname "asus-cr11" -}}
+touchpad = "PNP0C50:00 093A:1002 Touchpad"
+SwapEscape = false
+{{ else if eq .chezmoi.hostname "asus-cr11" -}}
 {{ else }}
 mouse_id = "1149:32792:Kensington_Expert_Wireless_TB_Mouse"
 SwapEscape = false
