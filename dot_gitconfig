@@ -6,3 +6,4 @@
 	push = push origin
 [core]
 	editor = vim
+	autocrlf = input
