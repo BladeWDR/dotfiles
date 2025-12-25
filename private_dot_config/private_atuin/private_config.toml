@@ -15,6 +15,13 @@ ignored_commands = [
   "nvim"
 ]
 
+history_filter = [
+  "^cd",
+  "^v",
+  "^ls",
+  "^lg"
+]
+
 [keys]
 
 [sync]
