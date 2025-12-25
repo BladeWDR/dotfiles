@@ -1,0 +1,27 @@
+## use ctrl instead of alt as the shortcut modifier key for numerical UI shortcuts
+## alt-0 .. alt-9
+ctrl_n_shortcuts = true
+
+## Defaults to true. If enabled, upon hitting enter Atuin will immediately execute the command. Press tab to return to the shell and edit.
+# This applies for new installs. Old installs will keep the old behaviour unless configured otherwise.
+enter_accept = true
+
+[stats]
+
+ignored_commands = [
+  "cd",
+  "ls",
+  "v",
+  "nvim"
+]
+
+[keys]
+
+[sync]
+records = true
+
+[preview]
+
+[daemon]
+
+[search]
