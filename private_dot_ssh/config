@@ -1,3 +1,7 @@
 Host git.tcgrepairs.com
     HostName 10.0.0.10
     Port 222
+
+Host git.bladewdr.xyz
+    HostName 10.13.37.40
+    Port 222
