@@ -37,6 +37,14 @@ matches:
         params:
           format: "%I:%M%p"
 
+  - trigger: ".ftime"
+    replace: "{{mytimef}}"
+    vars:
+      - name: mytimef
+        type: date
+        params:
+          format: "%Y%m%d%H%M%S"
+
   # Print the output of a shell command
   # - trigger: ":shell"
   #   replace: "{{output}}"
