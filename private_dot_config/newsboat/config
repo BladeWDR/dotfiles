@@ -10,7 +10,7 @@ auto-reload yes
 refresh-on-startup no
 reload-threads 50
 max-items 200
-text-width 80
+text-width 72
 
 unbind-key j
 unbind-key k
