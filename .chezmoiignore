@@ -3,9 +3,11 @@
 {{ end }}
 {{ if ne .chezmoi.os "windows" }}
 AppData
+.glzr
 {{ end }}
 {{ if eq .chezmoi.os "windows" }}
 *
 !AppData
 !.config/nvim/*
+!.glzr
 {{ end }}
