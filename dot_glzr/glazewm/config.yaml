@@ -146,6 +146,12 @@ window_rules:
       - window_process: { equals: 'zebar' }
       - window_process: { equals: 'copyq' }
 
+      # Ignore ShareX Windows
+      - window_process: { equals: 'ShareX' }
+        
+      # Ignore Datto RMM GUI windows
+      - window_title: { regex: '.*?Remote Support$' }
+
       # Ignores picture-in-picture windows for browsers.
       - window_title: { regex: '[Pp]icture.in.[Pp]icture' }
         window_class: { regex: 'Chrome_WidgetWin_1|MozillaDialogClass' }
