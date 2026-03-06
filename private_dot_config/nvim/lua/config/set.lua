@@ -93,3 +93,16 @@ vim.o.foldenable = true
 
 -- Set a nice 72 column layout for writing.
 vim.keymap.set({ "n" }, "<leader>7", ":setlocal columns=72<enter>", { desc = "Set 72 columns wrapping." })
+
+-- Create a Markdown-style link from the WORD under the cursor.
+vim.keymap.set("n", "<leader>L", function()
+	local word = vim.fn.expand("<cWORD>")
+
+	local text = word:gsub("[.,;:!?\"'%)%]]+$", "")
+
+	local link = string.format("[%s](%s)", text, text)
+
+	vim.cmd("normal! ciW" .. link)
+
+	vim.cmd("normal! F(l")
+end, { desc = "Wrap WORD under cursor in markdown link" })
