@@ -4,6 +4,7 @@ xwayland enable
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec input-remapper-control --command autoload
 exec lxpolkit &
+exec /usr/bin/gnome-keyring-daemon --start --components=secrets
 exec copyq --start-server
 {{ if eq .chezmoi.hostname "sb-desktop"}}
 exec --no-startup-id goxlr-daemon
