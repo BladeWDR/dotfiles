@@ -185,7 +185,7 @@
   "networkPreference": "auto",
   "iconTheme": "Adwaita",
   "cursorSettings": {
-    "theme": "System Default",
+    "theme": "Adwaita",
     "size": 24,
     "niri": {
       "hideWhenTyping": false,
@@ -401,7 +401,7 @@
         "battery",
         "controlCenterButton"
       ],
-      "spacing": 4,
+      "spacing": 0,
       "innerPadding": 4,
       "bottomGap": 0,
       "transparency": 1,
