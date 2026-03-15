@@ -227,7 +227,7 @@
   "acSuspendTimeout": 0,
   "acSuspendBehavior": 0,
   "acProfileName": "",
-  "batteryMonitorTimeout": 600,
+  "batteryMonitorTimeout": 300,
   "batteryLockTimeout": 300,
   "batterySuspendTimeout": 3600,
   "batterySuspendBehavior": 0,
