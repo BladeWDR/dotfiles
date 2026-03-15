@@ -4,7 +4,7 @@ input {
 
     mod-key "Alt"
     mod-key-nested "Alt"
-
+    focus-follows-mouse
     keyboard {
         xkb {
 {{ if .SwapEscape }}
@@ -32,6 +32,13 @@ input {
     }
 }
 
+hotkey-overlay {
+    // Avoid auto-showing the important hotkeys menu.
+    skip-at-startup
+}
+
+prefer-no-csd
+
 // ── Outputs ───────────────────────────────────────────────────────────────────
 
 {{ if eq .chezmoi.hostname "sb-desktop" }}
@@ -44,6 +51,7 @@ output "DP-3" {
 output "DP-1" {
     // $primary
     mode "1920x1080@240"
+    focus-at-startup
     position x=2560 y=0
 }
 
@@ -52,6 +60,7 @@ output "DP-2" {
     mode "2560x1440"
     position x=4480 y=0
 }
+
 {{ end }}
 
 // ── Layout ───────────────────────────────────────────────────────────────────
@@ -105,7 +114,7 @@ spawn-at-startup "copyq" "--start-server"
 spawn-at-startup "goxlr-daemon"
 
 // XWayland primary output workaround for games
-spawn-at-startup "sh" "-c" "xrandr --output DP-1 --primary --mode 1920x1080 --rate 240"
+// spawn-at-startup "sh" "-c" "xrandr --output DP-1 --primary --mode 1920x1080 --rate 240"
 {{ end }}
 
 {{ if ne .chezmoi.hostname "prothean" }}
@@ -127,6 +136,21 @@ window-rule {
     default-column-width { fixed 550; }
 }
 
+{{ if eq .chezmoi.hostname "sb-desktop" }}
+
+window-rule {
+    match app-id="vesktop"
+    open-on-output "DP-2"
+}
+
+window-rule {
+    match app-id=r#"^org\.telegram\.desktop$"#
+    exclude title="^Media viewer$"
+    open-on-output "DP-2"
+}
+
+{{ end }}
+
 // ── Key bindings ──────────────────────────────────────────────────────────────
 
 binds {
@@ -141,6 +165,10 @@ binds {
 {{ end }}
 
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel" "-i" "--hide-before-typing" "-l" "3"; }
+    
+    // Show fuzzel with window switcher
+
+    Mod+E { spawn "/home/scott/.local/scripts/niri-window-switcher"; }
 
     // Kill focused window — $mod+q
     Mod+Q repeat=false { close-window; }
@@ -156,7 +184,7 @@ binds {
 
     // Lock screen
 
-    Alt+Shift+L { spawn-sh "dms ipc call lock lock"; }
+    Mod+Ctrl+L { spawn-sh "dms ipc call lock lock"; }
 
     // Power off — $mod+Shift+s
     Mod+Shift+S { spawn "systemctl" "poweroff" "-i"; }
@@ -165,17 +193,23 @@ binds {
 {{ if eq .chezmoi.hostname "sb-desktop" }}
     // Toggle speakers/headphones — F12 (sb-desktop only)
     F12 { spawn "/home/scott/.local/scripts/audio_toggle.sh"; }
+
+    // quickly switch between available monitors.
+
+    Mod+Ctrl+1 { focus-monitor "DP-1"; }  // primary
+    Mod+Ctrl+2 { focus-monitor "DP-2"; }  // right
+    Mod+Ctrl+3 { focus-monitor "DP-3"; }  // top
 {{ end }}
 
     // ── Focus (vim keys + arrows) ─────────────────────────────────────────────
-    Mod+H     { focus-column-left; }
-    Mod+J     { focus-window-down; }
-    Mod+K     { focus-window-up; }
-    Mod+L     { focus-column-right; }
-    Mod+Left  { focus-column-left; }
-    Mod+Down  { focus-window-down; }
-    Mod+Up    { focus-window-up; }
-    Mod+Right { focus-column-right; }
+    Mod+H     { focus-column-or-monitor-left; }
+    Mod+J     { focus-window-or-monitor-down; }
+    Mod+K     { focus-window-or-monitor-up; }
+    Mod+L     { focus-column-or-monitor-right; }
+    Mod+Left     { focus-column-or-monitor-left; }
+    Mod+Down     { focus-window-or-monitor-down; }
+    Mod+Up     { focus-window-or-monitor-up; }
+    Mod+Right     { focus-column-or-monitor-right; }
 
     // ── Move windows ──────────────────────────────────────────────────────────
     Mod+Shift+H     { move-column-left; }
@@ -211,20 +245,6 @@ binds {
     Mod+9 { focus-workspace 9; }
     Mod+0 { focus-workspace 10; }
 
-{{ if eq .chezmoi.hostname "sb-desktop" }}
-    // On desktop: move container AND follow cursor to the new workspace (multi-monitors)
-    Mod+Shift+1 { move-column-to-workspace 1; focus-workspace 1; }
-    Mod+Shift+2 { move-column-to-workspace 2; focus-workspace 2; }
-    Mod+Shift+3 { move-column-to-workspace 3; focus-workspace 3; }
-    Mod+Shift+4 { move-column-to-workspace 4; focus-workspace 4; }
-    Mod+Shift+5 { move-column-to-workspace 5; focus-workspace 5; }
-    Mod+Shift+6 { move-column-to-workspace 6; focus-workspace 6; }
-    Mod+Shift+7 { move-column-to-workspace 7; focus-workspace 7; }
-    Mod+Shift+8 { move-column-to-workspace 8; focus-workspace 8; }
-    Mod+Shift+9 { move-column-to-workspace 9; focus-workspace 9; }
-    Mod+Shift+0 { move-column-to-workspace 10; focus-workspace 10; }
-{{ else }}
-    // On other machines: move container without following
     Mod+Shift+1 { move-column-to-workspace 1; }
     Mod+Shift+2 { move-column-to-workspace 2; }
     Mod+Shift+3 { move-column-to-workspace 3; }
@@ -235,7 +255,6 @@ binds {
     Mod+Shift+8 { move-column-to-workspace 8; }
     Mod+Shift+9 { move-column-to-workspace 9; }
     Mod+Shift+0 { move-column-to-workspace 10; }
-{{ end }}
 
     Mod+Page_Down { focus-workspace-down; }
     Mod+Page_Up   { focus-workspace-up; }
@@ -247,6 +266,10 @@ binds {
     // Fullscreen — $mod+f / $mod+Shift+f
     Mod+F       { maximize-column; }
     Mod+Shift+F { fullscreen-window; }
+    // Expand the focused column to space not taken up by other fully visible columns.
+    // Makes the column "fill the rest of the space".
+    Mod+Ctrl+F { expand-column-to-available-width; }
+
 
     // Float toggle — $mod+Shift+space
     Mod+Shift+Space { toggle-window-floating; }
@@ -264,6 +287,8 @@ binds {
     Mod+Shift+Equal { set-window-height "+10%"; }
 
     Mod+A { center-column; }
+    Mod+Ctrl+A { center-visible-columns; }
+
 
     Mod+BracketLeft  { consume-or-expel-window-left; }
     Mod+BracketRight { consume-or-expel-window-right; }
