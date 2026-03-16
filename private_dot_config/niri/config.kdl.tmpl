@@ -124,11 +124,6 @@ spawn-at-startup "/usr/bin/kdeconnectd"
 
 // ── Window rules ──────────────────────────────────────────────────────────────
 
-// xwayland-satellite doesn't play nicely with espanso so this rule will hide the xwayland window from showing on the screen.
-window-rule {
-    exclude app-id="^Electron$" title="^Electron$"
-}
-
 // Firefox Picture-in-Picture — floating
 window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
