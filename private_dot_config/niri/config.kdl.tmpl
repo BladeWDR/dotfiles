@@ -124,6 +124,12 @@ spawn-at-startup "/usr/bin/kdeconnectd"
 
 // ── Window rules ──────────────────────────────────────────────────────────────
 
+// Open firefox full width
+window-rule {
+    match app-id="firefox"
+    open-maximized true
+}
+
 // Firefox Picture-in-Picture — floating
 window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
