@@ -220,7 +220,7 @@
   "soundsEnabled": true,
   "useSystemSoundTheme": false,
   "soundNewNotification": true,
-  "soundVolumeChanged": true,
+  "soundVolumeChanged": false,
   "soundPluggedIn": true,
   "acMonitorTimeout": 1800,
   "acLockTimeout": 1800,
@@ -520,3 +520,4 @@
   "launcherPluginOrder": [],
   "configVersion": 5
 }
+
