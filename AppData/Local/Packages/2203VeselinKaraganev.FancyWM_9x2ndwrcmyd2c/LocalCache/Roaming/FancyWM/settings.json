@@ -16,8 +16,8 @@
   "PanelFontSize": 12,
   "ShowFocus": true,
   "ShowFocusDuringAction": true,
-  "OverrideAccentColor": false,
-  "CustomAccentColor": "#0064FFFF",
+  "OverrideAccentColor": true,
+  "CustomAccentColor": "#8839EFFF",
   "Keybindings": {
     "ToggleManager": "Activation F11",
     "RefreshWorkspace": "Activation R",
