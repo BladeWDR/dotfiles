@@ -16,6 +16,28 @@ return {
 		scroll = { enabled = true },
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
+		dim = {
+			scope = {
+				min_size = 10,
+				max_size = 30,
+				siblings = true,
+			},
+		},
+		zen = {
+			enabled = true,
+			win = {
+				backdrop = { transparent = false, blend = 40 },
+			},
+		},
+	},
+	keys = {
+		{
+			"<leader>Z",
+			function()
+				Snacks.zen()
+			end,
+			desc = "Toggle Zen Mode",
+		},
 	},
 	init = function()
 		vim.api.nvim_create_autocmd("User", {
