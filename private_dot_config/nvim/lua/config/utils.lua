@@ -4,7 +4,7 @@
 local M = {}
 
 -- Attempt to load the nvim-notify plugin safely
-local notify_present, _ = pcall(require, "plugins.nvim-notify")
+local notify_present, _ = pcall(require, "plugins.snacks")
 
 if not notify_present then
 	-- Optional: Print a message if notify is not found
