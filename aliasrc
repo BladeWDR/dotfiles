@@ -20,3 +20,5 @@ alias v='nvim'
 alias ls='eza -l'
 alias cz='chezmoi'
 alias hl='rg --passthru' # Uses ripgrep to highlight search terms. Example use: cat file | hl searchterm
+alias bwu='bitwarden-unlock'
+alias bws='bitwarden-search'

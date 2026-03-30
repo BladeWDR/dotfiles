@@ -1,4 +1,6 @@
 # History in cache directory:
+RED="\e[31m"
+GREEN="\e[32m"
 HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.cache/zshhistory
@@ -52,6 +54,32 @@ if [ -f "$SSH_ENV" ]; then
 else
    start_agent
 fi
+
+function bitwarden-unlock {
+    if command -v bw >/dev/null; then
+        BW_KEY=$(bw unlock --raw)
+    else
+        echo "Bitwarden CLI doesn't appear to be installed."
+        return 1
+    fi
+
+    export BW_SESSION="$BW_KEY"
+    echo "${GREEN}Unlocked Bitwarden vault.${GREEN}"
+}
+
+function bitwarden-search {
+
+    if [[ "$#" -lt 1 ]]; then
+        echo "${RED}Search term is required!${RED}"
+        return 1
+    fi
+    {
+        printf '%s\t%s\n' "$(tput setaf 4)Name$(tput sgr0)" "$(tput setaf 4)ID$(tput sgr0)"
+        bw list items --search $1 |
+            jq -r '.[] | "\(.name)\t\(.id)"'
+        } | column -t -s $'\t'
+
+}
 
 # Set env variable for GPG
 GPG_TTY=$(tty)
