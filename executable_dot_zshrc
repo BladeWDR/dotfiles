@@ -1,6 +1,7 @@
 # History in cache directory:
 RED="\e[31m"
 GREEN="\e[32m"
+RESET="\e[0m"
 HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.cache/zshhistory
@@ -56,29 +57,50 @@ else
 fi
 
 function bitwarden-unlock {
-    if command -v bw >/dev/null; then
-        BW_KEY=$(bw unlock --raw)
-    else
+    if ! command -v bw >/dev/null; then
         echo "Bitwarden CLI doesn't appear to be installed."
         return 1
     fi
 
-    export BW_SESSION="$BW_KEY"
-    echo "${GREEN}Unlocked Bitwarden vault.${GREEN}"
+    local bw_key
+    bw_key=$(bw unlock --raw)
+
+    if [[ $? -ne 0 || -z "$bw_key" ]]; then
+        echo "${RED}Failed to unlock Bitwarden vault. Check your master password.${RESET}"
+        return 1
+    fi
+
+    export BW_SESSION="$bw_key"
+    echo "${GREEN}Unlocked Bitwarden vault.${RESET}"
 }
 
 function bitwarden-search {
-
     if [[ "$#" -lt 1 ]]; then
-        echo "${RED}Search term is required!${RED}"
+        echo "${RED}Search term is required!${RESET}"
         return 1
     fi
+
     {
         printf '%s\t%s\n' "$(tput setaf 4)Name$(tput sgr0)" "$(tput setaf 4)ID$(tput sgr0)"
-        bw list items --search $1 |
-            jq -r '.[] | "\(.name)\t\(.id)"'
-        } | column -t -s $'\t'
+        bw list items --search "$1" | jq -r '.[] | "\(.name)\t\(.id)"'
+    } | column -t -s $'\t'
+}
 
+function bitwarden-get-password {
+    if [[ "$#" -lt 1 ]]; then
+        echo "${RED}Search term is required!${RESET}"
+        return 1
+    fi
+
+    local result
+    result=$(bw list items --search "$1" | jq -r '.[0].login.password')
+
+    if [[ -z "$result" || "$result" == "null" ]]; then
+        echo "${RED}No password found for \"$1\".${RESET}"
+        return 1
+    fi
+
+    echo "$result"
 }
 
 # Set env variable for GPG
