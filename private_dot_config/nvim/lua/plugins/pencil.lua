@@ -3,4 +3,5 @@ return {
 	opts = {},
 	config = function() end,
 	ft = { "markdown" },
+	lazy = true,
 }
