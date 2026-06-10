@@ -175,10 +175,6 @@ if which starship >/dev/null 2>&1; then
     eval "$(starship init zsh)"
 fi
 
-if [ -d /home/linuxbrew/ ]; then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-fi
-
 # Set EDITOR.
 # Do this AFTER loading brew vars, since it's installed via homebrew now on a lot of my systems.
 if command -v nvim >/dev/null; then
@@ -188,19 +184,19 @@ else
 fi
 
 # Set up fzf key bindings and fuzzy completion
-if [ -f /home/linuxbrew/.linuxbrew/bin/fzf ] || [ -f /usr/bin/fzf ]; then
+if [ -f /usr/bin/fzf ] || [ "$HOMEBREW_PREFIX/bin/fzf" ]; then
     source <(fzf --zsh)
 fi
 
 # Use zoxide and eza if available.
-if [ -f /home/linuxbrew/.linuxbrew/bin/zoxide ] || [ -f /usr/bin/zoxide ]; then
+if [ -f "$HOMEBREW_PREFIX/zoxide" ] || [ -f /usr/bin/zoxide ]; then
     eval "$(zoxide init zsh --cmd cd)"
 fi
 
-if [ -f /home/linuxbrew/.linuxbrew/bin/eza ] || [ -f /usr/local/bin/eza ]; then
+if [ -f "$HOMEBREW_PREFIX/eza" ] || [ -f /usr/local/bin/eza ]; then
     alias ls='eza -l'
 fi
 
-if [ -f /home/linuxbrew/.linuxbrew/bin/atuin ] || [ -f /usr/local/bin/atuin ] || [ -f /usr/bin/atuin ]; then
+if [ -f /usr/local/bin/atuin ] || [ "$HOMEBREW_PREFIX/atuin" ]; then
     eval "$(atuin init zsh)"
 fi
