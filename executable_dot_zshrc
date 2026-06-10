@@ -175,6 +175,10 @@ if which starship >/dev/null 2>&1; then
     eval "$(starship init zsh)"
 fi
 
+if [ -d /home/linuxbrew/ ]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
 # Set EDITOR.
 # Do this AFTER loading brew vars, since it's installed via homebrew now on a lot of my systems.
 if command -v nvim >/dev/null; then
