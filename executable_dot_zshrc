@@ -46,6 +46,24 @@ function start_agent {
    . "$SSH_ENV" > /dev/null
 }
 
+function source_zsh_plugin() {
+    local plugin="$1"
+    local paths=(
+        "$HOMEBREW_PREFIX/share/$plugin"              # Mac Homebrew
+        "/usr/share/zsh/plugins/$plugin"              # Arch
+        "/usr/share/$plugin"                          # Ubuntu/Debian
+        "$HOME/.zsh/plugins/$plugin"                  # Home directory (git install)
+    )
+    
+    for plugin_path in "$paths[@]"; do
+        if [[ -f "$plugin_path/$plugin.zsh" ]]; then
+            source "$plugin_path/$plugin.zsh" 2>/dev/null
+            return 0
+        fi
+    done
+    return 1
+}
+
 # Source SSH settings, if applicable
 if [ -f "$SSH_ENV" ]; then
    . "$SSH_ENV" > /dev/null
@@ -149,18 +167,9 @@ eval "$(direnv hook zsh)"
 
 bindkey -s '^f' "tmux-sessionizer\n"
 
-# pacman and apt put these in 2 different locations 
-# so I need to figure out which one to load depending on what OS I'm currently using.
-
-# Arch / Pacman
-if [[ -d /usr/share/zsh/plugins ]]; then
-    source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
-    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
-# Ubuntu / APT
-elif [[ -d /usr/share/zsh-autosuggestions ]]; then
-    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
-    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
-fi
+# Source zsh plugins
+source_zsh_plugin zsh-autosuggestions
+source_zsh_plugin zsh-syntax-highlighting
 
 if which starship >/dev/null 2>&1; then
     eval "$(starship init zsh)"
