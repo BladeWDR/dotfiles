@@ -64,6 +64,10 @@ set-window-option -g window-status-current-style fg=colour111,bg=default,bold
 
 
 {{ if eq .chezmoi.os "windows" }}
+
+# Override the default green background of psmux for the status bar.
+set -g status-style "bg=colour234,fg=colour153"
+
 # psmux
 # List of plugins
 set -g @plugin 'psmux-plugins/ppm'
