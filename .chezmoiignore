@@ -4,10 +4,13 @@
 {{ if ne .chezmoi.os "windows" }}
 AppData
 .glzr
+.chezmoiscripts/windows/**
 {{ end }}
 {{ if eq .chezmoi.os "windows" }}
 *
 !AppData
 !.config/nvim/*
 !.glzr
+!.tmux.conf
+!.chezmoiscripts/windows/**
 {{ end }}

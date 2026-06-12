@@ -1,0 +1,16 @@
+{{ if eq .chezmoi.os "windows" }}
+if (!(Test-Path "$env:USERPROFILE\.psmux\plugins\ppm")) {
+    git clone https://github.com/psmux/psmux-plugins.git "$env:TEMP\psmux-plugins"
+
+    New-Item -ItemType Directory `
+        -Force `
+        -Path "$env:USERPROFILE\.psmux\plugins" | Out-Null
+
+    Copy-Item `
+        "$env:TEMP\psmux-plugins\ppm" `
+        "$env:USERPROFILE\.psmux\plugins\ppm" `
+        -Recurse
+
+    Remove-Item "$env:TEMP\psmux-plugins" -Recurse -Force
+}
+{{ end }}

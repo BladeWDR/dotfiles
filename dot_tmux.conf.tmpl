@@ -63,14 +63,25 @@ set-window-option -g window-status-style fg=colour188,bg=default
 set-window-option -g window-status-current-style fg=colour111,bg=default,bold
 
 
+{{ if eq .chezmoi.os "windows" }}
+# psmux
+# List of plugins
+set -g @plugin 'psmux-plugins/ppm'
+set -g @plugin 'psmux-plugins/psmux-sensible'
+set -g @plugin 'psmux-plugins/psmux-yank'
+
+run '~/.psmux/plugins/ppm/ppm.ps1'
+
+{{ else }}
+
 # List of plugins
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'laktak/extrakto'
 set -g @plugin 'tmux-plugins/tmux-yank'
 
-# If TPM isn't installed, install it.
+# Install TPM if it's not installed.
 if "test ! -d ~/.tmux/plugins/tpm" \
    "run 'git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm && ~/.tmux/plugins/tpm/bin/install_plugins'"
 
-# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 run '~/.tmux/plugins/tpm/tpm'
+{{ end }}
