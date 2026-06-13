@@ -188,19 +188,19 @@ else
 fi
 
 # Set up fzf key bindings and fuzzy completion
-if [ -f /usr/bin/fzf ] || [ "$HOMEBREW_PREFIX/bin/fzf" ]; then
+if [ -f /usr/bin/fzf ] || [ -f "$HOMEBREW_PREFIX/bin/fzf" ]; then
     source <(fzf --zsh)
 fi
 
 # Use zoxide and eza if available.
-if [ -f "$HOMEBREW_PREFIX/zoxide" ] || [ -f /usr/bin/zoxide ]; then
+if [ -f "$HOMEBREW_PREFIX/bin/zoxide" ] || [ -f /usr/bin/zoxide ]; then
     eval "$(zoxide init zsh --cmd cd)"
 fi
 
-if [ -f "$HOMEBREW_PREFIX/eza" ] || [ -f /usr/local/bin/eza ]; then
+if [ -f "$HOMEBREW_PREFIX/bin/eza" ] || [ -f /usr/local/bin/eza ]; then
     alias ls='eza -l'
 fi
 
-if [ -f /usr/local/bin/atuin ] || [ "$HOMEBREW_PREFIX/atuin" ]; then
+if [ -f /usr/local/bin/atuin ] || [ "$HOMEBREW_PREFIX/bin/atuin" ]; then
     eval "$(atuin init zsh)"
 fi
