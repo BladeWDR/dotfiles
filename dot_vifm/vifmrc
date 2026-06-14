@@ -41,10 +41,14 @@ nnoremap yr :!echo -n %c:r | wl-copy %i<cr>:echo expand('%"c:r') "is yanked to c
 
 " Open files in correct applications
 " Need this line so that VLC doesn't launch in the same process as vifm
-filetype *.mp4,*.mkv,*.avi,*.mov vlc --started-from-file %f %i &
+" filetype *.mp4,*.mkv,*.avi,*.mov vlc --started-from-file %f %i &
+filetype *.mp4,*.mkv,*.avi,*.mov setsid -f haruna %f >/dev/null 2>&1
 filetype * xdg-open
 
 command! zoxide :set noquickview | :let $FZF_RES = system('(zoxide query -l "%a"; fd -t d -d 1) | fzf --height 20 2>/dev/tty') | if $FZF_RES != '' | execute 'cd' fnameescape($FZF_RES) '%IU' | endif | redraw
 
 " Add directories I navigate to into zoxide
 autocmd DirEnter * !zoxide add %d %i
+
+fileviewer *.mp4 mediainfo %c
+fileviewer *.mkv mediainfo %c
