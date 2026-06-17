@@ -6,14 +6,14 @@ set -eo pipefail
 
 function notify(){
     if [[ "$OSTYPE" == "darwin"* ]]; then
-        osascript -e "display notification \"$1\" with title \"Hoarder\""
+        osascript -e "display notification \"$1\" with title \"Karakeep\""
     elif command -v notify-send >/dev/null 2>&1; then
         notify-send "$1"
     fi
 }
 
 if [[ -z $HOARDER_URL ]]; then
-    notify "Hoarder environment variable missing."
+    notify "Karakeep environment variable missing."
     exit 1
 fi
 
@@ -37,10 +37,10 @@ if [[ ! -z "$1" ]]; then
         echo $SAVE_SUCCESS
 
         if [[ $SAVE_SUCCESS -eq 0 ]]; then
-            notify "Link saved to Hoarder."
+            notify "Link saved to Karakeep."
             exit 0
         else
-            notify "Failed to save link to Hoarder"
+            notify "Failed to save link to Karakeep"
             exit 1
         fi
 else
