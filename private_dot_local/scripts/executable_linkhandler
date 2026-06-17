@@ -1,13 +1,18 @@
 #!/bin/bash
 # Wrapper script to handle certain actions in Newsboat.
+# Supports WSL (Windows), macOS, and Linux (Wayland only).
 
-# I do unfortunately end up usingn WSL a lot, so add in some logic to make Newsboat usable.
-# Else, I'm probably using Sway, so it'll be Wayland.
-if [[ $(grep microsoft /proc/version) ]]; then
-  # Browser tamer
+if [[ $(grep -i microsoft /proc/version 2>/dev/null) ]]; then
+  # WSL / Windows
   BROWSER='/mnt/c/Program Files/Browser Tamer/bt.exe'
   CLIPBOARD_UTILITY=('wl-copy')
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  # macOS
+  BROWSER='open'
+  CLIPBOARD_UTILITY=('pbcopy')
+  IMG_UTILITY='open'
 else
+  # Linux / Wayland (Sway)
   BROWSER='firefox'
   CLIPBOARD_UTILITY=('wl-copy')
   IMG_UTILITY='swayimg'
@@ -27,7 +32,11 @@ fi
 # If we're not copying something to the clipboard, what are we doing?
 case "$1" in
   http://*|https://*)
-    "$BROWSER" "$1"
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      "$BROWSER" "$1"
+    else
+      "$BROWSER" "$1"
+    fi
     ;;
   *png|*jpg|*jpe|*jpeg|*gif)
     "$IMG_UTILITY" "$1"
