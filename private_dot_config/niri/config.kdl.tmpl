@@ -107,12 +107,15 @@ screenshot-path "~/Pictures/screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 // Input remapper
 spawn-at-startup "input-remapper-control" "--command" "autoload"
 
+// Dynamic float script
+spawn-at-startup "~/.local/scripts/niri-dynamic-float"
+
 // Clipboard manager
 spawn-at-startup "copyq" "--start-server"
 
 {{ if eq .chezmoi.hostname "sb-desktop" }}
 // GoXLR daemon
-spawn-at-startup "goxlr-daemon"
+spawn-at-startup "~/.local/scripts/goxlr-launcher"
 
 // XWayland primary output workaround for games
 // spawn-at-startup "sh" "-c" "xrandr --output DP-1 --primary --mode 1920x1080 --rate 240"
@@ -206,6 +209,10 @@ binds {
     Mod+Ctrl+1 { focus-monitor "DP-1"; }  // primary
     Mod+Ctrl+2 { focus-monitor "DP-2"; }  // right
     Mod+Ctrl+3 { focus-monitor "DP-3"; }  // top
+
+    Mod+Ctrl+Shift+1 { move-column-to-monitor "DP-1"; }  // primary
+    Mod+Ctrl+Shift+2 { move-column-to-monitor "DP-2"; }  // right
+    Mod+Ctrl+Shift+3 { move-column-to-monitor "DP-3"; }  // top
 {{ end }}
 
     // ── Focus (vim keys + arrows) ─────────────────────────────────────────────

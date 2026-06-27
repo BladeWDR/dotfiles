@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if ! pgrep -u "$USER" goxlr-daemon > /dev/null; then
+  goxlr-daemon &
+fi
