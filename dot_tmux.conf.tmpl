@@ -1,9 +1,216 @@
+# For readability, make use of some local variables.
+#
+# Note: `%hidden` variables were added in 3.2, around 2021-06, so that makes 3.2
+# our minimum supported version.
+#
+%hidden TMUX_VERSION="#{s|[a-z]$||:#{s|next-||:#{version}}}"
+%hidden IS_TMUX_3_3_OR_ABOVE="#{e|>=|f|0:$TMUX_VERSION,3.3}"
+%hidden IS_TMUX_3_4_OR_ABOVE="#{e|>=|f|0:$TMUX_VERSION,3.4}"
+%hidden IS_TMUX_3_5_OR_ABOVE="#{e|>=|f|0:$TMUX_VERSION,3.5}"
+
 # Change the prefix from default <C-b> to <C-s>
 set -g prefix C-s
 
 set -ga terminal-overrides ",screen-256color*:Tc"
 set -g default-terminal "screen-256color"
 
+# Stay in copy mode on drag end.
+# (Would use `bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X
+# stop-selection` but it is a bit glitchy.)
+unbind-key -T copy-mode-vi MouseDragEnd1Pane
+
+
+# Make double and triple click work outside of copy mode (already works inside it with default bindings).
+bind-key -T root DoubleClick1Pane if-shell -Ft'{mouse}' '#{alternate_on}' \
+  "send-keys -M" {
+    copy-mode -t'{mouse}' -H
+    send-keys -t'{mouse}' -X select-word
+  }
+bind-key -T root TripleClick1Pane if-shell -Ft'{mouse}' '#{alternate_on}' \
+  "send-keys -M" {
+    copy-mode -t'{mouse}' -H
+    send-keys -t'{mouse}' -X select-line
+  }
+
+# Don't exit copy mode on double or triple click.
+bind-key -T copy-mode-vi DoubleClick1Pane if-shell -Ft'{mouse}' '#{alternate_on}' \
+  "send-keys -M" {
+    copy-mode -t'{mouse}' -H
+    send-keys -t'{mouse}' -X select-word
+  }
+bind-key -T copy-mode-vi TripleClick1Pane if-shell -Ft'{mouse}' '#{alternate_on}' \
+  "send-keys -M" {
+    copy-mode -t'{mouse}' -H
+    send-keys -t'{mouse}' -X select-line
+  }
+
+# For other ways of getting into copy-mode, ensure we pass -H to suppress the
+# top-right indicator. (These are the same as the default bindings, apart from
+# the addition of the -H.)
+#
+# Not tackled here: MouseDown3Pane and M-MouseDown3Pane, which have massive and
+# complicated definitions for creating context menus.
+bind-key [ copy-mode -H
+bind-key PPage copy-mode -u -H
+bind-key -T root MouseDrag1Pane if-shell -F "#{||:#{pane_in_mode},#{mouse_any_flag}}" {
+  send-keys -M
+} {
+  copy-mode -M -H
+}
+bind-key -T root WheelUpPane if-shell -F "#{||:#{pane_in_mode},#{mouse_any_flag}}" {
+  send-keys -M
+} {
+  copy-mode -e -H
+}
+
+set-option -g pane-border-lines single
+set-option -g pane-border-status bottom
+set -g pane-border-style fg=colour153,bg=colour234
+set -g pane-active-border-style fg=colour111,bg=colour234
+
+# Show copy mode info in pane border. We suppress it (elsewhere) by setting our
+# bindings to use the `-H` switch to the `copy-mode` command.
+#
+# Note that we show position as offset from top of history to make it less
+# confusing (tmux usually shows offset from bottom).
+#
+# - #{?condition,consequent,else} is ternary syntax.
+# - #{==:#{pane_mode},copy-mode} is our first condition (equals 1 when
+#   `pane_mode` is "copy-mode").
+# - #{e|-|:x,y} does our arithmetic, `history_size` - `scroll_position`.
+# - #, is used to escape one of the commas inside the "consequent" format of
+#   the ternary syntax (without this, the format breaks); funnily enough,
+#   escaping is _not_ needing in the "else" format (and including it breaks the
+#   format).
+# - On next-3.5 and above, we can show `#{search_count}` and
+#   `#{search_count_partial}`; this latter is used to show "+" after the count
+#   in the event that the search times out without completing (I've never seen
+#   this in practice).
+# - #{e|>|:x,y} is used to check if `#{search_count}` is greater than zero.
+#   and to check if #{search_count_partial}` is non-zero (in practice, it should
+#   only ever be 0 or 1).
+# - #{==:x,y} is used to check if `#{search_count}` is 1; this is used to decide
+#   whether to render "1 result" (singular) or "N results" (plural).
+# - #{&&:a,b} is used along with ternary syntax to indicate when our
+#   `search_count` is greater than zero and `#{search_present}` is also true
+#   (otherwise we'd show the count of the last successful match instead of the
+#   current match).
+#
+# If we get a format that would allow us to know when a search is active, we
+# could show a Neovim-style indicator in the middle:
+#
+#   #[fg=red,align=centre]"Pattern not found: #{pane_search_string}#[default]"
+#
+# We can't do that right now because `pane_search_string` is set even in the
+# absence of a search, `search_match` is true only if the cursor is on a match,
+# and although `search_present` will tell us if there is a match anywhere,
+# that's not useful if we don't know that a search is active.
+#
+%hidden IS_COPY_MODE="#{==:#{pane_mode},copy-mode}"
+%hidden COPY_MODE_MARKER="#[align=left#,fg=colour111#,bg=black]  -- COPY --  #[default]"
+%hidden COPY_MODE_LEFT="$COPY_MODE_MARKER"
+%hidden HAS_SEARCH_RESULT="#{&&:#{e|>|:#{search_count},0},#{search_present}}"
+%hidden RESULT_OR_RESULTS="result#{?#{==:#{search_count},1},,s}"
+%hidden RESULT_COUNT_IS_PARTIAL="#{e|>|:#{search_count_partial},0}"
+%hidden SEARCH_RESULT_COUNT="(#{search_count}#{?$RESULT_COUNT_IS_PARTIAL,+,} $RESULT_OR_RESULTS)"
+%hidden OFFSET_FROM_TOP="#{e|-|:#{history_size},#{scroll_position}}"
+%hidden COPY_MODE_LOCATION="[$OFFSET_FROM_TOP/#{history_size}]"
+%hidden COPY_MODE_CENTER="#[align=centre#,bg=black]#[default]"
+
+%if $IS_TMUX_3_5_OR_ABOVE
+%hidden COPY_MODE_RIGHT="#[align=right#,bg=black]  #{?$HAS_SEARCH_RESULT,$SEARCH_RESULT_COUNT  ,}$COPY_MODE_LOCATION  #[default]"
+%else
+%hidden COPY_MODE_RIGHT="#[align=right#,bg=black]  $COPY_MODE_LOCATION  #[default]"
+%endif
+
+set-option -g pane-border-format "#{?$IS_COPY_MODE,$COPY_MODE_LEFT$COPY_MODE_CENTER$COPY_MODE_RIGHT,}"
+
+# Needed as on tmux 1.9 and up (defaults to off).
+# Added in tmux commit c7a121cfc0137c907b7bfb.
+set-option -g focus-events on
+
+%if $IS_TMUX_3_3_OR_ABOVE
+# Default list of word-separators is already: !\"#$%&'()*+,-./:;<=>?@[\\]^`{|}~
+# (ie. all non-alphanumeric printable ASCII characters except underscore).
+%else
+# Add : and / to the default list (" -_@") of word separators.
+set-option -g word-separators " -_@:/"
+%endif
+
+%if $IS_TMUX_3_3_OR_ABOVE
+set -g copy-mode-match-style fg=colour234,bg=colour153
+set -g copy-mode-current-match-style fg=colour234,bg=colour111
+%endif
+
+# Make base16-shell work by turning passthrough of escape sequences.
+# (Needed on tmux 3.3 and later).
+# Also, `yazi`: https://yazi-rs.github.io/docs/image-preview/
+set-option -g allow-passthrough all
+
+# Make sure we always start at 1, even when invoked from a .tmux wrapper script.
+set-environment -g SHLVL 1
+
+# Clipper.
+bind-key y run-shell "tmux save-buffer - | clip"
+bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "clip"
+
+# Search back to last prompt (mnemonic: "[o]ut") or next prompt (mnemonic:
+# "[i]n"), mimicking the Neovim jumplist.
+
+
+%if $IS_TMUX_3_4_OR_ABOVE
+# Use OSC-133 sequences to navigate between prompts.
+bind-key o {
+  copy-mode -H
+  send-keys -X previous-prompt
+}
+bind-key -T copy-mode-vi -r o {
+  send-keys -X previous-prompt
+}
+bind-key i {
+  copy-mode -H
+  send-keys -X next-prompt
+}
+bind-key -T copy-mode-vi -r i {
+  send-keys -X next-prompt
+}
+%else
+# Use old-school search for the prompt character to navigate between prompts.
+bind-key o {
+  copy-mode -H
+  send-keys -X start-of-line
+  send-keys -X search-backward "❯"
+  send-keys -X cursor-right
+  send-keys -X cursor-right
+}
+bind-key -T copy-mode-vi -r o {
+  send-keys -X start-of-line
+  send-keys -X search-backward "❯"
+  send-keys -X cursor-right
+  send-keys -X cursor-right
+}
+bind-key i {
+  copy-mode -H
+  send-keys -X end-of-line
+  send-keys -X search-forward "❯"
+  send-keys -X cursor-right
+  send-keys -X cursor-right
+}
+bind-key -T copy-mode-vi -r i {
+  send-keys -X end-of-line
+  send-keys -X search-forward "❯"
+  send-keys -X cursor-right
+  send-keys -X cursor-right
+}
+%endif
+
+# Turn on incremental search in vi mode (it's already the default in emacs mode).
+bind-key -T copy-mode-vi / command-prompt -i -I "#{pane_search_string}" -T search -p "(search down)" {
+  send-keys -X search-forward-incremental "%%"
+}
+bind-key -T copy-mode-vi ? command-prompt -i -I "#{pane_search_string}" -T search -p "(search up)" {
+  send-keys -X search-backward-incremental "%%"
+}
 
 set -g base-index 1 #Start indexing windows at 1 instead of 0
 set -g renumber-windows on       # renumber all windows when any window is closed
