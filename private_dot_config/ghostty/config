@@ -5,5 +5,5 @@ window-title-font-family = "FiraCode Nerd Font Mono"
 theme = catppuccin-mocha.conf
 window-theme = dark
 gtk-titlebar = false
-window-decoration = false
+window-decoration = true
 clipboard-paste-protection = false
