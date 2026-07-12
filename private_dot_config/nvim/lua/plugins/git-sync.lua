@@ -24,4 +24,5 @@ return {
 	opts = {
 		repos = repos,
 	},
+	enabled = false,
 }
