@@ -34,7 +34,29 @@ return {
 			return "%2l:%-2v"
 		end
 
+		local ok, c = pcall(require, "mauve.palette")
+		if not ok then
+			ok = true
+			c = {
+				bg = "#1e1e2e", fg = "#cdd6f4", subtext = "#a6adc8", mauve = "#cba6f7",
+				sapphire = "#74c7ec", grey = "#45475a", peach = "#fab387",
+				red = "#f38ba8", green = "#a6e3a1", lavender = "#b4befe",
+			}
+		end
+
+		vim.api.nvim_set_hl(0, "MiniStatuslineModeNormal", { fg = c.bg, bg = c.mauve, bold = true })
+		vim.api.nvim_set_hl(0, "MiniStatuslineModeInsert", { fg = c.bg, bg = c.sapphire, bold = true })
+		vim.api.nvim_set_hl(0, "MiniStatuslineModeVisual", { fg = c.bg, bg = c.peach, bold = true })
+		vim.api.nvim_set_hl(0, "MiniStatuslineModeReplace", { fg = c.bg, bg = c.red, bold = true })
+		vim.api.nvim_set_hl(0, "MiniStatuslineModeCommand", { fg = c.bg, bg = c.green, bold = true })
+		vim.api.nvim_set_hl(0, "MiniStatuslineModeOther", { fg = c.bg, bg = c.lavender, bold = true })
+		vim.api.nvim_set_hl(0, "MiniStatuslineDevinfo", { fg = c.fg, bg = c.grey })
+		vim.api.nvim_set_hl(0, "MiniStatuslineFilename", { fg = c.fg, bg = c.grey })
+		vim.api.nvim_set_hl(0, "MiniStatuslineFileinfo", { fg = c.fg, bg = c.grey })
+		vim.api.nvim_set_hl(0, "MiniStatuslineInactive", { fg = c.subtext, bg = c.bg })
+
 		-- ... and there is more!
 		--  Check out: https://github.com/echasnovski/mini.nvim
 	end,
 }
+

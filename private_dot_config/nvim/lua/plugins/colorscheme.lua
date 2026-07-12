@@ -1,13 +1,13 @@
 return {
-	"catppuccin/nvim",
+	"Yahddyyp/mauve.nvim",
 	priority = 1000,
 	config = function()
-		require("catppuccin").setup({
-			integrations = {
-				noice = true,
-			},
+		require("mauve").setup({
+			-- integrations = {
+			-- 	noice = true,
+			-- },
 		})
-		vim.cmd.colorscheme("catppuccin-mocha")
+		vim.cmd.colorscheme("mauve")
 		vim.cmd.hi("Comment gui=none")
 	end,
 }
