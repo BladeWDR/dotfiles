@@ -127,7 +127,7 @@ export GPG_TTY
 
 # enable vi mode
 bindkey -v
-export KEYTIMEOUT=1
+export KEYTIMEOUT=20
 
 # Source browser settings if file exists
 [ -f ~/.browser ] && source ~/.browser
@@ -159,6 +159,7 @@ bindkey "^?" backward-delete-char
 
 #change ZSH autosuggest highlight color
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=006'
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 # Set ctrl+space to accept suggestion.
 bindkey '^ ' autosuggest-accept
 
