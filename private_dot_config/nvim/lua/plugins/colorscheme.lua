@@ -1,6 +1,7 @@
 return {
 	"Yahddyyp/mauve.nvim",
 	priority = 1000,
+	lazy = false,
 	config = function()
 		require("mauve").setup({
 			-- integrations = {
