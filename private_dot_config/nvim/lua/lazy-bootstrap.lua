@@ -11,6 +11,9 @@ end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({ import = "plugins" }, {
+	defaults = {
+		lazy = true,
+	},
 	ui = {
 		icons = vim.g.have_nerd_font and {} or {
 			cmd = "⌘",
@@ -29,7 +32,21 @@ require("lazy").setup({ import = "plugins" }, {
 		},
 	},
 	change_detection = {
-		enabled = true,
+		enabled = false,
 		notify = false,
+	},
+	performance = {
+		rtp = {
+			disabled_plugins = {
+				"gzip",
+				"matchit",
+				"matchparen",
+				"netrwPlugin",
+				"tarPlugin",
+				"tohtml",
+				"tutor",
+				"zipPlugin",
+			},
+		},
 	},
 })
