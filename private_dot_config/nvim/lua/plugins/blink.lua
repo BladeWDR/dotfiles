@@ -1,6 +1,7 @@
 return {
 	{
 		"saghen/blink.cmp",
+		event = { "InsertEnter", "CmdlineEnter" },
 		-- optional: provides snippets for the snippet source
 		dependencies = {
 			"ribru17/blink-cmp-spell",
@@ -100,6 +101,7 @@ return {
 	},
 	{
 		"L3MON4D3/LuaSnip",
+		lazy = true,
 		dependencies = "rafamadriz/friendly-snippets",
 		config = function()
 			local ls = require("luasnip")
