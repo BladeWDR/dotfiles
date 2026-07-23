@@ -12,6 +12,7 @@ return {
 	{ "Bilal2453/luvit-meta", lazy = true },
 	{
 		"neovim/nvim-lspconfig",
+		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			{ "williamboman/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
 			"williamboman/mason-lspconfig.nvim",
