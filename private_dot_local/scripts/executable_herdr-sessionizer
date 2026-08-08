@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+
+# Config/Search directories file check
+# Priority: ~/.herdrsessionizer -> ~/.tmuxsessionizer
+if [[ -f "$HOME/.herdrsessionizer" ]]; then
+    INPUT_FILE="$HOME/.herdrsessionizer"
+elif [[ -f "$HOME/.tmuxsessionizer" ]]; then
+    INPUT_FILE="$HOME/.tmuxsessionizer"
+else
+    INPUT_FILE=""
+fi
+
+SEARCH_DIRS=()
+if [[ -n "$INPUT_FILE" ]]; then
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        # Trim leading and trailing whitespace
+        line=$(echo "$line" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+        [[ -z "$line" || "$line" =~ ^# ]] && continue
+        # Expand ~ to $HOME
+        if [[ "$line" =~ ^~ ]]; then
+            line="${line/#~/$HOME}"
+        fi
+        if [[ -d "$line" ]]; then
+            SEARCH_DIRS+=("$line")
+        fi
+    done < "$INPUT_FILE"
+fi
+
+# Fallback defaults if no search directories found
+if [[ ${#SEARCH_DIRS[@]} -eq 0 ]]; then
+    for dir in "$HOME" "$HOME/git" "$HOME/Projects" "$HOME/work"; do
+        if [[ -d "$dir" ]]; then
+            SEARCH_DIRS+=("$dir")
+        fi
+    done
+fi
+
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    selected=$( (printf "%s\n" "${SEARCH_DIRS[@]}"; find "${SEARCH_DIRS[@]}" -mindepth 1 -maxdepth 1 -type d 2>/dev/null) | sort -u | fzf )
+fi
+
+if [[ -z "$selected" ]]; then
+    exit 0
+fi
+
+# Expand ~ or relative paths and resolve symlinks if directory exists
+if [[ "$selected" =~ ^~ ]]; then
+    selected="${selected/#~/$HOME}"
+fi
+if [[ -d "$selected" ]]; then
+    selected=$(realpath "$selected")
+fi
+
+selected_name=$(basename "$selected" | tr . _)
+
+# Function to get existing workspace ID for selected target
+get_workspace_id() {
+    local target_dir="$1"
+    local name="$2"
+    local ws_id=""
+
+    if command -v jq >/dev/null 2>&1; then
+        ws_id=$(herdr workspace list 2>/dev/null | jq -r --arg label "$name" --arg sel "$target_dir" --arg home "$HOME" '
+            .result.workspaces[]? | select(.label == $label or ($sel == $home and .label == "~")) | .workspace_id
+        ' 2>/dev/null | head -n 1)
+
+        if [[ -z "$ws_id" ]]; then
+            ws_id=$(herdr pane list 2>/dev/null | jq -r --arg cwd "$target_dir" '
+                .result.panes[]? | select(.cwd == $cwd or .foreground_cwd == $cwd) | .workspace_id
+            ' 2>/dev/null | head -n 1)
+        fi
+    fi
+    echo "$ws_id"
+}
+
+# Check if we are running inside Herdr
+if [[ "${HERDR_ENV:-0}" -eq 1 ]]; then
+    ws_id=$(get_workspace_id "$selected" "$selected_name")
+    if [[ -n "$ws_id" ]]; then
+        herdr workspace focus "$ws_id" >/dev/null 2>&1
+    else
+        herdr workspace create --cwd "$selected" --label "$selected_name" --focus >/dev/null 2>&1
+    fi
+    exit 0
+fi
+
+# We are outside Herdr (e.g., standard zsh session)
+if herdr status server >/dev/null 2>&1; then
+    ws_id=$(get_workspace_id "$selected" "$selected_name")
+    if [[ -n "$ws_id" ]]; then
+        herdr workspace focus "$ws_id" >/dev/null 2>&1
+    else
+        herdr workspace create --cwd "$selected" --label "$selected_name" --focus >/dev/null 2>&1
+    fi
+    exec herdr
+else
+    cd "$selected" && exec herdr
+fi
