@@ -1,2 +1,13 @@
+onboarding = false
+[ui]
+sidebar_start_collapsed = true
 [keys]
 prefix = "ctrl+s"
+
+[[keys.command]]
+key = "prefix+f"
+type = "popup"
+command = "herdr-sessionizer"
+width = "80%"
+height = "80%"
+

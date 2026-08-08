@@ -166,7 +166,7 @@ bindkey '^ ' autosuggest-accept
 # Start hook for direnv
 eval "$(direnv hook zsh)"
 
-bindkey -s '^f' "tmux-sessionizer\n"
+bindkey -s '^f' "herdr-sessionizer\n"
 
 # Source zsh plugins
 source_zsh_plugin zsh-autosuggestions
