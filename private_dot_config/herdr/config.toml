@@ -1,9 +1,12 @@
 onboarding = false
+
 [ui]
 sidebar_start_collapsed = true
 prompt_new_tab_name = false
+
 [keys]
 prefix = "ctrl+s"
+settings = "prefix+shift+s"
 
 [[keys.command]]
 key = "prefix+f"
@@ -12,3 +15,9 @@ command = "herdr-sessionizer"
 width = "80%"
 height = "80%"
 
+[[keys.command]]
+key = "prefix+s"
+type = "popup"
+command = "herdr-workspace-picker"
+width = "80%"
+height = "80%"
