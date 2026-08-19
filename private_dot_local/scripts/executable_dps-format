@@ -1,0 +1,124 @@
+#!/usr/bin/env python3
+import sys
+import os
+import re
+
+def main():
+    use_color = sys.stdout.isatty() or os.environ.get("FORCE_COLOR") == "1"
+    
+    RESET = "\033[0m" if use_color else ""
+    BOLD = "\033[1m" if use_color else ""
+    CYAN = "\033[36m" if use_color else ""
+    GREEN = "\033[32m" if use_color else ""
+    RED = "\033[31m" if use_color else ""
+    YELLOW = "\033[33m" if use_color else ""
+    DIM = "\033[2m" if use_color else ""
+
+    lines = [line.strip() for line in sys.stdin if line.strip()]
+    
+    headers = ["NAME", "STATUS", "PORTS", "IMAGE", "ID"]
+    cols = ["name", "status", "ports", "image", "id"]
+    
+    if not lines:
+        print("  ".join(headers))
+        return
+
+    def clean_ports(ports_str):
+        if not ports_str:
+            return ""
+        parts = ports_str.split(",")
+        cleaned = []
+        seen = set()
+        for p in parts:
+            p = p.strip()
+            # Match (host_ip:)?host_port->container_port/proto or container_port/proto
+            m = re.match(r"(?:[0-9\.]+|::|\[::\])?:?(\d+)->(\d+)/(?:tcp|udp)", p)
+            if m:
+                h, c = m.groups()
+                entry = f"{h}:{c}" if h != c else h
+                if entry not in seen:
+                    seen.add(entry)
+                    cleaned.append(entry)
+            else:
+                m2 = re.match(r"(\d+)/(?:tcp|udp)", p)
+                if m2:
+                    entry = m2.group(1)
+                    if entry not in seen:
+                        seen.add(entry)
+                        cleaned.append(entry)
+                else:
+                    if p not in seen:
+                        seen.add(p)
+                        cleaned.append(p)
+        return ", ".join(cleaned)
+
+    def clean_image(img, max_len=32):
+        img = re.sub(r"^(?:[a-zA-Z0-9\.\-]+:\d+/|[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}/|(?:docker\.io/)?library/)", "", img)
+        if len(img) > max_len:
+            return img[:max_len-3] + "..."
+        return img
+
+    def format_status(status, state):
+        if "unhealthy" in status:
+            return f"{RED}{status}{RESET}"
+        elif "healthy" in status:
+            return f"{GREEN}{status}{RESET}"
+        elif state == "running" or status.startswith("Up"):
+            return f"{GREEN}{status}{RESET}"
+        elif state == "exited" or status.startswith("Exited"):
+            return f"{DIM}{status}{RESET}"
+        elif "restarting" in state or "restarting" in status or status.startswith("Restarting"):
+            return f"{YELLOW}{status}{RESET}"
+        return status
+
+    rows = []
+    for line in lines:
+        fields = line.split("\t")
+        if len(fields) >= 5:
+            name = fields[0]
+            status = fields[1]
+            ports = fields[2]
+            image = fields[3]
+            cid = fields[4]
+            state = fields[5] if len(fields) >= 6 else ("running" if status.startswith("Up") else "exited")
+            
+            rows.append({
+                "name": name,
+                "status": status,
+                "state": state,
+                "ports": clean_ports(ports),
+                "image": clean_image(image),
+                "id": cid[:10]
+            })
+
+    if not rows:
+        print("  ".join(headers))
+        return
+
+    lengths = {col: len(hdr) for col, hdr in zip(cols, headers)}
+    for r in rows:
+        for col in cols:
+            lengths[col] = max(lengths[col], len(r[col]))
+
+    header_line = "  ".join(f"{BOLD}{CYAN}{hdr.ljust(lengths[col])}{RESET}" for col, hdr in zip(cols, headers))
+    print(header_line)
+
+    for r in sorted(rows, key=lambda x: (x["state"] != "running", x["name"])):
+        fmt_status = format_status(r["status"], r["state"])
+        status_pad = " " * (lengths["status"] - len(r["status"]))
+        
+        val_name = r["name"].ljust(lengths["name"])
+        val_ports = r["ports"].ljust(lengths["ports"])
+        val_image = r["image"].ljust(lengths["image"])
+        val_id = r["id"].ljust(lengths["id"])
+        
+        fmt_name = f"{BOLD}{val_name}{RESET}"
+        fmt_status_col = fmt_status + status_pad
+        fmt_ports = f"{YELLOW}{val_ports}{RESET}" if r["ports"].strip() else val_ports
+        fmt_image = f"{DIM}{val_image}{RESET}"
+        fmt_id = f"{DIM}{val_id}{RESET}"
+        
+        print(f"{fmt_name}  {fmt_status_col}  {fmt_ports}  {fmt_image}  {fmt_id}")
+
+if __name__ == "__main__":
+    main()
