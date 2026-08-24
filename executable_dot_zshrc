@@ -26,6 +26,7 @@ path=(
     $HOME/.local/share/flatpak/exports/bin
     $HOME/.local/bin
     $HOME/.local/scripts
+    $HOME/.local/bin
 )
 
 # remove duplicate entries from PATH.
@@ -154,8 +155,11 @@ bindkey -M menuselect 'right' vi-forward-char
 bindkey "^?" backward-delete-char
 
 # Load aliases and shortcuts if existent.
-[ -f "$HOME/aliasrc" ] && source "$HOME/aliasrc"
-
+if [[ -d "$HOME/.config/zsh.d" ]]; then
+  for f in "$HOME/.config/zsh.d/"*; do
+    source "$f"
+  done
+fi
 
 #change ZSH autosuggest highlight color
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=006'
