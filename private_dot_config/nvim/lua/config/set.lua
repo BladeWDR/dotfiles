@@ -93,9 +93,12 @@ vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decr
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 
--- Set a nice 72 column layout for writing.
-vim.keymap.set({ "n" }, "<leader>7", ":setlocal columns=72<enter>", { desc = "Set 72 columns wrapping." })
-vim.keymap.set({ "n" }, "<leader>8", ":setlocal textwidth=72<enter>", { desc = "Set hard wrapping at 72 columns." })
+vim.keymap.set("n", "<leader>7", function()
+	vim.opt_local.columns = 72
+	vim.opt_local.textwidth = 72
+	vim.opt_local.spell = true
+	vim.opt_local.wrap = true
+end, { desc = "Set 72-column writing layout" })
 
 -- Create a Markdown-style link from the WORD under the cursor.
 vim.keymap.set("n", "<leader>L", function()
