@@ -13,8 +13,8 @@ return {
 		notifier = { enabled = true },
 		quickfile = { enabled = true },
 		scope = { enabled = true },
-		animate = { enabled = not vim.g.neovide },
-		scroll = { enabled = not vim.g.neovide },
+		animate = { enabled = false },
+		scroll = { enabled = false },
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
 		dim = {
