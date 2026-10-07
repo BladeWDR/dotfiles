@@ -1,0 +1,307 @@
+[settings]
+# Animations
+animate = false
+animation_duration = 0.3
+animation_fps = 100.0
+
+# Space activation behavior
+# - If false: rift manages windows on active spaces by default.
+# - If true: spaces start inactive until toggled via Alt+Z (toggle_space_activated).
+# Set to false for seamless Niri-like experience, or true if you want opt-in spaces.
+default_disable = false
+
+# Mouse/Focus behavior
+focus_follows_mouse = true
+mouse_follows_focus = true
+mouse_hides_on_focus = false
+
+# Prevent system popups/overlays from stealing focus or causing workspace switches
+auto_focus_blacklist = [
+  "com.apple.dock",
+  "com.apple.systemuiserver",
+  "com.apple.SecurityAgent",
+  "com.apple.Spotlight",
+  "org.p0deje.Maccy",
+]
+
+# Run commands on start
+run_on_start = []
+
+# Hot Reloading
+# Automatically reload this config file whenever saved
+hot_reload = true
+
+[settings.layout]
+# Layout mode: scrolling (Niri-like infinite horizontal strip)
+mode = "scrolling"
+window_insertion_point = "next_to_selection"
+
+# Scrolling layout settings modeled after Niri
+[settings.layout.scrolling]
+# Disable window & camera movement animations in scrolling layout
+animate = false
+
+# Default column width proportion (Niri default-column-width: 0.5)
+column_width_ratio = 0.5
+preset_column_widths = [0.33333, 0.5, 0.66667]
+
+# Keep each window's current width when entering scrolling layout
+preserve_window_sizes = true
+
+# Fill usable width when only one scrolling column remains
+expand_single_column = false
+
+# Width clamping bounds for resize commands
+min_column_width_ratio = 0.3
+max_column_width_ratio = 0.9
+
+# Alignment for the focused column: "left", "center", or "right"
+alignment = "center"
+
+# Horizontal focus behavior:
+# - "niri": reveal columns only when needed based on navigation direction
+# - "anchored": always keep focused column aligned to `alignment`
+focus_navigation_style = "niri"
+
+[settings.layout.scrolling.gestures]
+# Trackpad horizontal scroll gestures to switch columns
+enabled = false
+invert_horizontal = false
+fingers = 3
+propagate_to_workspace_swipe = false
+
+[settings.layout.stack]
+# Column stacking offset and orientation (for vertical window splits inside columns)
+stack_offset = 40.0
+default_orientation = "perpendicular"
+
+[settings.layout.gaps]
+# Gaps matching Niri's "gaps 8"
+
+[settings.layout.gaps.outer]
+top = 8
+left = 8
+bottom = 8
+right = 8
+
+[settings.layout.gaps.inner]
+horizontal = 8
+vertical = 8
+
+[settings.ui.mission_control]
+# Rift's Niri-style overview (toggled with Alt+O)
+enabled = true
+show_empty_workspaces = true
+
+[settings.ui.menu_bar]
+enabled = false
+show_empty = false
+mode = "all"
+active_label = "index"
+display_style = "layout"
+layout_folder = "~/.config/rift/layouts"
+
+[settings.ui.stack_line]
+enabled = false
+hover = "hover"
+horiz_placement = "top"
+vert_placement = "left"
+thickness = 20.0
+spacing = 1.0
+
+[settings.gestures]
+# Trackpad gestures to switch virtual workspaces
+enabled = false
+consume_dock_swipe = true
+invert_horizontal_swipe = false
+swipe_vertical_tolerance = 0.4
+skip_empty = true
+fingers = 3
+distance_pct = 0.08
+haptics_enabled = true
+
+[settings.drag_drop]
+enabled = true
+modifier = "fn"
+action1 = "move"
+drop_action = "swap"
+drop_zone_fraction = 0.25
+preview = true
+
+[virtual_workspaces]
+enabled = true
+default_workspace_count = 10
+auto_assign_windows = true
+preserve_focus_per_workspace = true
+workspace_auto_back_and_forth = false
+prevent_wrapping = false
+reapply_app_rules_on_title_change = false
+workspace_rules = []
+
+workspace_names = [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+]
+
+# App rules (automatic assignment and floating)
+app_rules = [
+  # Browser Picture-in-Picture — float
+  { title_regex = "^Picture-in-Picture$", floating = true },
+
+  # Common macOS popups / utilities to float
+  { app_id = "com.apple.systempreferences", floating = true },
+  { app_id = "com.apple.SystemSettings", floating = true },
+  { app_id = "com.apple.calculator", floating = true },
+  { app_id = "com.apple.ArchiveUtility", floating = true },
+  { app_id = "org.p0deje.Maccy", manage = false },
+]
+
+[modifier_combinations]
+comb1 = "Alt + Shift"
+
+[keys]
+# ── Space & Config Lifecycle ──
+# Toggle Rift management on current macOS space
+"Alt + Z" = "toggle_space_activated"
+# Reload Rift configuration
+"Alt + Shift + C" = "reload_config"
+# Quit Rift
+"Alt + Shift + E" = "save_and_exit"
+# Close focused window (Niri: Mod+Q)
+"Alt + Q" = "close_window"
+
+# ── Spawning Applications ──
+# Terminal (Niri: Mod+Return -> Ghostty)
+"Alt + Return" = { "exec" = ["open", "-na", "Ghostty"] }
+"Alt + Enter" = { "exec" = ["open", "-na", "Ghostty"] }
+# Clipboard manager (Niri: Mod+C -> CopyQ; Mac: Maccy)
+"Alt + C" = { "exec" = ["open", "-a", "Maccy"] }
+
+# ── Focus Navigation (Vim keys + Arrows) ──
+# Niri: Mod+H/J/K/L
+"Alt + H" = { move_focus = "left" }
+"Alt + J" = { move_focus = "down" }
+"Alt + K" = { move_focus = "up" }
+"Alt + L" = { move_focus = "right" }
+"Alt + Left" = { move_focus = "left" }
+"Alt + Down" = { move_focus = "down" }
+"Alt + Up" = { move_focus = "up" }
+"Alt + Right" = { move_focus = "right" }
+
+# ── Move Windows / Nodes (Vim keys + Arrows) ──
+# Niri: Mod+Shift+H/J/K/L and Arrows
+"Alt + Shift + H" = { move_node = "left" }
+"Alt + Shift + J" = { move_node = "down" }
+"Alt + Shift + K" = { move_node = "up" }
+"Alt + Shift + L" = { move_node = "right" }
+"Alt + Shift + Left" = { move_node = "left" }
+"Alt + Shift + Down" = { move_node = "down" }
+"Alt + Shift + Up" = { move_node = "up" }
+"Alt + Shift + Right" = { move_node = "right" }
+
+# ── Workspaces: Switch (1-10) ──
+# Note: Rift workspace indices are 0-based. 1 maps to 0, 0 maps to 9 (workspace 10).
+"Alt + 1" = { switch_to_workspace = 0 }
+"Alt + 2" = { switch_to_workspace = 1 }
+"Alt + 3" = { switch_to_workspace = 2 }
+"Alt + 4" = { switch_to_workspace = 3 }
+"Alt + 5" = { switch_to_workspace = 4 }
+"Alt + 6" = { switch_to_workspace = 5 }
+"Alt + 7" = { switch_to_workspace = 6 }
+"Alt + 8" = { switch_to_workspace = 7 }
+"Alt + 9" = { switch_to_workspace = 8 }
+"Alt + 0" = { switch_to_workspace = 9 }
+
+# ── Workspaces: Move Window (1-10) ──
+"Alt + Shift + 1" = { move_window_to_workspace = 0 }
+"Alt + Shift + 2" = { move_window_to_workspace = 1 }
+"Alt + Shift + 3" = { move_window_to_workspace = 2 }
+"Alt + Shift + 4" = { move_window_to_workspace = 3 }
+"Alt + Shift + 5" = { move_window_to_workspace = 4 }
+"Alt + Shift + 6" = { move_window_to_workspace = 5 }
+"Alt + Shift + 7" = { move_window_to_workspace = 6 }
+"Alt + Shift + 8" = { move_window_to_workspace = 7 }
+"Alt + Shift + 9" = { move_window_to_workspace = 8 }
+"Alt + Shift + 0" = { move_window_to_workspace = 9 }
+
+# ── Workspaces: Relative Navigation ──
+# Niri: Mod+Page_Down / Mod+Page_Up, Mod+U / Mod+I
+"Alt + PageDown" = "next_workspace"
+"Alt + PageUp" = "prev_workspace"
+"Alt + U" = "next_workspace"
+"Alt + I" = "prev_workspace"
+"Alt + Tab" = "switch_to_last_workspace"
+
+# ── Displays: Focus Monitors ──
+# Niri: Mod+Ctrl+Shift+H/J/K/L
+"Alt + Ctrl + Shift + H" = { focus_display = "left" }
+"Alt + Ctrl + Shift + J" = { focus_display = "down" }
+"Alt + Ctrl + Shift + K" = { focus_display = "up" }
+"Alt + Ctrl + Shift + L" = { focus_display = "right" }
+# Niri: Mod+Ctrl+1/2/3
+"Alt + Ctrl + 1" = { focus_display = 0 }
+"Alt + Ctrl + 2" = { focus_display = 1 }
+"Alt + Ctrl + 3" = { focus_display = 2 }
+
+# ── Displays: Move Windows to Monitors ──
+# Niri: Mod+Shift+Ctrl+Left/Down/Up/Right
+"Alt + Ctrl + Shift + Left" = { move_window_to_display = { selector = "left" } }
+"Alt + Ctrl + Shift + Down" = { move_window_to_display = { selector = "down" } }
+"Alt + Ctrl + Shift + Up" = { move_window_to_display = { selector = "up" } }
+"Alt + Ctrl + Shift + Right" = { move_window_to_display = { selector = "right" } }
+# Niri: Mod+Ctrl+Shift+1/2/3
+"Alt + Ctrl + Shift + 1" = { move_window_to_display = { selector = 0 } }
+"Alt + Ctrl + Shift + 2" = { move_window_to_display = { selector = 1 } }
+"Alt + Ctrl + Shift + 3" = { move_window_to_display = { selector = 2 } }
+
+# ── Sizing / Presets / Resizing ──
+# Niri: Mod+R / Mod+Shift+R (switch preset column width)
+"Alt + R" = "switch_preset_column_width"
+"Alt + Shift + R" = { switch_preset_column_width = { backwards = true } }
+# Niri: Mod+Minus / Mod+Equal (adjust width ±10%)
+"Alt + Minus" = { resize_window_by = { amount = -0.10 } }
+"Alt + Equal" = { resize_window_by = { amount = 0.10 } }
+# Niri: Mod+Shift+Minus / Mod+Shift+Equal (adjust height)
+"Alt + Shift + Minus" = { resize_window_shrink = "vertical" }
+"Alt + Shift + Equal" = { resize_window_grow = "vertical" }
+
+# ── Centering & Snapping ──
+# Niri: Mod+A (center column) / Mod+Ctrl+A (center visible columns)
+"Alt + A" = "center_selection"
+"Alt + Ctrl + A" = "snap_strip"
+
+# ── Fullscreen & Maximize ──
+# Niri: Mod+F (maximize-column) / Mod+Shift+F (fullscreen) / Mod+M
+"Alt + F" = "toggle_fullscreen_within_gaps"
+"Alt + Shift + F" = "toggle_fullscreen"
+"Alt + M" = "toggle_fullscreen_within_gaps"
+
+# ── Floating Windows ──
+# Niri: Mod+Shift+Space (toggle float) / Mod+Space (focus toggle)
+"Alt + Shift + Space" = "toggle_window_floating"
+"Alt + Space" = "toggle_focus_floating"
+
+# ── Columns / Grouping / Stacks (Slurp / Barf / Tabbed) ──
+# Niri: Mod+[ / Mod+] (consume/expel)
+"Alt + BracketLeft" = { consume_or_expel_window = "left" }
+"Alt + BracketRight" = { consume_or_expel_window = "right" }
+# Niri: Mod+V (consume into column) / Mod+B (expel from column)
+"Alt + V" = { join_window = "down" }
+"Alt + B" = "unjoin_windows"
+# Niri: Mod+W (toggle tabbed/stack display)
+"Alt + W" = "toggle_stack"
+"Alt + Comma" = "toggle_stack"
+"Alt + Slash" = "toggle_orientation"
+
+# ── Mission Control / Overview ──
+# Niri: Mod+O (toggle overview)
+"Alt + O" = "show_mission_control_all"
+"Alt + Escape" = "dismiss_mission_control"
