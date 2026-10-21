@@ -25,3 +25,4 @@ alias hl='rg --passthru' # Uses ripgrep to highlight search terms. Example use: 
 alias bwu='bitwarden-unlock'
 alias bws='bitwarden-search'
 alias bwp='bitwarden-get-password'
+alias h='herdr'
