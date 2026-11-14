@@ -1,0 +1,366 @@
+# Umbriel configuration (managed by chezmoi)
+# Complete reference: https://docs.noctalia.dev/umbriel/
+
+[include]
+files = []
+
+[include.optional]
+files = []
+
+# ==============================================================================
+# General
+# https://docs.noctalia.dev/umbriel/configuration/#general
+
+[general]
+mod_key = "Alt"
+autostart = [
+    "noctalia",
+    "input-remapper-control --command autoload",
+    "copyq --start-server",
+{{- if eq .chezmoi.hostname "sb-desktop" }}
+    "~/.local/scripts/goxlr-launcher",
+{{- end }}
+{{- if ne .chezmoi.hostname "prothean" }}
+    "/usr/bin/kdeconnectd",
+{{- end }}
+]
+xwayland = true
+xwayland_native_resolution = true
+{{- if eq .chezmoi.hostname "sb-desktop" }}
+xwayland_primary_output = "DP-1"
+{{- end }}
+
+# ==============================================================================
+# Outputs
+# Outputs are machine-specific. Run `umbriel outputs` to find names and modes.
+# https://docs.noctalia.dev/umbriel/outputs/
+
+{{ if eq .chezmoi.hostname "sb-desktop" -}}
+[output.DP-3]
+# $top (left in coordinate space)
+mode = "2560x1440"
+position = [0, 0]
+
+[output.DP-1]
+# $primary (center)
+mode = "1920x1080@240"
+focus_at_startup = true
+position = [2560, 0]
+
+[output.DP-2]
+# $right
+mode = "2560x1440"
+position = [4480, 0]
+{{- end }}
+
+# ==============================================================================
+# Appearance & Colors
+# https://docs.noctalia.dev/umbriel/appearance/
+
+[appearance]
+prefer_no_csd = true
+border_width = 2
+corner_radius = 12
+
+[appearance.blur]
+radius = 3
+
+[colors]
+accent_primary = "#bd93f9ff"
+error = "#f38ba8ff"
+insert_hint = "#cba6f780"
+shadow = "#00000070"
+
+[colors.border]
+focused = "#bd93f9ff"   # Dracula purple
+unfocused = "#44475aff" # Dracula comment
+
+# ==============================================================================
+# Animations
+# https://docs.noctalia.dev/umbriel/animation/
+
+[animation]
+enabled = false
+
+# ==============================================================================
+# Input
+# https://docs.noctalia.dev/umbriel/input/
+
+[input.focus]
+follows_mouse = true
+
+[input.cursor]
+follows_focus = true
+theme = "Adwaita"
+size = 24
+
+[input.keyboard]
+layout = "us"
+{{- if .SwapEscape }}
+options = "caps:swapescape"
+{{- end }}
+numlock_toggle = true
+
+[input.touchpad]
+tap = true
+natural_scroll = false
+disable_while_typing = true
+
+[input.mouse]
+accel_profile = "flat"
+{{- if hasKey . "mouse_id" }}
+sensitivity = 0.7
+{{- else }}
+sensitivity = 1.0
+{{- end }}
+
+# ==============================================================================
+# Layout
+# https://docs.noctalia.dev/umbriel/layout/
+
+[layout]
+mode = "scrolling"
+gap = 8
+extent_presets = [0.33333, 0.5, 0.66667]
+
+[layout.scrolling]
+default_extent_fraction = 0.5
+center_underfull_strip = true
+
+# ==============================================================================
+# Window rules
+# Rules combine in order, with later values overriding earlier ones.
+# https://docs.noctalia.dev/umbriel/window-rules/
+
+[[window_rule]]
+blur = true
+
+[[window_rule]]
+match.app_id = "^dev\\.noctalia\\.Noctalia$"
+default_floating = true
+default_floating_size_px = { width = 1020, height = 900 }
+
+[[window_rule]]
+match.app_id = "^dev\\.noctalia\\.UmbrielSharePicker$"
+default_floating = true
+default_floating_size_px = { width = 800, height = 600 }
+
+# Open Firefox full width by default
+[[window_rule]]
+match.app_id = "^firefox$"
+default_maximize = true
+
+# Picture-in-Picture (including Firefox PiP) — floating and unmaximized
+[[window_rule]]
+match.title = "^(Picture-in-Picture|Picture in picture)$"
+default_floating = true
+default_maximize = false
+default_position = { x = 20, y = 20, anchor = "bottom_right" }
+
+# CopyQ — floating with 550px width
+[[window_rule]]
+match.app_id = "^com\\.github\\.hluk\\.copyq$"
+default_floating = true
+default_floating_size_px = { width = 550, height = 600 }
+
+[[window_rule]]
+match.title = "^notificationtoasts_.+_desktop"
+default_position = { x = 0, y = 0, anchor = "bottom_right" }
+default_focused = false
+default_pinned = true
+
+{{ if eq .chezmoi.hostname "sb-desktop" -}}
+[[window_rule]]
+match.app_id = "^vesktop$"
+default_output = "DP-2"
+
+[[window_rule]]
+match.app_id = "^org\\.telegram\\.desktop$"
+default_output = "DP-2"
+{{- end }}
+
+# ==============================================================================
+# Layer rules
+# https://docs.noctalia.dev/umbriel/layer-rules/
+
+[[layer_rule]]
+match.namespace = "^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd|desktop-widget-[^\"]*)$"
+blur = true
+blur_ignore_alpha = 0.5
+blur_popups = true
+
+[[layer_rule]]
+match.namespace = "^noctalia-(notification|dock|panel|attached-panel|osd)$"
+blur_optimized = false
+
+# ==============================================================================
+# Overview
+# https://docs.noctalia.dev/umbriel/workspaces-overview/
+
+[hot_corners.top_left]
+enabled = true
+delay_ms = 500
+action = "overview-open"
+
+# ==============================================================================
+# Keybinds
+# https://docs.noctalia.dev/umbriel/keybinds/
+# https://docs.noctalia.dev/umbriel/actions/
+
+[keybinds]
+
+# ── Help / Cheatsheet ─────────────────────────────────────────────────────────
+"Mod+Shift+Slash" = { action = "cheatsheet-toggle", repeat = false }
+
+# ── Applications & Session ────────────────────────────────────────────────────
+{{- if lookPath "ghostty" }}
+"Mod+Return" = { action = "spawn {{ output "which" "ghostty" | trim }}", repeat = false }
+{{- else }}
+"Mod+Return" = { action = "spawn foot", repeat = false }
+{{- end }}
+"Mod+D" = { action = "spawn fuzzel -i --hide-before-typing -l 3", repeat = false }
+"Mod+E" = { action = "spawn noctalia msg window-switcher", repeat = false }
+"Mod+Q" = { action = "window-close", repeat = false }
+"Mod+C" = { action = "spawn copyq toggle", repeat = false }
+"Mod+Ctrl+N" = { action = "spawn /home/scott/.local/scripts/networkmanager_dmenu", repeat = false }
+"Mod+Shift+E" = "session-quit"
+"Super+L" = { action = "spawn noctalia msg session lock", repeat = false }
+"Mod+Shift+S" = { action = "spawn systemctl poweroff -i", repeat = false }
+"Mod+Shift+P" = { action = "dpms-off", repeat = false }
+"Mod+Escape" = { action = "shortcuts-inhibit-toggle", allow_when_inhibited = true, repeat = false }
+
+{{- if eq .chezmoi.hostname "sb-desktop" }}
+# Toggle speakers/headphones — F12 (sb-desktop only)
+"F12" = { action = "spawn /home/scott/.local/scripts/audio_toggle.sh", repeat = false }
+
+# Direct monitor focus & move by number (DP-1: primary/center, DP-2: right, DP-3: top/left)
+"Mod+Ctrl+1" = { action = "spawn sh -c 'umbriel msg output-focus-left && umbriel msg output-focus-left && umbriel msg output-focus-right'", repeat = false }
+"Mod+Ctrl+2" = { action = "spawn sh -c 'umbriel msg output-focus-right && umbriel msg output-focus-right'", repeat = false }
+"Mod+Ctrl+3" = { action = "spawn sh -c 'umbriel msg output-focus-left && umbriel msg output-focus-left'", repeat = false }
+"Mod+Ctrl+Shift+1" = { action = "spawn sh -c 'umbriel msg column-move-to-output-left && umbriel msg column-move-to-output-left && umbriel msg column-move-to-output-right'", repeat = false }
+"Mod+Ctrl+Shift+2" = { action = "spawn sh -c 'umbriel msg column-move-to-output-right && umbriel msg column-move-to-output-right'", repeat = false }
+"Mod+Ctrl+Shift+3" = { action = "spawn sh -c 'umbriel msg column-move-to-output-left && umbriel msg column-move-to-output-left'", repeat = false }
+{{- end }}
+
+# ── Focus (vim keys + arrows, wraps to adjacent monitor at edge) ──────────────
+"Mod+H" = "window-focus-or-output-left"
+"Mod+J" = "window-focus-or-output-down"
+"Mod+K" = "window-focus-or-output-up"
+"Mod+L" = "window-focus-or-output-right"
+"Mod+Left" = "window-focus-or-output-left"
+"Mod+Down" = "window-focus-or-output-down"
+"Mod+Up" = "window-focus-or-output-up"
+"Mod+Right" = "window-focus-or-output-right"
+"Mod+WheelUp" = "window-focus-left"
+"Mod+WheelDown" = "window-focus-right"
+
+# ── Move windows / columns ────────────────────────────────────────────────────
+"Mod+Shift+H" = "column-move-left"
+"Mod+Shift+J" = "window-move-down"
+"Mod+Shift+K" = "window-move-up"
+"Mod+Shift+L" = "column-move-right"
+"Mod+Shift+Left" = "column-move-left"
+"Mod+Shift+Down" = "window-move-down"
+"Mod+Shift+Up" = "window-move-up"
+"Mod+Shift+Right" = "column-move-right"
+
+# ── Focus monitors (screens) ──────────────────────────────────────────────────
+"Mod+Ctrl+H" = "output-focus-left"
+"Mod+Ctrl+J" = "output-focus-down"
+"Mod+Ctrl+K" = "output-focus-up"
+"Mod+Ctrl+L" = "output-focus-right"
+"Mod+Ctrl+Left" = "output-focus-left"
+"Mod+Ctrl+Down" = "output-focus-down"
+"Mod+Ctrl+Up" = "output-focus-up"
+"Mod+Ctrl+Right" = "output-focus-right"
+"Mod+Tab" = "output-focus-next"
+"Mod+Shift+Tab" = "output-focus-previous"
+
+# ── Move columns to monitors ──────────────────────────────────────────────────
+"Mod+Ctrl+Shift+H" = "column-move-to-output-left"
+"Mod+Ctrl+Shift+J" = "column-move-to-output-down"
+"Mod+Ctrl+Shift+K" = "column-move-to-output-up"
+"Mod+Ctrl+Shift+L" = "column-move-to-output-right"
+"Mod+Ctrl+Shift+Left" = "column-move-to-output-left"
+"Mod+Ctrl+Shift+Down" = "column-move-to-output-down"
+"Mod+Ctrl+Shift+Up" = "column-move-to-output-up"
+"Mod+Ctrl+Shift+Right" = "column-move-to-output-right"
+
+# ── Workspaces ────────────────────────────────────────────────────────────────
+"Mod+1" = "workspace-switch 1"
+"Mod+2" = "workspace-switch 2"
+"Mod+3" = "workspace-switch 3"
+"Mod+4" = "workspace-switch 4"
+"Mod+5" = "workspace-switch 5"
+"Mod+6" = "workspace-switch 6"
+"Mod+7" = "workspace-switch 7"
+"Mod+8" = "workspace-switch 8"
+"Mod+9" = "workspace-switch 9"
+"Mod+0" = "workspace-switch 10"
+
+"Mod+Shift+1" = "column-move-to-workspace 1"
+"Mod+Shift+2" = "column-move-to-workspace 2"
+"Mod+Shift+3" = "column-move-to-workspace 3"
+"Mod+Shift+4" = "column-move-to-workspace 4"
+"Mod+Shift+5" = "column-move-to-workspace 5"
+"Mod+Shift+6" = "column-move-to-workspace 6"
+"Mod+Shift+7" = "column-move-to-workspace 7"
+"Mod+Shift+8" = "column-move-to-workspace 8"
+"Mod+Shift+9" = "column-move-to-workspace 9"
+"Mod+Shift+0" = "column-move-to-workspace 10"
+
+"Mod+Page_Down" = "workspace-next"
+"Mod+Page_Up" = "workspace-previous"
+"Mod+U" = "workspace-next"
+"Mod+I" = "workspace-previous"
+
+# ── Layout & Window State ─────────────────────────────────────────────────────
+"Mod+F" = { action = "window-toggle-maximize", repeat = false }
+"Mod+M" = { action = "window-toggle-maximize-to-edges", repeat = false }
+"Mod+Shift+F" = { action = "window-toggle-fullscreen", repeat = false }
+"Mod+Ctrl+F" = "window-set-primary-extent 1.0"
+"Mod+P" = { action = "window-toggle-pinned", repeat = false }
+
+"Mod+Shift+Space" = { action = "window-toggle-floating", repeat = false }
+"Mod+Space" = { action = "window-focus-switch-floating", repeat = false }
+
+"Mod+W" = { action = "column-toggle-tabbed", repeat = false }
+
+"Mod+R" = "window-cycle-primary-extent"
+"Mod+Shift+R" = "window-cycle-secondary-extent"
+"Mod+Minus" = "window-modify-primary-extent -0.10"
+"Mod+Equal" = "window-modify-primary-extent +0.10"
+"Mod+Shift+Minus" = "window-modify-secondary-extent -0.10"
+"Mod+Shift+Equal" = "window-modify-secondary-extent +0.10"
+
+"Mod+A" = "column-center"
+
+"Mod+BracketLeft" = "window-consume-or-expel-left"
+"Mod+BracketRight" = "window-consume-or-expel-right"
+"Mod+Comma" = "window-consume-left"
+"Mod+Period" = "window-consume-right"
+"Mod+V" = "window-consume-from-left"
+"Mod+B" = "window-consume-from-right"
+
+"Mod+O" = { action = "overview-toggle", repeat = false }
+
+# ── Scratchpad ────────────────────────────────────────────────────────────────
+"Mod+Shift+Grave" = { action = "window-move-to-scratchpad", repeat = false }
+"Mod+Grave" = "scratchpad-toggle"
+"Mod+Ctrl+Grave" = { action = "window-restore-from-scratchpad", repeat = false }
+
+# ── Screenshots (routed through Noctalia) ─────────────────────────────────────
+"Print" = { action = "spawn noctalia msg screenshot-fullscreen", repeat = false }
+"Ctrl+Print" = { action = "spawn noctalia msg screenshot-region", repeat = false }
+"Mod+Print" = { action = "spawn noctalia msg screenshot-window", repeat = false }
+
+# ── Media, Volume & Brightness (routed through Noctalia OSDs) ─────────────────
+"XF86AudioRaiseVolume" = { action = "spawn noctalia msg volume-up 10", allow_when_locked = true }
+"XF86AudioLowerVolume" = { action = "spawn noctalia msg volume-down 10", allow_when_locked = true }
+"XF86AudioMute" = { action = "spawn noctalia msg volume-mute", allow_when_locked = true, repeat = false }
+"XF86AudioMicMute" = { action = "spawn noctalia msg mic-mute", allow_when_locked = true, repeat = false }
+"XF86AudioPlay" = { action = "spawn noctalia msg media toggle", allow_when_locked = true, repeat = false }
+"XF86AudioNext" = { action = "spawn noctalia msg media next", allow_when_locked = true }
+"XF86AudioPrev" = { action = "spawn noctalia msg media previous", allow_when_locked = true }
+"XF86MonBrightnessUp" = { action = "spawn noctalia msg brightness-up", allow_when_locked = true }
+"XF86MonBrightnessDown" = { action = "spawn noctalia msg brightness-down", allow_when_locked = true }
