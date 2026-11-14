@@ -31,6 +31,13 @@ xwayland_primary_output = "DP-1"
 {{- end }}
 
 # ==============================================================================
+# Workspaces
+# https://docs.noctalia.dev/umbriel/workspaces-overview/
+
+[workspaces]
+back_and_forth = true
+
+# ==============================================================================
 # Outputs
 # Outputs are machine-specific. Run `umbriel outputs` to find names and modes.
 # https://docs.noctalia.dev/umbriel/outputs/
@@ -40,17 +47,20 @@ xwayland_primary_output = "DP-1"
 # $top (left in coordinate space)
 mode = "2560x1440"
 position = [0, 0]
+workspaces = ["8"]
 
 [output.DP-1]
 # $primary (center)
 mode = "1920x1080@240"
 focus_at_startup = true
 position = [2560, 0]
+workspaces = ["1", "2", "3", "4", "5", "6", "7"]
 
 [output.DP-2]
 # $right
 mode = "2560x1440"
 position = [4480, 0]
+workspaces = ["9", "10"]
 {{- end }}
 
 # ==============================================================================
@@ -120,7 +130,7 @@ sensitivity = 1.0
 
 [layout]
 mode = "master"
-gap = 1 
+gap = 1
 extent_presets = [0.33333, 0.5, 0.66667]
 
 [layout.scrolling]
@@ -237,9 +247,9 @@ action = "overview-open"
 "Mod+Ctrl+1" = { action = "spawn sh -c 'umbriel msg output-focus-left && umbriel msg output-focus-left && umbriel msg output-focus-right'", repeat = false }
 "Mod+Ctrl+2" = { action = "spawn sh -c 'umbriel msg output-focus-right && umbriel msg output-focus-right'", repeat = false }
 "Mod+Ctrl+3" = { action = "spawn sh -c 'umbriel msg output-focus-left && umbriel msg output-focus-left'", repeat = false }
-"Mod+Ctrl+Shift+1" = { action = "spawn sh -c 'umbriel msg column-move-to-output-left && umbriel msg column-move-to-output-left && umbriel msg column-move-to-output-right'", repeat = false }
-"Mod+Ctrl+Shift+2" = { action = "spawn sh -c 'umbriel msg column-move-to-output-right && umbriel msg column-move-to-output-right'", repeat = false }
-"Mod+Ctrl+Shift+3" = { action = "spawn sh -c 'umbriel msg column-move-to-output-left && umbriel msg column-move-to-output-left'", repeat = false }
+"Mod+Ctrl+Shift+1" = { action = "spawn sh -c 'umbriel msg window-move-to-output-left && umbriel msg window-move-to-output-left && umbriel msg window-move-to-output-right'", repeat = false }
+"Mod+Ctrl+Shift+2" = { action = "spawn sh -c 'umbriel msg window-move-to-output-right && umbriel msg window-move-to-output-right'", repeat = false }
+"Mod+Ctrl+Shift+3" = { action = "spawn sh -c 'umbriel msg window-move-to-output-left && umbriel msg window-move-to-output-left'", repeat = false }
 {{- end }}
 
 # ── Focus (vim keys + arrows, wraps to adjacent monitor at edge) ──────────────
@@ -254,15 +264,15 @@ action = "overview-open"
 "Mod+WheelUp" = "window-focus-left"
 "Mod+WheelDown" = "window-focus-right"
 
-# ── Move windows / columns ────────────────────────────────────────────────────
-"Mod+Shift+H" = "column-move-left"
+# ── Move windows ──────────────────────────────────────────────────────────────
+"Mod+Shift+H" = "window-move-left"
 "Mod+Shift+J" = "window-move-down"
 "Mod+Shift+K" = "window-move-up"
-"Mod+Shift+L" = "column-move-right"
-"Mod+Shift+Left" = "column-move-left"
+"Mod+Shift+L" = "window-move-right"
+"Mod+Shift+Left" = "window-move-left"
 "Mod+Shift+Down" = "window-move-down"
 "Mod+Shift+Up" = "window-move-up"
-"Mod+Shift+Right" = "column-move-right"
+"Mod+Shift+Right" = "window-move-right"
 
 # ── Focus monitors (screens) ──────────────────────────────────────────────────
 "Mod+Ctrl+H" = "output-focus-left"
@@ -276,17 +286,42 @@ action = "overview-open"
 "Mod+Tab" = "output-focus-next"
 "Mod+Shift+Tab" = "output-focus-previous"
 
-# ── Move columns to monitors ──────────────────────────────────────────────────
-"Mod+Ctrl+Shift+H" = "column-move-to-output-left"
-"Mod+Ctrl+Shift+J" = "column-move-to-output-down"
-"Mod+Ctrl+Shift+K" = "column-move-to-output-up"
-"Mod+Ctrl+Shift+L" = "column-move-to-output-right"
-"Mod+Ctrl+Shift+Left" = "column-move-to-output-left"
-"Mod+Ctrl+Shift+Down" = "column-move-to-output-down"
-"Mod+Ctrl+Shift+Up" = "column-move-to-output-up"
-"Mod+Ctrl+Shift+Right" = "column-move-to-output-right"
+# ── Move windows to monitors ──────────────────────────────────────────────────
+"Mod+Ctrl+Shift+H" = "window-move-to-output-left"
+"Mod+Ctrl+Shift+J" = "window-move-to-output-down"
+"Mod+Ctrl+Shift+K" = "window-move-to-output-up"
+"Mod+Ctrl+Shift+L" = "window-move-to-output-right"
+"Mod+Ctrl+Shift+Left" = "window-move-to-output-left"
+"Mod+Ctrl+Shift+Down" = "window-move-to-output-down"
+"Mod+Ctrl+Shift+Up" = "window-move-to-output-up"
+"Mod+Ctrl+Shift+Right" = "window-move-to-output-right"
 
-# ── Workspaces ────────────────────────────────────────────────────────────────
+# ── Workspaces (Sway-style pinned outputs on sb-desktop) ──────────────────────
+{{- if eq .chezmoi.hostname "sb-desktop" }}
+# Workspaces 1-7 on DP-1 (primary/center), 8 on DP-3 (top/left), 9-10 on DP-2 (right)
+"Mod+1" = "workspace-switch 1 --output DP-1"
+"Mod+2" = "workspace-switch 2 --output DP-1"
+"Mod+3" = "workspace-switch 3 --output DP-1"
+"Mod+4" = "workspace-switch 4 --output DP-1"
+"Mod+5" = "workspace-switch 5 --output DP-1"
+"Mod+6" = "workspace-switch 6 --output DP-1"
+"Mod+7" = "workspace-switch 7 --output DP-1"
+"Mod+8" = "workspace-switch 1 --output DP-3"
+"Mod+9" = "workspace-switch 1 --output DP-2"
+"Mod+0" = "workspace-switch 2 --output DP-2"
+
+# Move window to workspace AND follow focus (matching Sway desktop config)
+"Mod+Shift+1" = "window-move-to-workspace 1 --output DP-1"
+"Mod+Shift+2" = "window-move-to-workspace 2 --output DP-1"
+"Mod+Shift+3" = "window-move-to-workspace 3 --output DP-1"
+"Mod+Shift+4" = "window-move-to-workspace 4 --output DP-1"
+"Mod+Shift+5" = "window-move-to-workspace 5 --output DP-1"
+"Mod+Shift+6" = "window-move-to-workspace 6 --output DP-1"
+"Mod+Shift+7" = "window-move-to-workspace 7 --output DP-1"
+"Mod+Shift+8" = "window-move-to-workspace 1 --output DP-3"
+"Mod+Shift+9" = "window-move-to-workspace 1 --output DP-2"
+"Mod+Shift+0" = "window-move-to-workspace 2 --output DP-2"
+{{- else }}
 "Mod+1" = "workspace-switch 1"
 "Mod+2" = "workspace-switch 2"
 "Mod+3" = "workspace-switch 3"
@@ -298,16 +333,17 @@ action = "overview-open"
 "Mod+9" = "workspace-switch 9"
 "Mod+0" = "workspace-switch 10"
 
-"Mod+Shift+1" = "column-move-to-workspace 1"
-"Mod+Shift+2" = "column-move-to-workspace 2"
-"Mod+Shift+3" = "column-move-to-workspace 3"
-"Mod+Shift+4" = "column-move-to-workspace 4"
-"Mod+Shift+5" = "column-move-to-workspace 5"
-"Mod+Shift+6" = "column-move-to-workspace 6"
-"Mod+Shift+7" = "column-move-to-workspace 7"
-"Mod+Shift+8" = "column-move-to-workspace 8"
-"Mod+Shift+9" = "column-move-to-workspace 9"
-"Mod+Shift+0" = "column-move-to-workspace 10"
+"Mod+Shift+1" = "window-move-to-workspace-silent 1"
+"Mod+Shift+2" = "window-move-to-workspace-silent 2"
+"Mod+Shift+3" = "window-move-to-workspace-silent 3"
+"Mod+Shift+4" = "window-move-to-workspace-silent 4"
+"Mod+Shift+5" = "window-move-to-workspace-silent 5"
+"Mod+Shift+6" = "window-move-to-workspace-silent 6"
+"Mod+Shift+7" = "window-move-to-workspace-silent 7"
+"Mod+Shift+8" = "window-move-to-workspace-silent 8"
+"Mod+Shift+9" = "window-move-to-workspace-silent 9"
+"Mod+Shift+0" = "window-move-to-workspace-silent 10"
+{{- end }}
 
 "Mod+Page_Down" = "workspace-next"
 "Mod+Page_Up" = "workspace-previous"
@@ -335,8 +371,9 @@ action = "overview-open"
 
 "Mod+A" = "column-center"
 
-"Mod+BracketLeft" = "window-consume-or-expel-left"
-"Mod+BracketRight" = "window-consume-or-expel-right"
+# Master layout promote/demote + scrolling column consume/expel
+"Mod+BracketLeft" = "layout-master-count-increase"
+"Mod+BracketRight" = "layout-master-count-decrease"
 "Mod+Comma" = "window-consume-left"
 "Mod+Period" = "window-consume-right"
 "Mod+V" = "window-consume-from-left"
