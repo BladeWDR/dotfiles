@@ -5,12 +5,11 @@ return {
 	event = {
 		-- vim.fn.expand needed here to expand "~".
 		-- These events make it so that the obsidian.nvim plugin is only loaded in the vault.
-		"BufReadPre "
-			.. vim.fn.expand("~")
-			.. "/git/wiki/**.md",
+		"BufReadPre " .. vim.fn.expand("~") .. "/git/wiki/**.md",
 		"BufNewFile " .. vim.fn.expand("~") .. "/git/wiki/**.md",
 		"BufReadPre " .. vim.fn.expand("~") .. "/git/work-notes/**.md",
 		"BufNewFile " .. vim.fn.expand("~") .. "/git/work-notes/**.md",
+		"BufNewFile " .. vim.fn.expand("~") .. "/Sync/notes/**.md",
 	},
 	dependencies = {
 		"nvim-lua/plenary.nvim",
@@ -23,8 +22,8 @@ return {
 		},
 		workspaces = {
 			{
-				name = "wiki",
-				path = "~/git/wiki",
+				name = "notes",
+				path = "~/Sync/notes",
 				overrides = {
 					notes_subdir = "docs/00 inbox",
 					daily_notes = {
