@@ -165,7 +165,12 @@ fi
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=006'
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 # Set ctrl+space to accept suggestion.
+# The first binding covers normal typing; the second is required because
+# `menu select` (above) switches to the `menuselect` keymap while a menu is
+# shown, where ctrl+space was undefined and would tear the menu down (which in
+# vi mode looks like you hit escape / dropped to normal mode).
 bindkey '^ ' autosuggest-accept
+bindkey -M menuselect '^ ' autosuggest-accept
 
 # Start hook for direnv
 eval "$(direnv hook zsh)"
