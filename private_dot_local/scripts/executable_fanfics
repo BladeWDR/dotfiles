@@ -31,8 +31,19 @@ DC = "http://purl.org/dc/elements/1.1/"
 OPF = "http://www.idpf.org/2007/opf"
 CT = "urn:oasis:names:tc:opendocument:xmlns:container"
 
-# AO3 rating tags -- they always precede the fandom tag.
+# AO3 rating and warning tags -- never a fandom, but a genuine Calibre re-save
+# can place them anywhere in the subject list, so we skip them wherever found.
 RATINGS = {"all ages", "teen and up audiences", "mature", "explicit"}
+WARNINGS = {
+    "no archive warnings apply",
+    "author's choice",
+    "choose not to use archive warnings",
+}
+# AO3 category tags (pairing shape / direction) -- never a fandom.
+CATEGORIES = {
+    "gen", "f/f", "f/m", "m/m", "multi", "f/f/m", "m/f/m",
+    "non-fiction", "f/m/f",
+}
 
 # AO3 generic tags that are not fandoms.  Used to skip past genre/format tags
 # when scanning for fandoms.  (Character/relationship tags are detected
@@ -207,41 +218,48 @@ def parse_metadata(epub_path):
     }
 
 
+# Parentheticals that mark a fandom even without a year: AO3 appends these when
+# a fandom's bare name would clash with a same-named character/relationship tag
+# (e.g. "Avatar (Fandom)"), to note its medium ("League of Legends (TV)"), or
+# its kind ("Original Work (Fandom)").  A character tag like "Mira (KPop Demon
+# Hunters)" carries the fandom name rather than one of these, so it is skipped.
+PAREN_SUFFIX = {
+    "fandom", "other", "media", "universe", "canon", "canon!",
+    "fanwork", "cartoon", "anime", "tv", "video game", "novel", "movie",
+    "manga", "comic", "comics", "web series", "webtoon", "original",
+    "original work", "general",
+}
+
+
+def looks_like_fandom(tag):
+    """A bare tag is a fandom; a parenthetical one is a fandom only when its
+    suffix is a year or a known qualifier.  Otherwise it's a character tag like
+    "Aang (Avatar)" and is skipped."""
+    m = re.match(r"^(.*?)\s*\(([^)]*)\)\s*$", tag)
+    if not m:
+        return True
+    inner = m.group(2).lower()
+    return bool(re.search(r"\d", inner)) or inner in PAREN_SUFFIX
+
+
 def detect_fandoms(subjects):
-    """Return the list of candidate fandom tags.
+    """Return the candidate fandom tags, in order.
 
-    AO3 flattens every tag into <dc:subject>, so the fandom must be inferred.
-    The rating tag always comes first, then fandom(s), then relationships and
-    characters.  We skip the rating and any generic tags, collect fandom-looking
-    tags, and stop at the first relationship/character tag.
+    AO3 flattens every tag into <dc:subject> and the category grouping is lost,
+    so the fandom(s) must be inferred.  A genuine Calibre re-save can reorder the
+    subjects, so we rely on no fixed position: scan the whole list, skip the tags
+    that are never fandoms (ratings, warnings, categories and generic format
+    tags), and stop at the first relationship tag -- its "/" marks the start of
+    the relationship/character region that fandoms precede.
     """
-    start = 0
-    found_rating = False
-    for i, s in enumerate(subjects):
-        if s.lower() in RATINGS:
-            start = i + 1
-            found_rating = True
-            break
-    if not found_rating and subjects and subjects[0].lower() == "fanworks":
-        start = 1
-
+    skip = RATINGS | WARNINGS | CATEGORIES | GENERIC
     fandoms = []
-    for s in subjects[start:]:
-        low = s.lower()
-        if low in GENERIC:
+    for s in subjects:
+        if s.lower() in skip:
             continue
-        if "/" in s:  # relationship tag (e.g. "Caitlyn/Vi (League of Legends)")
+        if "/" in s:  # first relationship (e.g. "Caitlyn/Vi (...)") ends the run
             break
-        m = re.match(r"^(.*?)\s*\(([^)]*)\)\s*$", s)
-        if m:
-            inner = m.group(2)
-            if re.search(r"\d", inner):
-                # "(2018)" / "(Cartoon 2018)" -- a year/medium, still a fandom
-                fandoms.append(s)
-            else:
-                # "(SomeFandom)" on a character/relationship tag -- stop here
-                break
-        else:
+        if looks_like_fandom(s):
             fandoms.append(s)
     return fandoms
 
@@ -365,6 +383,14 @@ def validate_path(path):
 # --------------------------------------------------------------------------- #
 
 def choose_fandom(candidates):
+    """Return the chosen fandom, or None if none could be determined.
+
+    A single candidate is returned outright; several prompt the user.  On EOF
+    (no terminal) the first candidate wins so batch runs don't hang.  A None
+    return means the caller should leave the file in place rather than guess.
+    """
+    if not candidates:
+        return None
     if len(candidates) == 1:
         return candidates[0]
     print(f"  Multiple fandoms detected for this work:")
@@ -379,7 +405,7 @@ def choose_fandom(candidates):
             return candidates[0]
         if raw.isdigit() and 1 <= int(raw) <= len(candidates):
             return candidates[int(raw) - 1]
-        print("  Please enter a number between 1 and %d." % len(candidates))
+        print(f"  Please enter a number between 1 and {len(candidates)}.")
 
 
 def confirm(message):
@@ -464,6 +490,12 @@ def process_file(epub_path, output, use_epubcheck, dry_run, auto_yes):
         return False
 
     fandom = choose_fandom(meta["fandoms"])
+    if fandom is None:
+        print(
+            "  ! skipped: no fandom tag could be determined from the subjects",
+            file=sys.stderr,
+        )
+        return False
     print(f"  fandom:  {titlecase(fandom)}")
     print(f"  author:  {meta['author']}")
     if meta["series"]:
