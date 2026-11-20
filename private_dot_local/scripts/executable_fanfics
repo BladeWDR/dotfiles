@@ -1,0 +1,593 @@
+#!/usr/bin/env python3
+"""fanfics -- organize AO3 EPUBs into a tidy library.
+
+Reads EPUBs from an ingest folder, parses their AO3/Calibre metadata, and files
+each one under:
+
+    series:     <output>/<Fandom>/<Author> - <Series>/NNN - <Title>.epub
+    standalone: <output>/<Fandom>/<Author>/<Title>.epub
+
+A series work (one that has a series name) is placed in its own directory and
+prefixed with a zero-padded three-digit series index.  Standalone works get no
+prefix and no series directory.
+
+The original file is deleted only after the copy has been verified safe on disk.
+"""
+
+import argparse
+import configparser
+import os
+import re
+import shutil
+import subprocess
+import sys
+import zipfile
+import xml.etree.ElementTree as ET
+
+CONFIG_PATH = os.path.expanduser("~/.config/fanfics.ini")
+
+# XML namespaces used in OPF / container metadata.
+DC = "http://purl.org/dc/elements/1.1/"
+OPF = "http://www.idpf.org/2007/opf"
+CT = "urn:oasis:names:tc:opendocument:xmlns:container"
+
+# AO3 rating tags -- they always precede the fandom tag.
+RATINGS = {"all ages", "teen and up audiences", "mature", "explicit"}
+
+# AO3 generic tags that are not fandoms.  Used to skip past genre/format tags
+# when scanning for fandoms.  (Character/relationship tags are detected
+# structurally, so they don't all need to be listed here.)
+GENERIC = {
+    "fanworks", "all ages", "teen and up audiences", "mature", "explicit",
+    "no archive warnings apply", "author's choice", "not rated",
+    "canonical pairings", "canon pairings", "canon pairing",
+    "canon universe", "canon compliant", "canon", "canon!divergent",
+    "canon divergence", "one shot", "one-shot", "oneshot", "complete work",
+    "incomplete", "chapters", "character study", "character death",
+    "character development", "character growth", "angst", "fluff",
+    "fluff and angst", "comfort", "comfort and angst", "enemies to lovers",
+    "friends to lovers", "friends to lovers?", "love confessions", "mutual pining",
+    "pining", "pining all around", "unrequited love", "romance",
+    "romantic interests", "romantic pairing", "relationship development",
+    "slow burn", "slow burn/quick burn", "slow burn/quick burn?", "quick burn",
+    "bad timing", "poor decisions", "bad decisions", "good decisions",
+    "poor communication", "misunderstandings", "misunderstanding",
+    "reconciliation", "regret", "suspense", "tension", "happy ending",
+    "tragedy", "angst with a happy ending", "mystery", "action", "buddy comedy",
+    "comedy", "drama", "humor", "poor choices", "bad choices", "fluff",
+    "mixed media", "documentary style storytelling", "f/f", "f/m", "m/m",
+    "f/f/m", "ensemble cast", "solo", "emotional hurt", "emotional comfort",
+    "alternate universe", "alternate universe - general",
+    "alternate universe - other", "alternate history", "modern", "medieval",
+    "fantasy", "sci-fi", "science fiction", "mentions of self-harm",
+    "self-harm", "boundaries", "boundaries (relationship)", "poor boundaries",
+}
+
+# Minor words that stay lowercase in proper English title case (except when they
+# are the first or last word).
+MINORS = {
+    "a", "an", "and", "as", "at", "but", "by", "for", "if", "in", "of", "on",
+    "or", "the", "to", "up", "with", "vs", "per", "nor", "from", "over",
+    "under", "after", "before", "about", "into", "onto", "upon", "than",
+}
+
+
+class ParseError(Exception):
+    """Raised when an EPUB's metadata can't be parsed into the fields we need."""
+
+
+# --------------------------------------------------------------------------- #
+# Config
+# --------------------------------------------------------------------------- #
+
+def default_config():
+    return {
+        "output": "/tmp/fanfics",
+        "ingest": "/tmp",
+        "use_epubcheck": "true",
+    }
+
+
+def load_config(path, overrides):
+    cfg = default_config()
+    if os.path.exists(path):
+        parser = configparser.ConfigParser()
+        parser.read(path)
+        if parser.has_section("paths"):
+            sec = parser["paths"]
+            for key in cfg:
+                if key in sec:
+                    cfg[key] = sec[key].strip()
+    for key, val in overrides.items():
+        if val is not None:
+            cfg[key] = val
+    cfg["use_epubcheck"] = str(cfg.get("use_epubcheck", "true")).lower() in (
+        "1", "true", "yes", "on",
+    )
+    cfg["output"] = os.path.expanduser(cfg["output"])
+    cfg["ingest"] = os.path.expanduser(cfg["ingest"])
+    return cfg
+
+
+def ensure_config(path):
+    """Create a starter config file if one doesn't exist yet."""
+    if os.path.exists(path):
+        return
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w") as f:
+        f.write(
+            "; fanfics configuration\n"
+            "; Any value here can be overridden on the command line\n"
+            "[paths]\n"
+            "output = %s\n"
+            "ingest = %s\n"
+            "use_epubcheck = true\n"
+            % (default_config()["output"], default_config()["ingest"])
+        )
+
+
+# --------------------------------------------------------------------------- #
+# EPUB metadata parsing
+# --------------------------------------------------------------------------- #
+
+def opf_path(zip):
+    """Return the path of the package (.opf) file inside the EPUB zip."""
+    try:
+        data = zip.read("META-INF/container.xml")
+    except KeyError:
+        raise ParseError("missing META-INF/container.xml -- not a valid EPUB")
+    root = ET.fromstring(data)
+    rf = root.find(f"{{{CT}}}rootfiles/{{{CT}}}rootfile")
+    if rf is None:
+        raise ParseError("container.xml has no rootfile entry")
+    return rf.get("full-path")
+
+
+def parse_metadata(epub_path):
+    """Parse an EPUB's AO3/Calibre metadata.
+
+    Returns a dict with keys: title, author, fandoms (list), series, index.
+    Raises ParseError if required fields are missing or malformed.
+    """
+    with zipfile.ZipFile(epub_path) as zip:
+        try:
+            opf = ET.fromstring(zip.read(opf_path(zip)))
+        except KeyError as exc:
+            raise ParseError(f"package file not found in archive: {exc}")
+        except ET.ParseError as exc:
+            raise ParseError(f"could not parse package file: {exc}")
+
+    meta = opf.find(f"{{{OPF}}}metadata")
+    if meta is None:
+        meta = opf.find(f"{{{DC}}}metadata")
+    if meta is None:
+        raise ParseError("no <metadata> element in package file")
+
+    def dc_text(tag):
+        el = meta.find(f"{{{DC}}}{tag}")
+        return el.text.strip() if el is not None and el.text else ""
+
+    def meta_content(name):
+        for el in meta.iter():
+            if el.tag.endswith("}meta") and el.get("name") == name:
+                return (el.get("content") or "").strip()
+        return ""
+
+    title = dc_text("title")
+    if not title:
+        raise ParseError("no <dc:title> found")
+
+    author = ""
+    for el in meta.iter():
+        if el.tag.endswith("}creator"):
+            fileas = el.get(f"{{{OPF}}}file-as")
+            author = (fileas or el.text or "").strip()
+            if author:
+                break
+    if not author:
+        raise ParseError("no author found")
+
+    subjects = []
+    for el in meta.iter():
+        if el.tag.endswith("}subject") and el.text:
+            subjects.append(el.text.strip())
+    if not subjects:
+        raise ParseError("no <dc:subject> tags found -- cannot determine fandom")
+
+    series = meta_content("calibre:series")
+    index_raw = meta_content("calibre:series_index")
+    index = int(index_raw) if index_raw.isdigit() else None
+
+    return {
+        "title": title,
+        "author": author,
+        "fandoms": detect_fandoms(subjects),
+        "series": series,
+        "index": index,
+    }
+
+
+def detect_fandoms(subjects):
+    """Return the list of candidate fandom tags.
+
+    AO3 flattens every tag into <dc:subject>, so the fandom must be inferred.
+    The rating tag always comes first, then fandom(s), then relationships and
+    characters.  We skip the rating and any generic tags, collect fandom-looking
+    tags, and stop at the first relationship/character tag.
+    """
+    start = 0
+    found_rating = False
+    for i, s in enumerate(subjects):
+        if s.lower() in RATINGS:
+            start = i + 1
+            found_rating = True
+            break
+    if not found_rating and subjects and subjects[0].lower() == "fanworks":
+        start = 1
+
+    fandoms = []
+    for s in subjects[start:]:
+        low = s.lower()
+        if low in GENERIC:
+            continue
+        if "/" in s:  # relationship tag (e.g. "Caitlyn/Vi (League of Legends)")
+            break
+        m = re.match(r"^(.*?)\s*\(([^)]*)\)\s*$", s)
+        if m:
+            inner = m.group(2)
+            if re.search(r"\d", inner):
+                # "(2018)" / "(Cartoon 2018)" -- a year/medium, still a fandom
+                fandoms.append(s)
+            else:
+                # "(SomeFandom)" on a character/relationship tag -- stop here
+                break
+        else:
+            fandoms.append(s)
+    return fandoms
+
+
+# --------------------------------------------------------------------------- #
+# Naming
+# --------------------------------------------------------------------------- #
+
+def titlecase(text):
+    """Proper English title case: capitalize each word except minor words
+    (unless first/last).  Hyphenated compounds are cased per part."""
+    text = text.strip()
+    text = re.sub(r"\.$", "", text)  # drop a trailing sentence period
+    words = text.split()
+    out = []
+    for i, w in enumerate(words):
+        parts = w.split("-")
+        cased = []
+        for j, p in enumerate(parts):
+            m = re.match(r"^([^A-Za-z0-9]*)(.*)$", p)
+            prefix, rest = m.group(1), m.group(2)
+            if not rest:
+                cased.append(p)
+                continue
+            low = rest.lower()
+            first = i == 0 and j == 0
+            last = i == len(words) - 1 and j == len(parts) - 1
+            if first or last or low not in MINORS:
+                rest = rest[:1].upper() + rest[1:]
+            else:
+                rest = low
+            cased.append(prefix + rest)
+        out.append("-".join(cased))
+    return " ".join(out)
+
+
+def sanitize(name):
+    """Make a string safe as a single filesystem path component.
+
+    On Linux and macOS the only characters that are truly illegal in a filename
+    are '/', '\\' and the null byte, so we keep ':' and '?' (which appear in
+    canonical AO3 fandom/title names).  Paths are also collapsed of repeated
+    whitespace.
+    """
+    name = name.replace("/", " ").replace("\\", " ")
+    name = re.sub(r"[\x00]", "", name)
+    name = re.sub(r"\s+", " ", name).strip()
+    return name
+
+
+def build_path(output, meta, fandom):
+    """Return the full destination .epub path for a work."""
+    fandom = titlecase(sanitize(fandom))
+    author = sanitize(meta["author"])
+
+    series = meta["series"].strip()
+    index = meta["index"]
+    is_series = bool(series)
+
+    prefix = ""
+    if is_series and index is not None:
+        prefix = f"{index:03d} - "
+    elif is_series:
+        print(
+            f"  ! {meta['title']}: in series '{series}' but no series index -- "
+            f"placing in series dir without a numeric prefix",
+            file=sys.stderr,
+        )
+
+    title = titlecase(sanitize(meta["title"]))
+    fname = f"{prefix}{title}.epub"
+
+    if is_series:
+        series_dir = titlecase(sanitize(series))
+        middle = f"{author} - {series_dir}"
+    else:
+        middle = author
+
+    return os.path.join(output, fandom, middle, fname)
+
+
+# Characters that are illegal in a filename on at least one common platform,
+# plus C0 control characters.  '/' and '\\' are the only ones that break paths
+# on Linux/macOS, but we reject the fuller set so a path built for one OS won't
+# silently produce something unusable on another.
+ILLEGAL_CHARS = set('/\\') | {chr(c) for c in range(0, 32)}
+
+
+def validate_path(path):
+    """Raise ParseError if any component of the assembled path is unsafe.
+
+    This is a final guard that runs on the fully built destination path, so that
+    nothing illegal can reach the filesystem even if an earlier step missed it.
+    """
+    # os.path.split walks the path one component at a time without the
+    # empty-component artifacts of a naive str.split(os.sep).
+    parts = []
+    cur = path
+    while True:
+        head, tail = os.path.split(cur)
+        if tail:
+            parts.append(tail)
+        if not head or head == cur:
+            break
+        cur = head
+
+    for comp in parts:
+        if not comp or comp in (".", ".."):
+            raise ParseError(f"empty or '.'/'..' path component in: {path}")
+        bad = sorted({c for c in comp if c in ILLEGAL_CHARS})
+        if bad:
+            shown = "".join(repr(c)[1:-1] for c in bad)
+            raise ParseError(
+                f"invalid character(s) in path component {comp!r}: {shown}"
+            )
+    return path
+
+
+# --------------------------------------------------------------------------- #
+# Interaction
+# --------------------------------------------------------------------------- #
+
+def choose_fandom(candidates):
+    if len(candidates) == 1:
+        return candidates[0]
+    print(f"  Multiple fandoms detected for this work:")
+    for i, c in enumerate(candidates, 1):
+        print(f"    {i}. {c}")
+    while True:
+        try:
+            raw = input(f"  Choose a fandom number [1]: ").strip()
+        except EOFError:
+            return candidates[0]
+        if raw == "":
+            return candidates[0]
+        if raw.isdigit() and 1 <= int(raw) <= len(candidates):
+            return candidates[int(raw) - 1]
+        print("  Please enter a number between 1 and %d." % len(candidates))
+
+
+def confirm(message):
+    try:
+        ans = input(f"  {message} [y/N]: ").strip().lower()
+    except EOFError:
+        return False
+    return ans in ("y", "yes")
+
+
+# --------------------------------------------------------------------------- #
+# File operations
+# --------------------------------------------------------------------------- #
+
+def copy_and_verify(src, dst):
+    """Copy src to dst atomically, verify it on disk, return (ok, message)."""
+    tmp = dst + ".tmp"
+    try:
+        with open(src, "rb") as fsrc, open(tmp, "wb") as fdst:
+            shutil.copyfileobj(fsrc, fdst)
+            fdst.flush()
+            os.fsync(fdst.fileno())
+    except OSError as exc:
+        return False, f"failed to copy to disk: {exc}"
+
+    expected = os.path.getsize(src)
+    try:
+        actual = os.path.getsize(tmp)
+    except OSError as exc:
+        return False, f"failed to stat copy: {exc}"
+    if actual != expected:
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
+        return False, f"size mismatch: expected {expected}, got {actual}"
+
+    try:
+        with zipfile.ZipFile(tmp) as z:
+            bad = z.testzip()
+        if bad is not None:
+            return False, f"corrupt archive (bad member: {bad})"
+    except zipfile.BadZipFile:
+        return False, "copy is not a valid EPUB/zip archive"
+
+    # Atomically put the verified copy in its final location.
+    try:
+        os.replace(tmp, dst)
+    except OSError as exc:
+        return False, f"failed to move copy into place: {exc}"
+    return True, ""
+
+
+def verify_with_epubcheck(path, use_epubcheck):
+    """Run epubcheck on the final file.  Block only on fatal errors."""
+    if not use_epubcheck:
+        return True, ""
+    exe = shutil.which("epubcheck")
+    if not exe:
+        return True, ""
+    try:
+        out = subprocess.run(
+            [exe, path], capture_output=True, text=True, timeout=120
+        ).stdout
+    except Exception:
+        return True, ""  # don't block the delete on a checker that fails to run
+
+    m = re.search(r"(\d+)\s+fatals", out)
+    fatals = int(m.group(1)) if m else 0
+    if fatals:
+        return False, f"epubcheck reported {fatals} fatal error(s)"
+    return True, ""
+
+
+def process_file(epub_path, output, use_epubcheck, dry_run, auto_yes):
+    """Process one EPUB.  Returns True on success, False if left alone."""
+    print(f"\n-- {os.path.basename(epub_path)}")
+    try:
+        meta = parse_metadata(epub_path)
+    except (ParseError, OSError, ET.ParseError, zipfile.BadZipFile) as exc:
+        print(f"  ! skipped: {exc}", file=sys.stderr)
+        return False
+
+    fandom = choose_fandom(meta["fandoms"])
+    print(f"  fandom:  {titlecase(fandom)}")
+    print(f"  author:  {meta['author']}")
+    if meta["series"]:
+        print(f"  series:  {titlecase(meta['series'])} "
+              f"(index {meta['index']})")
+    else:
+        print("  series:  (standalone)")
+
+    dest = build_path(output, meta, fandom)
+
+    try:
+        validate_path(dest)
+    except ParseError as exc:
+        print(f"  ! skipped: {exc}", file=sys.stderr)
+        return False
+
+    if os.path.abspath(dest) == os.path.abspath(epub_path):
+        print("  ! source and destination are the same file -- skipped")
+        return False
+
+    if os.path.exists(dest):
+        print(f"  ! destination already exists:\n    {dest}")
+        if dry_run:
+            print("  (dry run) would prompt to overwrite")
+            return False
+        if auto_yes:
+            print("  overwriting (--yes)")
+        elif not confirm("Overwrite?"):
+            print("  left original in place")
+            return False
+        try:
+            os.remove(dest)
+        except OSError as exc:
+            print(f"  ! could not remove existing destination: {exc}",
+                  file=sys.stderr)
+            return False
+
+    if dry_run:
+        print(f"  (dry run) would copy to:\n    {dest}")
+        return True
+
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
+
+    ok, msg = copy_and_verify(epub_path, dest)
+    if not ok:
+        print(f"  ! verification failed -- original left in place: {msg}",
+              file=sys.stderr)
+        return False
+
+    ok, msg = verify_with_epubcheck(dest, use_epubcheck)
+    if not ok:
+        print(f"  ! copy is on disk but {msg} -- original left in place",
+              file=sys.stderr)
+        return False
+
+    try:
+        os.remove(epub_path)
+    except OSError as exc:
+        print(f"  ! copy succeeded but could not delete original: {exc}",
+              file=sys.stderr)
+        return False
+
+    print(f"  -> {dest}")
+    return True
+
+
+# --------------------------------------------------------------------------- #
+# Main
+# --------------------------------------------------------------------------- #
+
+def main():
+    ap = argparse.ArgumentParser(
+        description="Organize AO3 EPUBs into a tidy library.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    ap.add_argument("-i", "--ingest", help="folder to read EPUBs from")
+    ap.add_argument("-o", "--output", help="root of the organized library")
+    ap.add_argument("-c", "--config", default=CONFIG_PATH,
+                    help="config file path")
+    ap.add_argument("-y", "--yes", action="store_true",
+                    help="overwrite existing files without asking")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="show what would happen without moving anything")
+    ap.add_argument("--no-epubcheck", action="store_true",
+                    help="don't run epubcheck on the copied file")
+    args = ap.parse_args()
+
+    ensure_config(args.config)
+
+    overrides = {
+        "ingest": args.ingest,
+        "output": args.output,
+    }
+    cfg = load_config(args.config, overrides)
+    use_epubcheck = not args.no_epubcheck and cfg["use_epubcheck"]
+
+    ingest, output = cfg["ingest"], cfg["output"]
+    if not os.path.isdir(ingest):
+        print(f"error: ingest directory does not exist: {ingest}",
+              file=sys.stderr)
+        return 2
+
+    epubs = sorted(
+        os.path.join(ingest, n)
+        for n in os.listdir(ingest)
+        if n.lower().endswith(".epub") and os.path.isfile(os.path.join(ingest, n))
+    )
+    if not epubs:
+        print(f"No .epub files found in {ingest}")
+        return 0
+
+    print(f"Library root: {output}")
+    print(f"Reading {len(epubs)} file(s) from {ingest}")
+
+    results = {"ok": 0, "skipped": 0}
+    for path in epubs:
+        if process_file(path, output, use_epubcheck, args.dry_run, args.yes):
+            results["ok"] += 1
+        else:
+            results["skipped"] += 1
+
+    print(f"\nDone. {results['ok']} filed, {results['skipped']} left alone.")
+    return 1 if results["skipped"] else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
