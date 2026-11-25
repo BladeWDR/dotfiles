@@ -3,6 +3,7 @@
   "keybinds": {
     "editor_open": "ctrl+g"
   },
+  "small_model": "ollama/qwen2.5:1.5b",
   "provider": {
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
@@ -15,9 +16,20 @@
         "qwen3.8:27b": {
           "name": "Qwen 3.8 27B (Mac MLX)",
           "tools": true,
+          "options": {
+            "reasoning_effort": "none"
+          },
           "limit": {
-            "context": 262144,
-            "output": 32768
+            "context": 65536,
+            "output": 16384
+          }
+        },
+        "qwen2.5:1.5b": {
+          "name": "Qwen 2.5 1.5B (Small/Title)",
+          "tools": false,
+          "limit": {
+            "context": 8192,
+            "output": 2048
           }
         }
       }
