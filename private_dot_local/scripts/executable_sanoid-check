@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# Nagios exit codes
+CRIT=2
+WARN=1
+
+# Each sanoid monitor reports in a Nagios-compatible format.
+#   --monitor-capacity   per-pool usage (OK / WARNING / CRITICAL lines)
+#   --monitor-health     per-pool health (OK / WARNING / CRITICAL lines)
+#   --monitor-snapshots  per-pool snapshot state (CRIT: / WARN: lines only)
+MONITORS=(--monitor-capacity --monitor-health --monitor-snapshots)
+
+body=""
+
+for monitor in "${MONITORS[@]}"; do
+    output=$(sanoid "$monitor" 2>&1)
+    exit_code=$?
+
+    # Only alert on WARN or CRIT; OK (0) and UNKNOWN (3) produce no alert.
+    if (( exit_code != WARN && exit_code != CRIT )); then
+        continue
+    fi
+
+    # Drop the lines that report a healthy pool so the body only lists
+    # the pools that actually have a problem.
+    issues=$(echo "$output" | tr ',' '\n' | grep -vE "^\s*OK")
+
+    if [[ -n "$issues" ]]; then
+        body+="${monitor#--monitor-}:
+$issues
+"
+    fi
+done
+
+# Nothing wrong anywhere, stay silent.
+if [[ -z "$body" ]]; then
+    exit 0
+fi
+
+notify-send -- "Sanoid" "$body"
